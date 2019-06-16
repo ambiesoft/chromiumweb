@@ -1,20 +1,32 @@
 
 function debuglog(s) {
-    // console.log(s)
+    console.log(s)
 }
 
+function getRelPath(urlstring) {
+    url = new this.URL(urlstring)
+    return decodeURI(url.pathname).split('/').slice(-2).join('/')
+}
 function afterLoad() {
     debuglog('started')
-    var relpos = "デザイン/Pepperプラグイン実装"
-    var alllinks = this.document.querySelectorAll(".wikilink")
+    // expects like "デザイン/Pepperプラグイン実装"
+    var currelpos = getRelPath(window.location.href)
+    var alllinks = this.document.querySelectorAll(".selflink")
 
-    for(link of alllinks) {
-        url = new this.URL(link.href)
-        relpath = decodeURI(url.pathname).split('/').slice(-2).join('/')
+    for (link of alllinks) {
+        var url = new this.URL(link.href)
+        if (url.search) {
+            continue
+        }
+        var relpath = getRelPath(url.origin + url.pathname)
 
-        if(relpos===relpath) {
+        if (currelpos === relpath) {
             debuglog(link)
-            link.scrollIntoView()
+            var relpathlast = relpath.split('/').slice(-1)[0]
+            if (relpathlast === link.innerText) {
+                link.scrollIntoView()
+                return
+            }
         }
     }
 }

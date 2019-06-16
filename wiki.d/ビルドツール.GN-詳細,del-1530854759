@@ -1,0 +1,42 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+author=
+charset=UTF-8
+csum=
+ctime=1507686044
+host=192.168.0.2
+name=ビルドツール.GN-詳細
+rev=10
+targets=
+text=!//base/test:test_supportの意味%0a%0a//はソースのルートを表す。%0a/baseはディレクトリ、%0a/testはディレクトリ、%0a:test_supportはtestディレクトリにあるBUILD.gnに記述されているターゲット名。%0a%0aソースルートには'''.gn'''ファイルがある（dotfileという）。コマンドラインでソースルートを指定するには以下。gnはカレントディレクトリから遡ってこのファイルを探すので、違うディレクトリから起動するときは使う。%0a%0a[= %0agn --root="Y:\src\chromium\src"%0a=]
+time=1507687938
+author:1507687938=
+diff:1507687938:1507687637:=8c8%0a%3c ソースルートには'''.gn'''ファイルがある（dotfileという）。コマンドラインでソースルートを指定するには以下。gnはカレントディレクトリから遡ってこのファイルを探すので、違うディレクトリから起動するときは使う。%0a---%0a> ソースルートには'''.gn'''ファイルが有る。コマンドラインでソースルートを指定するには以下。%0a
+host:1507687938=192.168.0.2
+author:1507687637=
+diff:1507687637:1507687526:=8,12c8%0a%3c ソースルートには'''.gn'''ファイルが有る。コマンドラインでソースルートを指定するには以下。%0a%3c %0a%3c [= %0a%3c gn --root="Y:\src\chromium\src"%0a%3c =]%0a\ No newline at end of file%0a---%0a> ソースルートには'''.gn'''ファイルが有る。%0a\ No newline at end of file%0a
+host:1507687637=192.168.0.2
+author:1507687526=
+diff:1507687526:1507687507:=8c8%0a%3c ソースルートには'''.gn'''ファイルが有る。%0a\ No newline at end of file%0a---%0a> ソースルートには''.gn''ファイルが有る。%0a\ No newline at end of file%0a
+host:1507687526=192.168.0.2
+author:1507687507=
+diff:1507687507:1507687482:=8c8%0a%3c ソースルートには''.gn''ファイルが有る。%0a\ No newline at end of file%0a---%0a> ソースルートには*".gn"*ファイルが有る。%0a\ No newline at end of file%0a
+host:1507687507=192.168.0.2
+author:1507687482=
+diff:1507687482:1507686673:=8c8%0a%3c ソースルートには*".gn"*ファイルが有る。%0a\ No newline at end of file%0a---%0a> %0a
+host:1507687482=192.168.0.2
+author:1507686673=
+diff:1507686673:1507686627:=6c6%0a%3c :test_supportはtestディレクトリにあるBUILD.gnに記述されているターゲット名。%0a---%0a> :testはtestディレクトリにあるBUILD.gnに記述されているターゲット名。%0a
+host:1507686673=192.168.0.2
+author:1507686627=
+diff:1507686627:1507686590:=4,5c4%0a%3c /baseはディレクトリ、%0a%3c /testはディレクトリ、%0a---%0a> /testはディレクトリ%0a
+host:1507686627=192.168.0.2
+author:1507686590=
+diff:1507686590:1507686098:=0a1%0a> %0a3,7c4,5%0a%3c //はソースのルートを表す。%0a%3c /testはディレクトリ%0a%3c :testはtestディレクトリにあるBUILD.gnに記述されているターゲット名。%0a%3c %0a%3c %0a---%0a> This consists of a source-root-absolute path, a colon, and a name. This means%0a> to look for the thing named "test_support" in "base/test/BUILD.gn".%0a
+host:1507686590=192.168.0.2
+author:1507686098=
+diff:1507686098:1507686044:=1,2c1,3%0a%3c %0a%3c !//base/test:test_supportの意味%0a---%0a> * aaa%0a> %0a> //base/test:test_support%0a
+host:1507686098=192.168.0.2
+author:1507686044=
+diff:1507686044:1507686044:=1,6d0%0a%3c * aaa%0a%3c %0a%3c //base/test:test_support%0a%3c %0a%3c This consists of a source-root-absolute path, a colon, and a name. This means%0a%3c to look for the thing named "test_support" in "base/test/BUILD.gn".%0a
+host:1507686044=192.168.0.2

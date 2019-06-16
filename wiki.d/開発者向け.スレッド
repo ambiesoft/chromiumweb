@@ -1,0 +1,24 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0
+author=
+charset=UTF-8
+csum=
+ctime=1502865539
+host=192.168.3.3
+name=開発者向け.スレッド
+rev=4
+targets=開発者向け.メッセージループ解剖
+text=[[https://chromium.googlesource.com/chromium/src/+/master/docs/design/threading.md|オリジナル]]%0a%0a'''Chromium'''はとてもスレッドを使う。UIの反応をよくする。当然UIがブロッキングされないように使う。メッセージ方式を採用している。ロックやスレッドセーフオブジェクトは推奨されない。オブジェクトは１つのスレッド内にのみ存在し、メッセージでやり取りする。%0a%0aスレッドオブジェクトは'''base/threading/thread.h'''にある。通常はスレッドを作成せずにすでにあるものを使う。すべてのスレッドは'''MessageLoop'''（'''base/message_loop/message_loop.h'''参照）がスレッドのためのメッセージを処理する。'''Tread.message_loop()'''で取得できる。メッセージループの詳細は[[メッセージループ解剖]]を参照。%0a%0a
+time=1530686089
+author:1530686089=
+diff:1530686089:1502926166:=3,5c3,5%0a%3c '''Chromium'''はとてもスレッドを使う。UIの反応をよくする。当然UIがブロッキングされないように使う。メッセージ方式を採用している。ロックやスレッドセーフオブジェクトは推奨されない。オブジェクトは１つのスレッド内にのみ存在し、メッセージでやり取りする。%0a%3c %0a%3c スレッドオブジェクトは'''base/threading/thread.h'''にある。通常はスレッドを作成せずにすでにあるものを使う。すべてのスレッドは'''MessageLoop'''（'''base/message_loop/message_loop.h'''参照）がスレッドのためのメッセージを処理する。'''Tread.message_loop()'''で取得できる。メッセージループの詳細は[[メッセージループ解剖]]を参照。%0a---%0a> Chromiumはとてもスレッドを使う。UIの反応をよくする。当然UIがブロッキングされないように使う。メッセージ方式を採用している。ロックやスレッドセーフオブジェクトは推奨されない。オブジェクトは１つのスレッド内にのみ存在し、メッセージでやり取りする。%0a> %0a> スレッドオブジェクトはbase/threading/thread.hにある。通常はスレッドを作成せずにすでにあるものを使う。すべてのスレッドはMessageLoop（base/message_loop/message_loop.h参照）がスレッドのためのメッセージを処理する。Tread.message_loop()で取得できる。メッセージループの詳細は[[メッセージループ解剖]]を参照。%0a
+host:1530686089=192.168.3.3
+author:1502926166=
+diff:1502926166:1502865556:=1,6c1%0a%3c [[https://chromium.googlesource.com/chromium/src/+/master/docs/design/threading.md|オリジナル]]%0a%3c %0a%3c Chromiumはとてもスレッドを使う。UIの反応をよくする。当然UIがブロッキングされないように使う。メッセージ方式を採用している。ロックやスレッドセーフオブジェクトは推奨されない。オブジェクトは１つのスレッド内にのみ存在し、メッセージでやり取りする。%0a%3c %0a%3c スレッドオブジェクトはbase/threading/thread.hにある。通常はスレッドを作成せずにすでにあるものを使う。すべてのスレッドはMessageLoop（base/message_loop/message_loop.h参照）がスレッドのためのメッセージを処理する。Tread.message_loop()で取得できる。メッセージループの詳細は[[メッセージループ解剖]]を参照。%0a%3c %0a---%0a> [[https://chromium.googlesource.com/chromium/src/+/master/docs/design/threading.md|オリジナル]]%0a\ No newline at end of file%0a
+host:1502926166=192.168.0.2
+author:1502865556=
+diff:1502865556:1502865539:=1c1%0a%3c [[https://chromium.googlesource.com/chromium/src/+/master/docs/design/threading.md|オリジナル]]%0a\ No newline at end of file%0a---%0a> [[https://chromium.googlesource.com/chromium/src/+/master/docs/design/threading.md｜オリジナル]]%0a\ No newline at end of file%0a
+host:1502865556=192.168.0.2
+author:1502865539=
+diff:1502865539:1502865539:=1d0%0a%3c [[https://chromium.googlesource.com/chromium/src/+/master/docs/design/threading.md｜オリジナル]]%0a\ No newline at end of file%0a
+host:1502865539=192.168.0.2

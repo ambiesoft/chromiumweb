@@ -1,0 +1,21 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530316203
+host=192.168.3.2
+name=デザイン.Aura
+rev=3
+targets=デザイン.Aura（古い）,デザイン.Auraグラフィックアーキテクチャ,デザイン.AuraとShellの依存関係
+text=https://www.chromium.org/developers/design-documents/aura%0a%0a[[Aura（古い）]]%0a%0a[[Auraグラフィックアーキテクチャ]]%0a%0aAura Overview%0a%0a[[AuraとShellの依存関係]]%0a%0aAura Client API and Shell Separation%0a%0aLayout Managers%0a%0aViews%0a%0aGesture Recognizer%0a%0aAsh Color Chooser (the %3cinput type="color"> UI for ChromeOS)%0a%0aEvent Handling%0a%0aFocus and Activation%0a%0aMulti-desktop%0a%0aSystem Tray%0a%0aImmersive fullscreen - Part of the Ash window manager. Collapses the tab strip and shelf into "light bar" strips at the top and bottom of the screen.%0a%0aChrome OS lower layers (drivers/etc...)
+time=1530609787
+author:1530609787=
+diff:1530609787:1530325129:=9c9%0a%3c [[AuraとShellの依存関係]]%0a---%0a> Aura and Shell dependencies%0a
+host:1530609787=192.168.3.2
+author:1530325129=
+diff:1530325129:1530316203:=5c5%0a%3c [[Auraグラフィックアーキテクチャ]]%0a---%0a> Aura Graphics Architecture%0a
+host:1530325129=192.168.3.2
+author:1530316203=
+diff:1530316203:1530316203:=1,31d0%0a%3c https://www.chromium.org/developers/design-documents/aura%0a%3c %0a%3c [[Aura（古い）]]%0a%3c %0a%3c Aura Graphics Architecture%0a%3c %0a%3c Aura Overview%0a%3c %0a%3c Aura and Shell dependencies%0a%3c %0a%3c Aura Client API and Shell Separation%0a%3c %0a%3c Layout Managers%0a%3c %0a%3c Views%0a%3c %0a%3c Gesture Recognizer%0a%3c %0a%3c Ash Color Chooser (the %3cinput type="color"> UI for ChromeOS)%0a%3c %0a%3c Event Handling%0a%3c %0a%3c Focus and Activation%0a%3c %0a%3c Multi-desktop%0a%3c %0a%3c System Tray%0a%3c %0a%3c Immersive fullscreen - Part of the Ash window manager. Collapses the tab strip and shelf into "light bar" strips at the top and bottom of the screen.%0a%3c %0a%3c Chrome OS lower layers (drivers/etc...)%0a\ No newline at end of file%0a
+host:1530316203=192.168.3.2

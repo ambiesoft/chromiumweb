@@ -1,0 +1,24 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 6.3; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1560657442
+host=192.168.3.151
+name=テストとインフラ.トライボット
+rev=4
+targets=参加する.コミッタになる
+text=!外観%0a%0aコミッタはコミットする前にトライボットで各プラットフォームでのテスト結果を取得することができる。%0a%0a* Chromiumがサポートするすべてのプラットフォームでテスト%0a* コミットキューはトライボットの集合で実行される。%0a* [@git cl try@]で手動で起動するか、gerritのUIで「Choose Trybots」を選択する。%0a* すべてのコミッタはトライボットを利用できる。%0a* 非コミッタでもアクセス権があればできる。[[参加する/コミッタになる]]%0a* アクセス権のない非コミッタはコミッタに依頼できる。%0a%0a%0a!仕事の流れ%0a%0a# [@git cl upload@]で変更をgerritにアップロードする。%0a# トライボットを実行する：%0a* CQドライランを実行することで、デフォルトセットのトライボットを実行できる。またはgerritでCQ+1を設定しても、引数無しで[@git cl try]を実行してもできる。%0a* [@git cl try@]に引数を与えることでトライボットを選択できる：%0a** [@-B/--bucket@]でバケツを指定する。chromiumのトライボットでは常に[@luci.chromium.try@]。%0a** [@-b/--bot@]で名前を指定する。いくつでも指定できる。%0a%0a!実例%0a%0aCQドライランを起動する：%0a%0a[@%0a$ git cl try%0a@]%0a%0a特定のトライボットを起動する：%0a%0a[@%0a$ git cl try -B luci.chromium.try -b linux-rel%0a@]%0a%0a複数のトライボットを起動する：%0a%0a[@%0a$ git cl try -B luci.chromium.try \%0a  -b android-binary-size \%0a  -b ios-simulator-full-configs \%0a  -b linux-blink-rel \%0a  -b win7-blink-rel%0a  # etc%0a@]%0a%0a!バグ？機能要求？質問？%0a%0a[[https://g.co/bugatrooper|トゥルーパーバグを提出]]%0a%0a!古い文書%0a* [[https://www.chromium.org/developers/testing/try-server-usage/design|デザイン文書]]%0a%0a%0a%0a%0a
+time=1560659070
+author:1560659070=
+diff:1560659070:1560658734:=9c9%0a%3c * 非コミッタでもアクセス権があればできる。[[参加する/コミッタになる]]%0a---%0a> * 非コミッタでもアクセス権があればできる。[[詳細|参加する/コミッタになる]]%0a
+host:1560659070=192.168.3.151
+author:1560658734=
+diff:1560658734:1560658351:=0a1,4%0a> https://www.chromium.org/developers/testing/try-server-usage%0a> %0a> https://chromium.googlesource.com/chromium/src/+/master/docs/infra/trybot_usage.md%0a> %0a18,54d21%0a%3c * [@git cl try@]に引数を与えることでトライボットを選択できる：%0a%3c ** [@-B/--bucket@]でバケツを指定する。chromiumのトライボットでは常に[@luci.chromium.try@]。%0a%3c ** [@-b/--bot@]で名前を指定する。いくつでも指定できる。%0a%3c %0a%3c !実例%0a%3c %0a%3c CQドライランを起動する：%0a%3c %0a%3c [@%0a%3c $ git cl try%0a%3c @]%0a%3c %0a%3c 特定のトライボットを起動する：%0a%3c %0a%3c [@%0a%3c $ git cl try -B luci.chromium.try -b linux-rel%0a%3c @]%0a%3c %0a%3c 複数のトライボットを起動する：%0a%3c %0a%3c [@%0a%3c $ git cl try -B luci.chromium.try \%0a%3c   -b android-binary-size \%0a%3c   -b ios-simulator-full-configs \%0a%3c   -b linux-blink-rel \%0a%3c   -b win7-blink-rel%0a%3c   # etc%0a%3c @]%0a%3c %0a%3c !バグ？機能要求？質問？%0a%3c %0a%3c [[https://g.co/bugatrooper|トゥルーパーバグを提出]]%0a%3c %0a%3c !古い文書%0a%3c * [[https://www.chromium.org/developers/testing/try-server-usage/design|デザイン文書]]%0a%3c %0a%3c %0a
+host:1560658734=192.168.3.151
+author:1560658351=
+diff:1560658351:1560657442:=4,22d3%0a%3c %0a%3c !外観%0a%3c %0a%3c コミッタはコミットする前にトライボットで各プラットフォームでのテスト結果を取得することができる。%0a%3c %0a%3c * Chromiumがサポートするすべてのプラットフォームでテスト%0a%3c * コミットキューはトライボットの集合で実行される。%0a%3c * [@git cl try@]で手動で起動するか、gerritのUIで「Choose Trybots」を選択する。%0a%3c * すべてのコミッタはトライボットを利用できる。%0a%3c * 非コミッタでもアクセス権があればできる。[[詳細|参加する/コミッタになる]]%0a%3c * アクセス権のない非コミッタはコミッタに依頼できる。%0a%3c %0a%3c %0a%3c !仕事の流れ%0a%3c %0a%3c # [@git cl upload@]で変更をgerritにアップロードする。%0a%3c # トライボットを実行する：%0a%3c * CQドライランを実行することで、デフォルトセットのトライボットを実行できる。またはgerritでCQ+1を設定しても、引数無しで[@git cl try]を実行してもできる。%0a%3c %0a
+host:1560658351=192.168.3.151
+author:1560657442=
+diff:1560657442:1560657442:=1,4d0%0a%3c https://www.chromium.org/developers/testing/try-server-usage%0a%3c %0a%3c https://chromium.googlesource.com/chromium/src/+/master/docs/infra/trybot_usage.md%0a%3c %0a
+host:1560657442=192.168.3.151

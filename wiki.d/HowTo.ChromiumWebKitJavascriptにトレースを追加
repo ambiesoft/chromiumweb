@@ -1,0 +1,15 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1537782507
+host=192.168.3.2
+name=HowTo.ChromiumWebKitJavascriptにトレースを追加
+rev=1
+targets=HowTo.トレースイベントプロファイルツール
+text=https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/tracing-event-instrumentation%0a%0aabout:tracingに関するより詳細な情報は[[トレースイベントプロファイルツール]]。%0a%0aときどきabout:tracingが欲しい情報を表示しない時がある。その時は自分で準備をしなければならない。%0a%0aTraceマクロはオーバヘッドがとても少ない。トレースが無効になっている時、トレースマクロは数十クロックしか消費しない。有効になっているときはせいぜい数千クロック必要になる。マクロに与えた引数はトレースが有効のときのみ評価される。%0a%0atrace_event_common.hが下記の動作を定義している%0a%0a!!関数トレース%0a%0a基本となるマクロはTRACE_EVENTxでxには0,1,あるいは2になる。
+time=1537782507
+author:1537782507=
+diff:1537782507:1537782507:=1,13d0%0a%3c https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/tracing-event-instrumentation%0a%3c %0a%3c about:tracingに関するより詳細な情報は[[トレースイベントプロファイルツール]]。%0a%3c %0a%3c ときどきabout:tracingが欲しい情報を表示しない時がある。その時は自分で準備をしなければならない。%0a%3c %0a%3c Traceマクロはオーバヘッドがとても少ない。トレースが無効になっている時、トレースマクロは数十クロックしか消費しない。有効になっているときはせいぜい数千クロック必要になる。マクロに与えた引数はトレースが有効のときのみ評価される。%0a%3c %0a%3c trace_event_common.hが下記の動作を定義している%0a%3c %0a%3c !!関数トレース%0a%3c %0a%3c 基本となるマクロはTRACE_EVENTxでxには0,1,あるいは2になる。%0a\ No newline at end of file%0a
+host:1537782507=192.168.3.2

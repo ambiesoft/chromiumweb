@@ -1,0 +1,78 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1529960327
+host=192.168.3.2
+name=ビルドツール.GN-ラベル
+rev=22
+targets=
+text=!gn help labels%0a%0a!!ラベルについて%0a%0a依存グラフに登場するすべてのもの（ターゲット、設定、ツールチェイン）はラベルにより識別される。通常のラベルは以下のようなもの。%0a%0a[@%0a//base//test:test_support%0a@]%0a%0aこれはソースルート絶対パスとコロンと名前である。これは'''base/test/BUILD.gn'''の''test_support''を意味する。%0a%0a必要なときはシステムの絶対パスを指定することができる。典型的にはビルド引数で指定し開発者はコンポーネント場所を指定できる。%0a[@%0a/usr/local/foo:bar  (Posix)%0a/C:/Program Files/MyLibs:bar  (Windows)%0a@]%0a%0a%0a!!ツールチェイン%0a正式なラベルはツールチェインを含む。通常は現在のコンテクストから暗黙的に継承されるが、以下のように指定して上書きすることができる。%0a[@%0a//base/test:test_support(//build/toolchain/win:msvc)%0a@]%0aここでGNは''//build/toolchain/win''で定義された''msvc''ツールチェインを探す。このツールチェインでビルドが行われる。%0a%0a!!相対ラベル%0a同じビルドファイルの中で何かを指定するときにはパスを省略することができ、コロンで始めることができる。この書式は同じファイルで参照するときに推奨される。%0a[@%0a:base%0a@]%0a%0aラベルはカレントディレクトリからの相対パスで指定できる。スタイル的には絶対パスが好まれる。%0a[@%0asource/plugin:myplugin%0a../net:url_request%0a@]%0a%0a!!暗黙名%0a名前が指定されていないと、ディレクトリ名が使われる。スタイル的には省略できるときには省略したほうがいい。%0a[@%0a//net  ->  //net:net%0a//tools/gn  -> //tools/gn:gn%0a@]%0a
+time=1531032835
+author:1531032835=
+diff:1531032835:1531032792:=14c14%0a%3c [@%0a---%0a> =cpp [=%0a17,19c17,19%0a%3c @]%0a%3c %0a%3c %0a---%0a> =]%0a> %0a> %0a22c22%0a%3c [@%0a---%0a> =cpp [=%0a24c24%0a%3c @]%0a---%0a> =]%0a29c29%0a%3c [@%0a---%0a> =cpp [=%0a31,32c31,32%0a%3c @]%0a%3c %0a---%0a> =]%0a> %0a34c34%0a%3c [@%0a---%0a> =cpp [=%0a37,38c37,38%0a%3c @]%0a%3c %0a---%0a> =]%0a> %0a41c41%0a%3c [@%0a---%0a> =cpp [=%0a44c44%0a%3c @]%0a---%0a> =]%0a
+host:1531032835=192.168.3.2
+author:1531032792=
+diff:1531032792:1531032736:=7c7%0a%3c [@%0a---%0a> =cpp [=%0a9c9%0a%3c @]%0a---%0a> =]%0a
+host:1531032792=192.168.3.2
+author:1531032736=
+diff:1531032736:1531032678:=7c7%0a%3c =cpp [=%0a---%0a>  [=%0a22c22%0a%3c =cpp [=%0a---%0a>  [=%0a29,32c29,30%0a%3c =cpp [=%0a%3c :base%0a%3c =]%0a%3c %0a---%0a>  :base%0a> %0a34,38c32,34%0a%3c =cpp [=%0a%3c source/plugin:myplugin%0a%3c ../net:url_request%0a%3c =]%0a%3c %0a---%0a>  source/plugin:myplugin%0a>  ../net:url_request%0a> %0a41,44c37,39%0a%3c =cpp [=%0a%3c //net  ->  //net:net%0a%3c //tools/gn  -> //tools/gn:gn%0a%3c =]%0a---%0a>  //net  ->  //net:net%0a>  //tools/gn  -> //tools/gn:gn%0a> %0a
+host:1531032736=192.168.3.2
+author:1531032678=
+diff:1531032678:1531032662:=14c14%0a%3c =cpp [=%0a---%0a> =cpp[=%0a
+host:1531032678=192.168.3.2
+author:1531032662=
+diff:1531032662:1531032640:=14c14%0a%3c =cpp[=%0a---%0a> =[=%0a
+host:1531032662=192.168.3.2
+author:1531032640=
+diff:1531032640:1531032627:=14c14%0a%3c =[=%0a---%0a> = [=%0a
+host:1531032640=192.168.3.2
+author:1531032627=
+diff:1531032627:1531032601:=14c14%0a%3c = [=%0a---%0a>  [=%0a
+host:1531032627=192.168.3.2
+author:1531032601=
+diff:1531032601:1531032577:=22,24c22%0a%3c  [=%0a%3c //base/test:test_support(//build/toolchain/win:msvc)%0a%3c =]%0a---%0a>  //base/test:test_support(//build/toolchain/win:msvc)%0a
+host:1531032601=192.168.3.2
+author:1531032577=
+diff:1531032577:1531032545:=7,10c7,8%0a%3c  [=%0a%3c //base//test:test_support%0a%3c =]%0a%3c %0a---%0a> @@//base//test:test_support@@%0a> %0a14,17c12,13%0a%3c  [=%0a%3c /usr/local/foo:bar  (Posix)%0a%3c /C:/Program Files/MyLibs:bar  (Windows)%0a%3c =]%0a---%0a>  [=/usr/local/foo:bar  (Posix)%0a> /C:/Program Files/MyLibs:bar  (Windows)=]%0a
+host:1531032577=192.168.3.2
+author:1531032545=
+diff:1531032545:1531032515:=12,14c12,21%0a%3c  [=/usr/local/foo:bar  (Posix)%0a%3c /C:/Program Files/MyLibs:bar  (Windows)=]%0a%3c %0a---%0a>  [=%0a> /usr/local/foo:bar  (Posix)%0a> /C:/Program Files/MyLibs:bar  (Windows)%0a> =]%0a> %0a> (:code%3c=lang> %3cln> %3cwrap=n> :) [=%0a> lang source code%0a> =]%0a> %0a> (:code=cpp ln:) #include "somefile.h" if (p == 2) { int a = 4; }%0a
+host:1531032545=192.168.3.2
+author:1531032515=
+diff:1531032515:1531032476:=20,21d19%0a%3c %0a%3c (:code=cpp ln:) #include "somefile.h" if (p == 2) { int a = 4; }%0a
+host:1531032515=192.168.3.2
+author:1531032476=
+diff:1531032476:1531032371:=12c12%0a%3c  [=%0a---%0a>  [= %0a15,18d14%0a%3c =]%0a%3c %0a%3c (:code%3c=lang> %3cln> %3cwrap=n> :) [=%0a%3c lang source code%0a
+host:1531032476=192.168.3.2
+author:1531032371=
+diff:1531032371:1531032352:=12c12,13%0a%3c  [= %0a---%0a> [= %0a> %0a
+host:1531032371=192.168.3.2
+author:1531032352=
+diff:1531032352:1531032331:=13d12%0a%3c %0a
+host:1531032352=192.168.3.2
+author:1531032331=
+diff:1531032331:1531032323:=12c12%0a%3c [= %0a---%0a> [=%0a
+host:1531032331=192.168.3.2
+author:1531032323=
+diff:1531032323:1531032306:=12c12%0a%3c [=%0a---%0a> @@%0a15c15%0a%3c =]%0a---%0a> @@%0a
+host:1531032323=192.168.3.2
+author:1531032306=
+diff:1531032306:1531032288:=12,15c12,13%0a%3c @@%0a%3c /usr/local/foo:bar  (Posix)%0a%3c /C:/Program Files/MyLibs:bar  (Windows)%0a%3c @@%0a---%0a>  /usr/local/foo:bar  (Posix)%0a>  /C:/Program Files/MyLibs:bar  (Windows)%0a
+host:1531032306=192.168.3.2
+author:1531032288=
+diff:1531032288:1529961149:=7c7%0a%3c @@//base//test:test_support@@%0a---%0a>  //base//test:test_support%0a
+host:1531032288=192.168.3.2
+author:1529961149=
+diff:1529961149:1529960656:=3,4c3,4%0a%3c !!ラベルについて%0a%3c %0a---%0a> ラベルについて%0a> %0a14,31d13%0a%3c %0a%3c !!ツールチェイン%0a%3c 正式なラベルはツールチェインを含む。通常は現在のコンテクストから暗黙的に継承されるが、以下のように指定して上書きすることができる。%0a%3c  //base/test:test_support(//build/toolchain/win:msvc)%0a%3c ここでGNは''//build/toolchain/win''で定義された''msvc''ツールチェインを探す。このツールチェインでビルドが行われる。%0a%3c %0a%3c !!相対ラベル%0a%3c 同じビルドファイルの中で何かを指定するときにはパスを省略することができ、コロンで始めることができる。この書式は同じファイルで参照するときに推奨される。%0a%3c  :base%0a%3c %0a%3c ラベルはカレントディレクトリからの相対パスで指定できる。スタイル的には絶対パスが好まれる。%0a%3c  source/plugin:myplugin%0a%3c  ../net:url_request%0a%3c %0a%3c !!暗黙名%0a%3c 名前が指定されていないと、ディレクトリ名が使われる。スタイル的には省略できるときには省略したほうがいい。%0a%3c  //net  ->  //net:net%0a%3c  //tools/gn  -> //tools/gn:gn%0a
+host:1529961149=192.168.3.2
+author:1529960656=
+diff:1529960656:1529960340:=8,13d7%0a%3c %0a%3c これはソースルート絶対パスとコロンと名前である。これは'''base/test/BUILD.gn'''の''test_support''を意味する。%0a%3c %0a%3c 必要なときはシステムの絶対パスを指定することができる。典型的にはビルド引数で指定し開発者はコンポーネント場所を指定できる。%0a%3c  /usr/local/foo:bar  (Posix)%0a%3c  /C:/Program Files/MyLibs:bar  (Windows)%0a
+host:1529960656=192.168.3.2
+author:1529960340=
+diff:1529960340:1529960327:=7c7,8%0a%3c  //base//test:test_support%0a---%0a>  %0a> //base//test:test_support%0a
+host:1529960340=192.168.3.2
+author:1529960327=
+diff:1529960327:1529960327:=1,9d0%0a%3c !gn help labels%0a%3c %0a%3c ラベルについて%0a%3c %0a%3c 依存グラフに登場するすべてのもの（ターゲット、設定、ツールチェイン）はラベルにより識別される。通常のラベルは以下のようなもの。%0a%3c %0a%3c  %0a%3c //base//test:test_support%0a%3c %0a
+host:1529960327=192.168.3.2

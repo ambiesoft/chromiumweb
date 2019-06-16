@@ -1,0 +1,51 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1539657139
+host=192.168.3.2
+name=HowTo.FrameViewer外観
+rev=13
+targets=
+text=https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/frame-viewer%0a%0aフレームビューアはChromeのabout:tracingの機能。複雑なレンダリングパフォーマンスの問題を調べるためのもの。%0a%0a%0a%25width=50px%25 %25height=269px%25 [[https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png|https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png]]%0a%0a!取り掛かる%0aフレームビューアはChrome Canaryで最もよく使われる、特別なフラグを付けて起動する。OSXでは以下%0a[= %0a/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --enable-skia-benchmarking%0a=]%0a%0aこのビルドを手にしたら以下：%0a* about:tracingへ行き、recordを押す。%0a* '''Frame Viewer'''オプションをチェック。%0a* '''Record'''を押す。%0a* 他のタブへ行き、リフレッシュして、カクつく動作を実行。%0a* tracingに戻り、stopを押す。%0a* トラックのスクロールはW A S Dキーで、cc::LayerTreehostImplのトラックを探す。トラック上のドットをクリックして、フレームのビューアを表示。%0a%0a!レンダリングパフォーマンスのバグを報告%0a最も良いパフォーマンスバグレポートは２つのトレースを含む。１つはフレムビューアを有効にしたもの、１つは無効にしたもの。フレームビューアは速いの加えて全体のパフォーマンスが見やすい。これをするには以下：%0a%0a* 上記のコマンドラインでchromeを起動。%0a* 遅い動作をトレースでレコードする。このとき'''cc.debug'''と'''cc.debug.display_items'''のチェックを外す。これで本当のパフォーマンストレースになる。これによりパフォーマンスが機能的か（フレームビューアのデータが必要）または生のパフォーマンス関連か（パフォーマンスデータのみ必要）を理解できる。%0a* chromeをリブートしたりコマンドラインを変えたりせずに、二番目のトレースをレコードする。こんどはcc.debugとcc.debug.display_itemsをチェックする。これはフレームビューアトレースで機能的問題を知ることができる。%0a%0a!Androidでのフレームビューア%0a＜スキップ＞%0a%0a!いくつかのノート%0a* 選択したフレームを矢印キーでフレームを移動できる。%0a%0a!デモビデオ%0ahttps://www.youtube.com/watch?v=bMZZOzuJCgk%0a%0ahttps://www.youtube.com/watch?v=8S_Vlq3jLZ0%0a%0a----%0aDone:2018/10/16 (火) 13:06:25%0a%0a
+time=1539662790
+author:1539662790=
+diff:1539662790:1539662762:=37d36%0a%3c %0a39,41d37%0a%3c %0a%3c ----%0a%3c Done:2018/10/16 (火) 13:06:25%0a
+host:1539662790=192.168.3.2
+author:1539662762=
+diff:1539662762:1539662736:=37,38d36%0a%3c https://www.youtube.com/watch?v=8S_Vlq3jLZ0%0a%3c %0a
+host:1539662762=192.168.3.2
+author:1539662736=
+diff:1539662736:1539662291:=26,36c26%0a%3c * 遅い動作をトレースでレコードする。このとき'''cc.debug'''と'''cc.debug.display_items'''のチェックを外す。これで本当のパフォーマンストレースになる。これによりパフォーマンスが機能的か（フレームビューアのデータが必要）または生のパフォーマンス関連か（パフォーマンスデータのみ必要）を理解できる。%0a%3c * chromeをリブートしたりコマンドラインを変えたりせずに、二番目のトレースをレコードする。こんどはcc.debugとcc.debug.display_itemsをチェックする。これはフレームビューアトレースで機能的問題を知ることができる。%0a%3c %0a%3c !Androidでのフレームビューア%0a%3c ＜スキップ＞%0a%3c %0a%3c !いくつかのノート%0a%3c * 選択したフレームを矢印キーでフレームを移動できる。%0a%3c %0a%3c !デモビデオ%0a%3c https://www.youtube.com/watch?v=bMZZOzuJCgk%0a---%0a> *%0a\ No newline at end of file%0a
+host:1539662736=192.168.3.2
+author:1539662291=
+diff:1539662291:1539658265:=26c26%0a%3c * %0a\ No newline at end of file%0a---%0a> *%0a\ No newline at end of file%0a
+host:1539662291=192.168.3.2
+author:1539658265=
+diff:1539658265:1539657878:=21,26d20%0a%3c %0a%3c !レンダリングパフォーマンスのバグを報告%0a%3c 最も良いパフォーマンスバグレポートは２つのトレースを含む。１つはフレムビューアを有効にしたもの、１つは無効にしたもの。フレームビューアは速いの加えて全体のパフォーマンスが見やすい。これをするには以下：%0a%3c %0a%3c * 上記のコマンドラインでchromeを起動。%0a%3c * %0a\ No newline at end of file%0a
+host:1539658265=192.168.3.2
+author:1539657878=
+diff:1539657878:1539657802:=6c6%0a%3c %25width=50px%25 %25height=269px%25 [[https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png|https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png]]%0a---%0a> %25width=50px%25 %25height=269px%25 https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png'aaa'%0a
+host:1539657878=192.168.3.2
+author:1539657802=
+diff:1539657802:1539657781:=6c6%0a%3c %25width=50px%25 %25height=269px%25 https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png'aaa'%0a---%0a> %25width=50px%25 %25height=269px%25 [[https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png]]%0a
+host:1539657802=192.168.3.2
+author:1539657781=
+diff:1539657781:1539657745:=6c6%0a%3c %25width=50px%25 %25height=269px%25 [[https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png]]%0a---%0a> %25width=50px%25 %25height=269px%25 https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png%0a
+host:1539657781=192.168.3.2
+author:1539657745=
+diff:1539657745:1539657424:=14,20d13%0a%3c このビルドを手にしたら以下：%0a%3c * about:tracingへ行き、recordを押す。%0a%3c * '''Frame Viewer'''オプションをチェック。%0a%3c * '''Record'''を押す。%0a%3c * 他のタブへ行き、リフレッシュして、カクつく動作を実行。%0a%3c * tracingに戻り、stopを押す。%0a%3c * トラックのスクロールはW A S Dキーで、cc::LayerTreehostImplのトラックを探す。トラック上のドットをクリックして、フレームのビューアを表示。%0a
+host:1539657745=192.168.3.2
+author:1539657424=
+diff:1539657424:1539657407:=10,12c10%0a%3c [= %0a%3c /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --enable-skia-benchmarking%0a%3c =]%0a---%0a> [= /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --enable-skia-benchmarking =]%0a
+host:1539657424=192.168.3.2
+author:1539657407=
+diff:1539657407:1539657274:=7,10d6%0a%3c %0a%3c !取り掛かる%0a%3c フレームビューアはChrome Canaryで最もよく使われる、特別なフラグを付けて起動する。OSXでは以下%0a%3c [= /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --enable-skia-benchmarking =]%0a
+host:1539657407=192.168.3.2
+author:1539657274=
+diff:1539657274:1539657139:=5,7c5%0a%3c %0a%3c %25width=50px%25 %25height=269px%25 https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png%0a%3c %0a---%0a> https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png%0a\ No newline at end of file%0a
+host:1539657274=192.168.3.2
+author:1539657139=
+diff:1539657139:1539657139:=1,5d0%0a%3c https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/frame-viewer%0a%3c %0a%3c フレームビューアはChromeのabout:tracingの機能。複雑なレンダリングパフォーマンスの問題を調べるためのもの。%0a%3c %0a%3c https://www.chromium.org/_/rsrc/1369783402629/developers/how-tos/trace-event-profiling-tool/frame-viewer/frameviewer.png%0a\ No newline at end of file%0a
+host:1539657139=192.168.3.2

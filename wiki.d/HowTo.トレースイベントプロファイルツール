@@ -1,0 +1,33 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1532587315
+host=192.168.3.2
+name=HowTo.トレースイベントプロファイルツール
+rev=7
+targets=デザイン.マルチプロセスアーキテクチャ,HowTo.トレース実行の記録,HowTo.カクつくのを箇所を見つけるフレームビューアの使い方,HowTo.ジャンクケーススタディ１,HowTo.レンダリングクリティカルパス,HowTo.ジャンクの解剖,HowTo.フレームビューアの基礎,HowTo.Skiaピクチャーの保存,HowTo.メモリー割当のトラッキング,HowTo.AboutTracingの結果の理解,HowTo.フレームビューアhowto
+text=https://www.chromium.org/developers/how-tos/trace-event-profiling-tool%0a%0a!トレースイベントプロファイルツール%0a%0aパフォーマンス問題を診断するとき、Chromeが裏で何をやっていることが見えると便利。その方法の一つがabout:tracingツール。%0a%0aトレースはChromeプロセスの活動を記録する（[[デザイン/マルチプロセスアーキテクチャ]]参照）。各プロセスの各スレッドを階層的に調べて、C++やjavascripのメソッド署名を記録する。多量の情報だが、うまくフィルタすることで、パフォーマンスのボトルネックや遅いオペレーション、不規則な長さのイベント（フレームレートのvariationに導く）が識別できる。%0a%0a[[https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/abouttracing2.png?attredirects=0|https://www.chromium.org/_/rsrc/1369778870315/developers/how-tos/trace-event-profiling-tool/abouttracing2.png?height=269&width=400#.png]]%0a%0a!about:tracingを使う%0a%0a# [[HowTo/トレース実行の記録]]；ここから始める。about:tracingを使うのに必要。%0a%0a# [[カクつくのを箇所を見つけるフレームビューアの使い方]]；次にこれを読む。レンダリングパフォーマンスの問題の診断方法を理解する。%0a%0a# [[ジャンクケーススタディ１]]；それからこれを読む。Dev Toolsのタイムラインと合わせてabout:tracingを使う効率的な方法。%0a%0aトレースイベントで何が起こっているかを知るには基本的なブラウザの仕組みを理解しておく必要がある。上の記事はトレースを始めるのには十分だが、最低でも以下を読むことを推奨：%0a%0a[[レンダリングクリティカルパス]]、もう少しバックグラウンドを知るために、そして、%0a[[ジャンクの解剖]]、いろいろなレンダリングパフォーマンス問題の正確な説明。%0a%0a!!さらなる読み物%0a* [[https://docs.google.com/presentation/d/1pw9kbUFMD7s9KME8yIsCpCNKaSwjkGa89tt4M5rxIGM/edit#slide=id.p|pdf@のプレゼン]]、トレースを使ったグラフィックスタックのデバッグ方法%0a%0a* [[フレームビューアの基礎]]、フレームビューアビューをナビゲートするための案内。これは簡潔だが、上のフレームビューアの方法より情報は少ない；%0a%0a* [[Skiaピクチャーの保存]]；これはSkiaチームのための孤立したSkPictureをキャプチャしたいなら有益。%0a%0a* [[メモリー割当のトラッキング]]メモリインフラのトラッキング。%0a%0a!!さらなる読み物（もっと）%0a* [[about:tracingの結果の理解]]（少し古い、代わりに[[フレームビューアhowto]]を参照）%0a%0a!about:tracingへの貢献%0a＜途中＞
+time=1539656217
+author:1539656217=
+diff:1539656217:1532608011:=15c15%0a%3c # [[カクつくのを箇所を見つけるフレームビューアの使い方]]；次にこれを読む。レンダリングパフォーマンスの問題の診断方法を理解する。%0a---%0a> # [[フレームビューアのバストジャンクの使い方]]；次にこれを読む。レンダリングパフォーマンスの問題の診断方法を理解する。%0a
+host:1539656217=192.168.3.2
+author:1532608011=
+diff:1532608011:1532588912:=7c7%0a%3c トレースはChromeプロセスの活動を記録する（[[デザイン/マルチプロセスアーキテクチャ]]参照）。各プロセスの各スレッドを階層的に調べて、C++やjavascripのメソッド署名を記録する。多量の情報だが、うまくフィルタすることで、パフォーマンスのボトルネックや遅いオペレーション、不規則な長さのイベント（フレームレートのvariationに導く）が識別できる。%0a---%0a> トレースはChromeプロセスの活動を記録する（[[マルチプロセスアーキテクチャ]]参照）。各プロセスの各スレッドを階層的に調べて、C++やjavascripのメソッド署名を記録する。多量の情報だが、うまくフィルタすることで、パフォーマンスのボトルネックや遅いオペレーション、不規則な長さのイベント（フレームレートのvariationに導く）が識別できる。%0a
+host:1532608011=192.168.3.2
+author:1532588912=
+diff:1532588912:1532588862:=13c13%0a%3c # [[HowTo/トレース実行の記録]]；ここから始める。about:tracingを使うのに必要。%0a---%0a> # [[トレース実行のレコード]]；ここから始める。about:tracingを使うのに必要。%0a
+host:1532588912=192.168.3.2
+author:1532588862=
+diff:1532588862:1532588788:=
+host:1532588862=192.168.3.2
+author:1532588788=
+diff:1532588788:1532588605:=9c9%0a%3c [[https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/abouttracing2.png?attredirects=0|https://www.chromium.org/_/rsrc/1369778870315/developers/how-tos/trace-event-profiling-tool/abouttracing2.png?height=269&width=400#.png]]%0a---%0a> https://www.chromium.org/_/rsrc/1369778870315/developers/how-tos/trace-event-profiling-tool/abouttracing2.png?height=269&width=400#.png%0a
+host:1532588788=192.168.3.2
+author:1532588605=
+diff:1532588605:1532587315:=1,37c1%0a%3c https://www.chromium.org/developers/how-tos/trace-event-profiling-tool%0a%3c %0a%3c !トレースイベントプロファイルツール%0a%3c %0a%3c パフォーマンス問題を診断するとき、Chromeが裏で何をやっていることが見えると便利。その方法の一つがabout:tracingツール。%0a%3c %0a%3c トレースはChromeプロセスの活動を記録する（[[マルチプロセスアーキテクチャ]]参照）。各プロセスの各スレッドを階層的に調べて、C++やjavascripのメソッド署名を記録する。多量の情報だが、うまくフィルタすることで、パフォーマンスのボトルネックや遅いオペレーション、不規則な長さのイベント（フレームレートのvariationに導く）が識別できる。%0a%3c %0a%3c https://www.chromium.org/_/rsrc/1369778870315/developers/how-tos/trace-event-profiling-tool/abouttracing2.png?height=269&width=400#.png%0a%3c %0a%3c !about:tracingを使う%0a%3c %0a%3c # [[トレース実行のレコード]]；ここから始める。about:tracingを使うのに必要。%0a%3c %0a%3c # [[フレームビューアのバストジャンクの使い方]]；次にこれを読む。レンダリングパフォーマンスの問題の診断方法を理解する。%0a%3c %0a%3c # [[ジャンクケーススタディ１]]；それからこれを読む。Dev Toolsのタイムラインと合わせてabout:tracingを使う効率的な方法。%0a%3c %0a%3c トレースイベントで何が起こっているかを知るには基本的なブラウザの仕組みを理解しておく必要がある。上の記事はトレースを始めるのには十分だが、最低でも以下を読むことを推奨：%0a%3c %0a%3c [[レンダリングクリティカルパス]]、もう少しバックグラウンドを知るために、そして、%0a%3c [[ジャンクの解剖]]、いろいろなレンダリングパフォーマンス問題の正確な説明。%0a%3c %0a%3c !!さらなる読み物%0a%3c * [[https://docs.google.com/presentation/d/1pw9kbUFMD7s9KME8yIsCpCNKaSwjkGa89tt4M5rxIGM/edit#slide=id.p|pdf@のプレゼン]]、トレースを使ったグラフィックスタックのデバッグ方法%0a%3c %0a%3c * [[フレームビューアの基礎]]、フレームビューアビューをナビゲートするための案内。これは簡潔だが、上のフレームビューアの方法より情報は少ない；%0a%3c %0a%3c * [[Skiaピクチャーの保存]]；これはSkiaチームのための孤立したSkPictureをキャプチャしたいなら有益。%0a%3c %0a%3c * [[メモリー割当のトラッキング]]メモリインフラのトラッキング。%0a%3c %0a%3c !!さらなる読み物（もっと）%0a%3c * [[about:tracingの結果の理解]]（少し古い、代わりに[[フレームビューアhowto]]を参照）%0a%3c %0a%3c !about:tracingへの貢献%0a%3c ＜途中＞%0a\ No newline at end of file%0a---%0a> https://www.chromium.org/developers/how-tos/trace-event-profiling-tool%0a\ No newline at end of file%0a
+host:1532588605=192.168.3.2
+author:1532587315=
+diff:1532587315:1532587315:=1d0%0a%3c https://www.chromium.org/developers/how-tos/trace-event-profiling-tool%0a\ No newline at end of file%0a
+host:1532587315=192.168.3.2

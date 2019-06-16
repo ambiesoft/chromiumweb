@@ -1,0 +1,18 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530598919
+host=192.168.3.2
+name=デザイン.プロセス外のiframesOOPIF
+rev=2
+targets=
+text=https://www.chromium.org/developers/design-documents/oop-iframes%0a
+time=1530598924
+author:1530598924=
+diff:1530598924:1530598919:=
+host:1530598924=192.168.3.2
+author:1530598919=
+diff:1530598919:1530598919:=1d0%0a%3c https://www.chromium.org/developers/design-documents/oop-iframes%0a
+host:1530598919=192.168.3.2

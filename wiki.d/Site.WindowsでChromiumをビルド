@@ -1,0 +1,162 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+author=
+charset=UTF-8
+csum=
+ctime=1502949552
+host=192.168.0.2
+name=Site.WindowsでChromiumをビルド
+rev=50
+targets=
+text=https://chromium.googlesource.com/chromium/src/+/master/docs/windows_build_instructions.md%0a%0a!システム要求%0a*64bitインテルマシン、RAM最低８G、１６G以上が望ましい。%0a*１００G以上のNTFSディスク容量、FAT32はだめ。%0a*Visual Studio 2015 Update 3。%0a*Windows 7 or newer%0a%0a64bitは絶対必要らしい、インテルじゃなきゃダメかどうかは不明。AMDでもできた。インテルとはx86CPUのことか？、RAMは４Gでもできたが時間がかかる。ハードディスクは１００G近くいくがNTFS圧縮が結構効く。%0a%0a!セットアップ%0a２０１６年１２月現在、Visual Studio 2015とWindows SDK 14393が必要。このSDKじゃないとだめらしいが詳細は不明。%0a%0a!depot_toolsのインストール%0a[[https://storage.googleapis.com/chrome-infra/depot_tools.zip|depot_tools]]をダウンロードし、どこかに解凍。ここではY:\src\depot_tools。%0a%0aPATHにY:\src\depot_toolsを追加する。システムを変更してもいいがここではbatファイルC:\src\startcmd.batを作成し対応。%0a=winbatch [=%0a@echo off%0aREM always launch 64bit cmd, https://stackoverflow.com/a/27093204%0aset "SystemPath=%25SystemRoot%25\System32"%0aif not "%25ProgramFiles(x86)%25"=="" (%0a    if exist %25SystemRoot%25\Sysnative\* set "SystemPath=%25SystemRoot%25\Sysnative"%0a)%0a%0a%0aREM set path to depot_tools%0aset PATH=%25~dp0depot_tools;%25PATH%25%0a%0a%0aREM This tells depot_tools to use your locally installed version of Visual Studio %0aREM (by default, depot_tools will try to use a google-internal version).%0aset DEPOT_TOOLS_WIN_TOOLCHAIN=0%0a%0a%0aREM make current directory the location this script exists.%0acd %25~dp0%0a%0a%0aREM always launch 64bit cmd%0a%25SystemPath%25\cmd.exe /k%0a%0a=]%0a%0aDEPOT_TOOLS_WIN_TOOLCHAINはgoogle用、０を設定%0a%0aコマンドプロンプト上でgclientを実行。プラットフォームごとに必要なものをdepot_tools内にダウンロードしインストールする。最初は少し時間がかかる。%0a=winbatch [=%0aY:\src>gclient%0a =]%0a%0a終わったらwhere pythonを実行し、pythonを実行したとき、python.batになるかを確認。%0a [=%0aY:\src>where python%0aY:\src\depot_tools\python.bat%0a%0aY:\src>%0a =]%0a%0a!コードの取得%0a最初にGitの設定%0a [=%0a> git config --global user.name "My Name"%0a> git config --global user.email "my-name@chromium.org"%0a> git config --global core.autocrlf false%0a> git config --global core.filemode false%0a> git config --global branch.autosetuprebase always%0a =]%0a%0aautocrlfはちゃんとしないとパッチがうまくいかないことがある。%0a%0achromiumディレクトリを作成し移動。%0a [=%0aY:\src>mkdir chromium%0aY:\src>cd chromium%0aY:\src\chromium>%0a =]%0a%0afetchでソースをとってくる。%0a [=%0aY:\src\chromium>fetch --no-history chromium%0a =]%0a%0aすごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核は[@git clone https://chromium.googlesource.com/chromium/src.git@]。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは@@.gclien@@tを消してfetch。%0a%0a!!ビルド%0aチェックアウトが終わったらsrcに移動してビルドを行う。%0a [=%0a> cd src%0a> Y:\src\chromium\src>gn gen --ide=vs out\Default%0a =]%0aビルドは2段階で行う。まずgnで依存関係を解決しその結果を.ninjaファイルに書き込む。次にninjaが実際のビルドをする。genは作成のサブコマンド、--ide=vsはVisual Studio 2015用のプロジェクトファイルも作成してくれるが、ビルドはninjaを使う。VSでやるときはdepot_toolsにパスが通っていないとならない。out\Defaultはここにすべてが作成される出力先。出力先を複数つくることができる。%0a%0agn genが終わったらout\Defaultのいろいろな設定。all.slnも作られるがすごく重いのでまだ開かない方がいい。%0a [=%0a> Y:\src\chromium\src>gn args out\Default%0a =]%0aメモ帳でargs.gnが開かれる。ここに設定を書く。例えば以下。%0a [=%0aenable_basic_printing=true%0aenable_nacl=false%0aenable_print_preview=false%0aenable_widevine=true%0ais_component_build=false%0ais_debug=true%0ais_win_fastlink=false%0atarget_cpu="x86"%0a =]%0a%0aメモ帳を閉じるとこの設定に基づいて.ninjaファイルが生成される。ビルドを２段階に分けることで、今後のデバッグ作業はninjaだけでよくなりビルド時間が短縮する。ninjaは軽量に作られている。%0a%0a設定の一覧は以下のコマンドで見れる。%0a [=%0aY:\src\chromium\src>gn args --list out\Default%0a =]%0aobjディレクトリ配下に.ninjaやVSのプロジェクトファイルが作成され、ビルドの準備が整ったのでビルド。すごく時間がかかるがninjaはmakeみたいなツールなので途中でやめても問題ない。%0a [=%0a> Y:\src\chromium\src>ninja -C out\Default chrome%0a =]%0ais_win_fastlinkをtrueにするとpartialPDBがつくられる。windbgはこのPDBに対応してないようなので、ここではfalseにしている。
+time=1503220153
+author:1503220153=
+diff:1503220153:1503220127:=48c48%0a%3c =winbatch [=%0a---%0a>  [=%0a
+host:1503220153=192.168.0.2
+author:1503220127=
+diff:1503220127:1503220108:=43,44c43%0a%3c =]%0a%3c %0a---%0a>  =]%0a
+host:1503220127=192.168.0.2
+author:1503220108=
+diff:1503220108:1503220081:=18c18%0a%3c =winbatch [=%0a---%0a> =batch [=%0a
+host:1503220108=192.168.0.2
+author:1503220081=
+diff:1503220081:1503220046:=18c18%0a%3c =batch [=%0a---%0a> =winbatch [=%0a
+host:1503220081=192.168.0.2
+author:1503220046=
+diff:1503220046:1503219964:=18c18%0a%3c =winbatch [=%0a---%0a> =dosbatch [=%0a
+host:1503220046=192.168.0.2
+author:1503219964=
+diff:1503219964:1503219947:=18c18%0a%3c =dosbatch [=%0a---%0a> =csharp [=%0a
+host:1503219964=192.168.0.2
+author:1503219947=
+diff:1503219947:1503219933:=18c18%0a%3c =csharp [=%0a---%0a>  =csharp [=%0a
+host:1503219947=192.168.0.2
+author:1503219933=
+diff:1503219933:1503219425:=18c18%0a%3c  =csharp [=%0a---%0a>  [= %0a
+host:1503219933=192.168.0.2
+author:1503219425=
+diff:1503219425:1503219361:=119d118%0a%3c is_win_fastlinkをtrueにするとpartialPDBがつくられる。windbgはこのPDBに対応してないようなので、ここではfalseにしている。%0a\ No newline at end of file%0a
+host:1503219425=192.168.0.2
+author:1503219361=
+diff:1503219361:1503219279:=105c105%0a%3c is_win_fastlink=false%0a---%0a> is_win_fastlink=true%0a
+host:1503219361=192.168.0.2
+author:1503219279=
+diff:1503219279:1503219211:=20c20%0a%3c REM always launch 64bit cmd, https://stackoverflow.com/a/27093204%0a---%0a> REM always launch 64bit cmd%0a
+host:1503219279=192.168.0.2
+author:1503219211=
+diff:1503219211:1503025377:=17c17%0a%3c PATHにY:\src\depot_toolsを追加する。システムを変更してもいいがここではbatファイルC:\src\startcmd.batを作成し対応。%0a---%0a> PATHにY:\src\depot_toolsを追加する。システムを変更してもいいがここではbatファイルC:\src\start.batを作成し対応。%0a19,27d18%0a%3c @echo off%0a%3c REM always launch 64bit cmd%0a%3c set "SystemPath=%25SystemRoot%25\System32"%0a%3c if not "%25ProgramFiles(x86)%25"=="" (%0a%3c     if exist %25SystemRoot%25\Sysnative\* set "SystemPath=%25SystemRoot%25\Sysnative"%0a%3c )%0a%3c %0a%3c %0a%3c REM set path to depot_tools%0a30,32d20%0a%3c %0a%3c REM This tells depot_tools to use your locally installed version of Visual Studio %0a%3c REM (by default, depot_tools will try to use a google-internal version).%0a35,36d22%0a%3c %0a%3c REM make current directory the location this script exists.%0a38,42c24%0a%3c %0a%3c %0a%3c REM always launch 64bit cmd%0a%3c %25SystemPath%25\cmd.exe /k%0a%3c %0a---%0a> cmd /k%0a
+host:1503219211=192.168.0.2
+author:1503025377=
+diff:1503025377:1503021211:=
+host:1503025377=192.168.0.2
+author:1503021211=
+diff:1503021211:1502979998:=90,91d89%0a%3c %0a%3c メモ帳を閉じるとこの設定に基づいて.ninjaファイルが生成される。ビルドを２段階に分けることで、今後のデバッグ作業はninjaだけでよくなりビルド時間が短縮する。ninjaは軽量に作られている。%0a
+host:1503021211=192.168.0.2
+author:1502979998=
+diff:1502979998:1502977212:=91,94d90%0a%3c 設定の一覧は以下のコマンドで見れる。%0a%3c  [=%0a%3c Y:\src\chromium\src>gn args --list out\Default%0a%3c  =]%0a
+host:1502979998=192.168.0.2
+author:1502977212=
+diff:1502977212:1502976787:=87c87%0a%3c is_win_fastlink=true%0a---%0a> is_win_fastlink=false%0a
+host:1502977212=192.168.0.2
+author:1502976787=
+diff:1502976787:1502976654:=91c91%0a%3c objディレクトリ配下に.ninjaやVSのプロジェクトファイルが作成され、ビルドの準備が整ったのでビルド。すごく時間がかかるがninjaはmakeみたいなツールなので途中でやめても問題ない。%0a---%0a> objディレクトリ配下に.ninjaやVSのプロジェクトファイルが作成され、ビルドの準備が整ったのでビルド。すごく時間がかかる。%0a
+host:1502976787=192.168.0.2
+author:1502976654=
+diff:1502976654:1502976631:=67d66%0a%3c !!ビルド%0a
+host:1502976654=192.168.0.2
+author:1502976631=
+diff:1502976631:1502976161:=9c9%0a%3c 64bitは絶対必要らしい、インテルじゃなきゃダメかどうかは不明。AMDでもできた。インテルとはx86CPUのことか？、RAMは４Gでもできたが時間がかかる。ハードディスクは１００G近くいくがNTFS圧縮が結構効く。%0a---%0a> 64bitは絶対必要らしい、インテルじゃなきゃダメかどうかは不明。AMDでもできた。インテルとはx86CPUのこと？、RAMは４Gでもできたが時間がかかる。ハードディスクは１００Gくらい入るかもしれないがNTFS圧縮が結構効く。%0a
+host:1502976631=192.168.0.2
+author:1502976161=
+diff:1502976161:1502975854:=74c74%0a%3c gn genが終わったらout\Defaultのいろいろな設定。all.slnも作られるがすごく重いのでまだ開かない方がいい。%0a---%0a> gn genが終わったらout\Defaultのいろいろな設定。%0a88,92d87%0a%3c  =]%0a%3c %0a%3c objディレクトリ配下に.ninjaやVSのプロジェクトファイルが作成され、ビルドの準備が整ったのでビルド。すごく時間がかかる。%0a%3c  [=%0a%3c > Y:\src\chromium\src>ninja -C out\Default chrome%0a
+host:1502976161=192.168.0.2
+author:1502975854=
+diff:1502975854:1502975722:=86c86%0a%3c is_win_fastlink=false%0a---%0a> is_win_fastlink=true%0a
+host:1502975854=192.168.0.2
+author:1502975722=
+diff:1502975722:1502958564:=67,88c67%0a%3c チェックアウトが終わったらsrcに移動してビルドを行う。%0a%3c  [=%0a%3c > cd src%0a%3c > Y:\src\chromium\src>gn gen --ide=vs out\Default%0a%3c  =]%0a%3c ビルドは2段階で行う。まずgnで依存関係を解決しその結果を.ninjaファイルに書き込む。次にninjaが実際のビルドをする。genは作成のサブコマンド、--ide=vsはVisual Studio 2015用のプロジェクトファイルも作成してくれるが、ビルドはninjaを使う。VSでやるときはdepot_toolsにパスが通っていないとならない。out\Defaultはここにすべてが作成される出力先。出力先を複数つくることができる。%0a%3c %0a%3c gn genが終わったらout\Defaultのいろいろな設定。%0a%3c  [=%0a%3c > Y:\src\chromium\src>gn args out\Default%0a%3c  =]%0a%3c メモ帳でargs.gnが開かれる。ここに設定を書く。例えば以下。%0a%3c  [=%0a%3c enable_basic_printing=true%0a%3c enable_nacl=false%0a%3c enable_print_preview=false%0a%3c enable_widevine=true%0a%3c is_component_build=false%0a%3c is_debug=true%0a%3c is_win_fastlink=true%0a%3c target_cpu="x86"%0a%3c  =]%0a---%0a> %0a
+host:1502975722=192.168.0.2
+author:1502958564=
+diff:1502958564:1502953111:=
+host:1502958564=192.168.0.2
+author:1502953111=
+diff:1502953111:1502952971:=53c53%0a%3c chromiumディレクトリを作成し移動。%0a---%0a> chromiumディレクトリかを作成し移動。%0a
+host:1502953111=192.168.0.2
+author:1502952971=
+diff:1502952971:1502952950:=65c65%0a%3c すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核は[@git clone https://chromium.googlesource.com/chromium/src.git@]。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは@@.gclien@@tを消してfetch。%0a---%0a> すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　[@https://chromium.googlesource.com/chromium/src.git@]。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは@@.gclien@@tを消してfetch。%0a
+host:1502952971=192.168.0.2
+author:1502952950=
+diff:1502952950:1502952729:=65c65%0a%3c すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　[@https://chromium.googlesource.com/chromium/src.git@]。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは@@.gclien@@tを消してfetch。%0a---%0a> すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは@@.gclien@@tを消してfetch。%0a
+host:1502952950=192.168.0.2
+author:1502952729=
+diff:1502952729:1502952604:=65c65%0a%3c すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは@@.gclien@@tを消してfetch。%0a---%0a> すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは.gclientを消してfetch。%0a
+host:1502952729=192.168.0.2
+author:1502952604=
+diff:1502952604:1502951832:=62c62%0a%3c Y:\src\chromium>fetch --no-history chromium%0a---%0a> Y:\src\chromium>fetch chromium%0a65c65%0a%3c すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。--no-historyをつけるとレポジトリの履歴を取得しない。最初にgclientのマスターファイルY:\src\chromium\.gclientを作成し、gclientを起動する。全部やり直すときは.gclientを消してfetch。%0a---%0a> すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。%0a
+host:1502952604=192.168.0.2
+author:1502951832=
+diff:1502951832:1502951803:=62a63,74%0a> Running: 'Y:\src\depot_tools\win_tools-2_7_6_bin\python\bin\python.exe' 'Y:\src\depot_tools\gclient.py' root%0a> Running: 'Y:\src\depot_tools\win_tools-2_7_6_bin\python\bin\python.exe' 'Y:\src\depot_tools\gclient.py' config --spec 'solutions = [%0a>   {%0a>     "url": "https://chromium.googlesource.com/chromium/src.git",%0a>     "managed": False,%0a>     "name": "src",%0a>     "deps_file": ".DEPS.git",%0a>     "custom_deps": {},%0a>   },%0a> ]%0a> '%0a> Running: 'Y:\src\depot_tools\win_tools-2_7_6_bin\python\bin\python.exe' 'Y:\src\depot_tools\gclient.py' sync%0a
+host:1502951832=192.168.0.2
+author:1502951803=
+diff:1502951803:1502951727:=30a31,32%0a> Bootstrapping cipd client for windows-amd64 from https://chrome-infra-packages.appspot.com/client?platform=windows-amd64&version=git_revision:b482bfa19d3fa79b4b40dd5ac7a34479052e3df1...%0a> %0a
+host:1502951803=192.168.0.2
+author:1502951727=
+diff:1502951727:1502951629:=20a21%0a> rem This tells depot_tools to use your locally installed version of Visual Studio (by default, depot_tools will try to use a google-internal version).%0a
+host:1502951727=192.168.0.2
+author:1502951629=
+diff:1502951629:1502951574:=
+host:1502951629=192.168.0.2
+author:1502951574=
+diff:1502951574:1502951525:=
+host:1502951574=192.168.0.2
+author:1502951525=
+diff:1502951525:1502951475:=63,80c63%0a%3c fetchでソースをとってくる。%0a%3c  [=%0a%3c Y:\src\chromium>fetch chromium%0a%3c Running: 'Y:\src\depot_tools\win_tools-2_7_6_bin\python\bin\python.exe' 'Y:\src\depot_tools\gclient.py' root%0a%3c Running: 'Y:\src\depot_tools\win_tools-2_7_6_bin\python\bin\python.exe' 'Y:\src\depot_tools\gclient.py' config --spec 'solutions = [%0a%3c   {%0a%3c     "url": "https://chromium.googlesource.com/chromium/src.git",%0a%3c     "managed": False,%0a%3c     "name": "src",%0a%3c     "deps_file": ".DEPS.git",%0a%3c     "custom_deps": {},%0a%3c   },%0a%3c ]%0a%3c '%0a%3c Running: 'Y:\src\depot_tools\win_tools-2_7_6_bin\python\bin\python.exe' 'Y:\src\depot_tools\gclient.py' sync%0a%3c  =]%0a%3c %0a%3c すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。%0a---%0a> fetchでソースをとってくる。すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。%0a
+host:1502951525=192.168.0.2
+author:1502951475=
+diff:1502951475:1502951440:=58a59%0a> %0a59a61%0a> %0a
+host:1502951475=192.168.0.2
+author:1502951440=
+diff:1502951440:1502951393:=63c63%0a%3c  =]%0a---%0a> =]%0a
+host:1502951440=192.168.0.2
+author:1502951393=
+diff:1502951393:1502950549:=47,51c47,51%0a%3c > git config --global user.name "My Name"%0a%3c > git config --global user.email "my-name@chromium.org"%0a%3c > git config --global core.autocrlf false%0a%3c > git config --global core.filemode false%0a%3c > git config --global branch.autosetuprebase always%0a---%0a> $ git config --global user.name "My Name"%0a> $ git config --global user.email "my-name@chromium.org"%0a> $ git config --global core.autocrlf false%0a> $ git config --global core.filemode false%0a> $ git config --global branch.autosetuprebase always%0a53,65d52%0a%3c %0a%3c autocrlfはちゃんとしないとパッチがうまくいかないことがある。%0a%3c %0a%3c chromiumディレクトリかを作成し移動。%0a%3c  [=%0a%3c Y:\src>mkdir chromium%0a%3c %0a%3c Y:\src>cd chromium%0a%3c %0a%3c Y:\src\chromium>%0a%3c =]%0a%3c %0a%3c fetchでソースをとってくる。すごく時間がかかる。chromiumは外部リポジトリからもソースを取り込むのでメタツールgclientを使うが、fetchはラッパー。fetch_config\chromium.pyを読んで取り込む。fetchを使うのは初めの一回だけ、プラットフォーム依存の初期化処理。次からのアップデートはgclientを使う。中核はgit clone　https://chromium.googlesource.com/chromium/src.git。%0a
+host:1502951393=192.168.0.2
+author:1502950549=
+diff:1502950549:1502950535:=45,46c45%0a%3c 最初にGitの設定%0a%3c  [=%0a---%0a> 最初にGitの設定 [=%0a
+host:1502950549=192.168.0.2
+author:1502950535=
+diff:1502950535:1502950464:=42,50d41%0a%3c  =]%0a%3c %0a%3c !コードの取得%0a%3c 最初にGitの設定 [=%0a%3c $ git config --global user.name "My Name"%0a%3c $ git config --global user.email "my-name@chromium.org"%0a%3c $ git config --global core.autocrlf false%0a%3c $ git config --global core.filemode false%0a%3c $ git config --global branch.autosetuprebase always%0a
+host:1502950535=192.168.0.2
+author:1502950464=
+diff:1502950464:1502950346:=34,41c34,39%0a%3c  =]%0a%3c %0a%3c 終わったらwhere pythonを実行し、pythonを実行したとき、python.batになるかを確認。%0a%3c  [=%0a%3c Y:\src>where python%0a%3c Y:\src\depot_tools\python.bat%0a%3c %0a%3c Y:\src>%0a---%0a> %0a> %0a> %0a> %0a> %0a> %0a
+host:1502950464=192.168.0.2
+author:1502950346=
+diff:1502950346:1502950332:=29a30%0a> %0a
+host:1502950346=192.168.0.2
+author:1502950332=
+diff:1502950332:1502950144:=29,41c29%0a%3c コマンドプロンプト上でgclientを実行。プラットフォームごとに必要なものをdepot_tools内にダウンロードしインストールする。最初は少し時間がかかる。%0a%3c %0a%3c  [=%0a%3c Y:\src>gclient%0a%3c Bootstrapping cipd client for windows-amd64 from https://chrome-infra-packages.appspot.com/client?platform=windows-amd64&version=git_revision:b482bfa19d3fa79b4b40dd5ac7a34479052e3df1...%0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c  =]%0a---%0a> コマンドプロんプロ上でgclientを実行。プラットフォームごとに必要なものをdepot_tools内にダウンロードしインストールする。最初は少し時間がかかる。%0a
+host:1502950332=192.168.0.2
+author:1502950144=
+diff:1502950144:1502949910:=27,31d26%0a%3c DEPOT_TOOLS_WIN_TOOLCHAINはgoogle用、０を設定%0a%3c %0a%3c コマンドプロんプロ上でgclientを実行。プラットフォームごとに必要なものをdepot_tools内にダウンロードしインストールする。最初は少し時間がかかる。%0a%3c %0a%3c %0a
+host:1502950144=192.168.0.2
+author:1502949910=
+diff:1502949910:1502949897:=17a18%0a> %0a
+host:1502949910=192.168.0.2
+author:1502949897=
+diff:1502949897:1502949649:=19,26c19,25%0a%3c  [= %0a%3c set PATH=%25~dp0depot_tools;%25PATH%25%0a%3c %0a%3c rem This tells depot_tools to use your locally installed version of Visual Studio (by default, depot_tools will try to use a google-internal version).%0a%3c set DEPOT_TOOLS_WIN_TOOLCHAIN=0%0a%3c %0a%3c cd %25~dp0%0a%3c cmd /k%0a---%0a>  [= set PATH=%25~dp0depot_tools;%25PATH%25%0a>  %0a>  rem This tells depot_tools to use your locally installed version of Visual Studio (by default, depot_tools will try to use a google-internal version).%0a>  set DEPOT_TOOLS_WIN_TOOLCHAIN=0%0a>  %0a>  cd %25~dp0%0a>  cmd /k%0a
+host:1502949897=192.168.0.2
+author:1502949649=
+diff:1502949649:1502949626:=19c19%0a%3c  [= set PATH=%25~dp0depot_tools;%25PATH%25%0a---%0a> [= set PATH=%25~dp0depot_tools;%25PATH%25%0a26c26%0a%3c  =]%0a---%0a> =]%0a
+host:1502949649=192.168.0.2
+author:1502949626=
+diff:1502949626:1502949615:=19c19,20%0a%3c [= set PATH=%25~dp0depot_tools;%25PATH%25%0a---%0a> [=%0a>  set PATH=%25~dp0depot_tools;%25PATH%25%0a
+host:1502949626=192.168.0.2
+author:1502949615=
+diff:1502949615:1502949579:=20,26c20,26%0a%3c  set PATH=%25~dp0depot_tools;%25PATH%25%0a%3c  %0a%3c  rem This tells depot_tools to use your locally installed version of Visual Studio (by default, depot_tools will try to use a google-internal version).%0a%3c  set DEPOT_TOOLS_WIN_TOOLCHAIN=0%0a%3c  %0a%3c  cd %25~dp0%0a%3c  cmd /k%0a---%0a> set PATH=%25~dp0depot_tools;%25PATH%25%0a> %0a> rem This tells depot_tools to use your locally installed version of Visual Studio (by default, depot_tools will try to use a google-internal version).%0a> set DEPOT_TOOLS_WIN_TOOLCHAIN=0%0a> %0a> cd %25~dp0%0a> cmd /k%0a
+host:1502949615=192.168.0.2
+author:1502949579=
+diff:1502949579:1502949552:=15c15%0a%3c [[https://storage.googleapis.com/chrome-infra/depot_tools.zip|depot_tools]]をダウンロードし、どこかに解凍。ここではY:\src\depot_tools。%0a---%0a> [[depot_tools]]をダウンロードし、どこかに解凍。ここではY:\src\depot_tools。%0a
+host:1502949579=192.168.0.2
+author:1502949552=
+diff:1502949552:1502949552:=1,27d0%0a%3c https://chromium.googlesource.com/chromium/src/+/master/docs/windows_build_instructions.md%0a%3c %0a%3c !システム要求%0a%3c *64bitインテルマシン、RAM最低８G、１６G以上が望ましい。%0a%3c *１００G以上のNTFSディスク容量、FAT32はだめ。%0a%3c *Visual Studio 2015 Update 3。%0a%3c *Windows 7 or newer%0a%3c %0a%3c 64bitは絶対必要らしい、インテルじゃなきゃダメかどうかは不明。AMDでもできた。インテルとはx86CPUのこと？、RAMは４Gでもできたが時間がかかる。ハードディスクは１００Gくらい入るかもしれないがNTFS圧縮が結構効く。%0a%3c %0a%3c !セットアップ%0a%3c ２０１６年１２月現在、Visual Studio 2015とWindows SDK 14393が必要。このSDKじゃないとだめらしいが詳細は不明。%0a%3c %0a%3c !depot_toolsのインストール%0a%3c [[depot_tools]]をダウンロードし、どこかに解凍。ここではY:\src\depot_tools。%0a%3c %0a%3c PATHにY:\src\depot_toolsを追加する。システムを変更してもいいがここではbatファイルC:\src\start.batを作成し対応。%0a%3c %0a%3c [=%0a%3c set PATH=%25~dp0depot_tools;%25PATH%25%0a%3c %0a%3c rem This tells depot_tools to use your locally installed version of Visual Studio (by default, depot_tools will try to use a google-internal version).%0a%3c set DEPOT_TOOLS_WIN_TOOLCHAIN=0%0a%3c %0a%3c cd %25~dp0%0a%3c cmd /k%0a%3c =]%0a
+host:1502949552=192.168.0.2

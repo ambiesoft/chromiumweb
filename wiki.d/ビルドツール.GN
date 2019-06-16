@@ -1,0 +1,207 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1502852092
+host=192.168.3.2
+name=ビルドツール.GN
+rev=65
+targets=ビルドツール.GYP,ビルドツール.コンポーネントビルド
+text=https://chromium.googlesource.com/chromium/src/tools/gn/+/48062805e19b4697c5fbd926dc649c78b6aaa138/README.md%0a%0ahttps://chromium.googlesource.com/chromium/src/+/lkgr/tools/gn/docs/quick_start.md#Dont-know-whats-going-on%0a%0a[[GYP]]と同水準にあるメタビルドツール、GYPよりもシンプル。今ではGYPに代わりGNを使いつつあるようだ。%0a%0aBUILD.gnを読み込んでビルドする。%0a%0a!なんでGNを使うか%0a#GYPよりも読みやすい%0a#早い%0a*GYPより20倍速い。%0a*Ninjaからの要求により起動できる。GNを起動しなければなならない状態であったことを覚えておく必要がない。%0a#依存性の強制ができる。%0a#ビルドグラフ（依存関係の図）を検索できる。%0a%0a!現状は？%0a2015/8現在%0a（途中）%0a%0a!ビルドの実行%0aGYPではDebugとReleaseの両方がつくられるが、GNはしない。自分で設定する、ビルドディレクトリも設定する。%0a%0a!ビルドのセットアップ%0aビルドディレクトリの設定%0a@@gn gen out/my_build@@%0a %0a%0a%0aビルド引数の設定%0a [=%0agn args out/by_build%0a=]%0aこれはエディタを起動する。以下のように記述する%0a [=%0ais_component_build = true%0ais_debug = false%0a=]%0a%0a利用可能な引数と、デフォルト値を見るには以下%0a [=%0agn args --list out/my_build%0a=]%0a%0aクロスコンパイルの引数は例は以下%0a [=%0atarget_os = "chromeos"%0atarget_os = "android"%0a%0atarget_cpu = "arm"%0atarget_cpu = "x86"%0atarget_cpu = "x64"%0a=]%0a%0a（途中）%0a%0a!descコマンド%0a状態の表示%0a [=%0agn desc out/my_build%0a=]%0a%0a!パフォーマンス%0a以下のコマンドでトレースログを作成。これはChromiumのabout:tracingで読み込める。%0a [=%0agn --tracelog=mylog.trace%0a=]%0a%0a!練習%0a実際にターゲットを追加して、Chromiumのソースに変更を加えてみる。%0a''tools/gn/tutorial/BUILD.gn''を作成して以下を入力。%0a [=%0aexecutable("hello_world") {%0a  sources = [%0a    "hello_world.cc",%0a  ]%0a}%0a=]%0a''hello_world.cc''も作成しなきゃならないが、すでにあるはずなので省略。このBUILD.gnは実行ファイルのターゲット''hello_world''を定義している。これをchromiumのプロジェクトに含めるためにルート（toolsの一つ上のsrcディレクトリ）の''BUILD.gn''に以下を追加。%0a [=%0agroup("root") {%0a  deps = [%0a    "//url",%0a    "//tools/gn/tutorial:hello_world",%0a  ]%0a}%0a=]%0a''root''グループに属しているターゲットは//urlプロジェクトとhello_worldターゲットに依存する。//はソースのルートを表す。これでビルドしてみる。%0a%0a [=%0agn gen out\hello%0aninja -C out\hello hello_world%0a=]%0a''src\out\hello\obj\tools\gn\tutorial''に.ninjaファイルが作成され、''src\out\hello\hello_world.exe''も作成された。%0a%0a!!依存性を宣言する%0a練習の続き。静的ライブラリhelloを作成する。''tools/gn/tutorial/BUILD.gn''に以下を追加。%0a [=%0astatic_library("hello") {%0a  sources = [%0a    "hello.cc",%0a  ]%0a}%0a=]%0a%0aexecutableの方を以下のように修正。%0a [=%0aexecutable("hello_world") {%0a  sources = [%0a    "hello_world.cc",%0a  ]%0a   deps = [%0a    ":hello",%0a  ]%0a}%0a=]%0a%0ahello_worldはhelloに依存するようになった。ここでは実際には依存していないがスルー。%0aビルド%0a [=%0aninja -C out\hello hello_world%0a=]%0a%0a必要ならninjaは自動でgnを実行してくれる。%0a%0a!!helloライブラリに機能を追加%0a同時に二人に挨拶できる機能を追加する。''TWO_PEOPLE''フラグでこの機能をコントロールする。BUILD.gnのhelloを以下のように修正。%0a [=%0astatic_library("hello") {%0a  sources = [%0a    "hello.cc",%0a  ]%0a  defines = [%0a    "TWO_PEOPLE",%0a  ]%0a}%0a=]%0aこれでgnしてみると、hello.ninjaに''defines = -DTWO_PEOPLE''が追加される。しかしhello.hをインクルードしてる他のユーザはこのことを知らないので教える必要がある。その仕組みがconfigと呼ばれる。configはconfigとして独立していて、どこかに依存しているわけではない。hello_configという名前のconfigを作成するには以下のように記述する。%0a [=%0aconfig("hello_config") {%0a  defines = [%0a    "TWO_PEOPLE",%0a  ]%0a}%0a=]%0aこれをターゲットに含めるには以下のように記述する。%0a [=%0astatic_library("hello") {%0a  ...%0a  configs += [%0a    ":hello_config",%0a  ]%0a}%0a=]%0aこれをやるとdefinesの時と同様に-DTWO_PEOPLEが追加される。%0a%0a!!Dependant configs%0aこれで設定をカプセル化したが、使う側はこのコンフィグを設定しないとならない。自動でこのコンフィグを使うには以下のように記述する。%0a [=%0astatic_library("hello") {%0a  sources = [%0a    "hello.cc",%0a  ]%0a  all_dependent_configs = [%0a    ":hello_config"%0a  ]%0a}%0a=]%0aこれでninjaすると、hello_world.ninjaにも-DTWO_PEOPLEが追加される。%0a%0a!!print()とdesc%0aprint()をBUILD.gnに書ける。%0a [=%0astatic_library("hello") {%0a  ...%0a  print(configs)%0a}%0a=]%0a%0agn descで出力できる。%0a [=%0agn desc out\debug //tools/gn/tutorial:hello_world%0agn desc  out\debug //tools/gn/tutorial:hello%0a=]%0a%0a面白いこともできる。誰がTWO_HELLOを設定したのかを知りたければ以下のようにする。%0a [=%0agn desc out\hello //tools/gn/tutorial:hello_world defines --blame%0a=]%0aこれはターゲットのフルパスを指定する必要があるようだ。hello_worldのdefineが誰によって指定されたのかを見ることができる。%0a%0a以下も面白い。%0a [=%0agn desc out\hello //tools/gn/tutorial:hello_world deps%0a=]%0ahello_worldが依存しているターゲットを表示。%0a%0a%0a%0a!!ターゲットの一覧%0a [=%0agn ls out\hello%0a=]%0a%0a!Hack%0a!!GN自体をビルド%0agn自体がchromiumツリーの一部。ビルドできる。%0a [=%0aninja -C out\hello gn%0a=]%0a%0a!!GNのユニットテストを実行%0a [=%0aninja -C out\hello gn_unittests%0aout\hello\gn_unittests.exe%0a=]%0a%0a%0a!実用コマンド%0a!!あるソースファイルがどのターゲットに含まれているかを探す%0a=winbatch [=%0agn refs out\Default //base/task_scheduler/scheduler_worker_pool_impl.cc%0a//base:base%0a%0a=]%0a%0a!!実行ファイルを生成するターゲットを探す%0a=winbatch [=%0agn ls out\Default --type=executable%0a//base:base_i18n_perftests%0a//base:base_perftests%0a//base:base_unittests%0a//base:build_utf8_validator_tables%0a//base:check_example%0a//breakpad:dump_syms%0a//cc:cc_perftests%0a//cc:cc_unittests%0a//cc/blink:cc_blink_unittests%0a//chrome:chrome_initial%0a//chrome/chrome_watcher:system_load_estimator_unittests%0a//chrome/install_static:install_static_unittests%0a//chrome/installer/gcapi:gcapi_test%0a//chrome/installer/mini_installer:mini_installer%0a...%0a%0a=]%0a%0a!!小さそうな実行形式ターゲットをVisual Studio 2015で開く%0aターゲット@@//mash/example/views_examples:views_examples@@で実験。%0aソリューションファイルを作成。%0a=winbatch [=%0agn gen --ide=vs --sln=mashviewsexample --filters=//mash/example/* out\Default%0aGenerating Visual Studio projects took 17298ms%0aDone. Made 6202 targets from 1344 files in 26003ms%0a%0a=]%0a%0aビルド%0a=winbatch [=%0aninja -C out\Default mash/example/views_examples:views_examples%0a=]%0a%0a作成されたソリューションをVisual Studio 2015で開く。%0a=winbatch [=%0adevenv out\Default\mashviewsexample.sln%0a=]%0adevenvプロセスはdepot_toolsにパスが通っていないとならない。これでも５００近いプロジェクトを含んでいるので、VSの拡張機能filterを使って読み込むプロジェクトを絞れば速くなる。%0a%0aAttach:mashviewonvs.png%0a%0a!GNのビルドフラグを理解する%0ahttps://www.chromium.org/developers/gn-build-configuration%0a%0a!!ビルドフラグを編集する%0a=winbatch [=%0agn args out\Default%0a=]%0aエディタが起動し現在の設定を確認できる。エディタを閉じると.ninjaを作成しなおす。%0a%0a!!設定可能なビルドフラグの一覧%0a=winbatch [=%0agn args out\Default --list%0a=]%0a%0a!!現在のビルドフラグの設定値（デフォルト含め）の確認%0a=winbatch [=%0agn args out\Default --list=is_component_build%0ais_component_build%0a    Current value (from the default) = true%0a      From //build/config/BUILDCONFIG.gn:169%0a%0a%0a=]%0a%0a!共通のビルドフラグ%0a=winbatch [=%0ais_debug = false%0a=]%0a%0aデフォルトはデバッグビルド、falseだとリリース。%0a%0a=winbatch [=%0ais_component_build%0a=]%0a%0a[[コンポーネントビルド]]%0asharedライブラリかどうかtrueならsharedライブラリ%0a%0a=winbatch [=%0asymbol_level%0a=]%0a%0aデバッグ時のシンボル作成の深さ。%0a%0a=winbatch [=%0aremove_webcore_debug_symbols%0a=]%0a%0aWebCoreは多くのテンプレートを使っており、デバッグシンボルが多くなる。WebCoreのデバッグを考えてないならスキップすべき。%0a警告：Windowsでは、pdbが見つからないため他のリビルドが動いて逆に遅くなる。%0a%0a=winbatch [=%0atarget_cpu%0a=]%0a%0aターゲットCPU%0a%0a%0a%0a%0a
+time=1560669704
+author:1560669704=
+diff:1560669704:1560669646:=245c245%0a%3c %0a---%0a> src>%0a252c252%0a%3c gn gen --ide=vs --sln=mashviewsexample --filters=//mash/example/* out\Default%0a---%0a> src>gn gen --ide=vs --sln=mashviewsexample --filters=//mash/example/* out\Default%0a255c255%0a%3c %0a---%0a> src>%0a260c260%0a%3c ninja -C out\Default mash/example/views_examples:views_examples%0a---%0a> src>ninja -C out\Default mash/example/views_examples:views_examples%0a265c265%0a%3c devenv out\Default\mashviewsexample.sln%0a---%0a> src>devenv out\Default\mashviewsexample.sln%0a276c276%0a%3c gn args out\Default%0a---%0a> src>gn args out\Default%0a282c282%0a%3c gn args out\Default --list%0a---%0a> src>gn args out\Default --list%0a287c287%0a%3c gn args out\Default --list=is_component_build%0a---%0a> src>gn args out\Default --list=is_component_build%0a292c292%0a%3c %0a---%0a> src>%0a
+host:1560669704=192.168.3.2
+author:1560669646=
+diff:1560669646:1560669242:=224c224%0a%3c %0a---%0a> src>%0a229c229%0a%3c gn ls out\Default --type=executable%0a---%0a> src>gn ls out\Default --type=executable%0a
+host:1560669646=192.168.3.2
+author:1560669242=
+diff:1560669242:1560669169:=91,92c91,92%0a%3c gn gen out\hello%0a%3c ninja -C out\hello hello_world%0a---%0a> src>gn gen out\hello%0a> src>ninja -C out\hello hello_world%0a188c188%0a%3c gn desc out\hello //tools/gn/tutorial:hello_world defines --blame%0a---%0a> src>gn desc out\hello //tools/gn/tutorial:hello_world defines --blame%0a194c194%0a%3c gn desc out\hello //tools/gn/tutorial:hello_world deps%0a---%0a> src>gn desc out\hello //tools/gn/tutorial:hello_world deps%0a202c202%0a%3c gn ls out\hello%0a---%0a> src>gn ls out\hello%0a209c209%0a%3c ninja -C out\hello gn%0a---%0a> src>ninja -C out\hello gn%0a214,215c214,215%0a%3c ninja -C out\hello gn_unittests%0a%3c out\hello\gn_unittests.exe%0a---%0a> src>ninja -C out\hello gn_unittests%0a> src>out\hello\gn_unittests.exe%0a222c222%0a%3c gn refs out\Default //base/task_scheduler/scheduler_worker_pool_impl.cc%0a---%0a> src>gn refs out\Default //base/task_scheduler/scheduler_worker_pool_impl.cc%0a
+host:1560669242=192.168.3.2
+author:1560669169=
+diff:1560669169:1560668715:=182,183c182%0a%3c gn desc out\debug //tools/gn/tutorial:hello_world%0a%3c gn desc  out\debug //tools/gn/tutorial:hello%0a---%0a> gn desc out\hello :hello_world%0a
+host:1560669169=192.168.3.2
+author:1560668715=
+diff:1560668715:1560668678:=182c182%0a%3c gn desc out\hello :hello_world%0a---%0a> gn desc out\hello hello_world%0a
+host:1560668715=192.168.3.2
+author:1560668678=
+diff:1560668678:1560668630:=117d116%0a%3c %0a179d177%0a%3c %0a184d181%0a%3c %0a190d186%0a%3c %0a
+host:1560668678=192.168.3.2
+author:1560668630=
+diff:1560668630:1530790188:=105d104%0a%3c %0a
+host:1560668630=192.168.3.2
+author:1530790188=
+diff:1530790188:1530790155:=
+host:1530790188=192.168.3.2
+author:1530790155=
+diff:1530790155:1530790077:=26,27c26%0a%3c @@gn gen out/my_build@@%0a%3c  %0a---%0a>  gn gen out/my_build%0a
+host:1530790155=192.168.3.2
+author:1530790077=
+diff:1530790077:1529915773:=26,27c26,28%0a%3c  gn gen out/my_build%0a%3c %0a---%0a>  [=%0a> gn gen out/my_build%0a> =]%0a
+host:1530790077=192.168.3.2
+author:1529915773=
+diff:1529915773:1503448797:=146c146%0a%3c static_library("hello") {%0a---%0a> config("hello_config") {%0a
+host:1529915773=192.168.3.2
+author:1503448797=
+diff:1503448797:1503448759:=296d295%0a%3c =winbatch [=%0a298,299d296%0a%3c =]%0a%3c %0a303d299%0a%3c =winbatch [=%0a305,306d300%0a%3c =]%0a%3c %0a309d302%0a%3c =winbatch [=%0a311,312d303%0a%3c =]%0a%3c %0a316d306%0a%3c =winbatch [=%0a318,319d307%0a%3c =]%0a%3c %0a
+host:1503448797=192.168.0.2
+author:1503448759=
+diff:1503448759:1503448666:=290d289%0a%3c =winbatch [=%0a292,293d290%0a%3c =]%0a%3c %0a
+host:1503448759=192.168.0.2
+author:1503448666=
+diff:1503448666:1503448221:=288,307d287%0a%3c %0a%3c !共通のビルドフラグ%0a%3c is_debug = false%0a%3c デフォルトはデバッグビルド、falseだとリリース。%0a%3c %0a%3c is_component_build%0a%3c [[コンポーネントビルド]]%0a%3c sharedライブラリかどうかtrueならsharedライブラリ%0a%3c %0a%3c symbol_level%0a%3c デバッグ時のシンボル作成の深さ。%0a%3c %0a%3c remove_webcore_debug_symbols%0a%3c WebCoreは多くのテンプレートを使っており、デバッグシンボルが多くなる。WebCoreのデバッグを考えてないならスキップすべき。%0a%3c 警告：Windowsでは、pdbが見つからないため他のリビルドが動いて逆に遅くなる。%0a%3c %0a%3c target_cpu%0a%3c ターゲットCPU%0a%3c %0a%3c %0a
+host:1503448666=192.168.0.2
+author:1503448221=
+diff:1503448221:1503448027:=265c265%0a%3c !GNのビルドフラグを理解する%0a---%0a> !GNのビルドフラグを理解する。%0a272,288d271%0a%3c エディタが起動し現在の設定を確認できる。エディタを閉じると.ninjaを作成しなおす。%0a%3c %0a%3c !!設定可能なビルドフラグの一覧%0a%3c =winbatch [=%0a%3c src>gn args out\Default --list%0a%3c =]%0a%3c %0a%3c !!現在のビルドフラグの設定値（デフォルト含め）の確認%0a%3c =winbatch [=%0a%3c src>gn args out\Default --list=is_component_build%0a%3c is_component_build%0a%3c     Current value (from the default) = true%0a%3c       From //build/config/BUILDCONFIG.gn:169%0a%3c %0a%3c src>%0a%3c =]%0a%3c %0a
+host:1503448221=192.168.0.2
+author:1503448027=
+diff:1503448027:1503389947:=265,272c265%0a%3c !GNのビルドフラグを理解する。%0a%3c https://www.chromium.org/developers/gn-build-configuration%0a%3c %0a%3c !!ビルドフラグを編集する%0a%3c =winbatch [=%0a%3c src>gn args out\Default%0a%3c =]%0a%3c %0a---%0a> TODO%0a
+host:1503448027=192.168.0.2
+author:1503389947=
+diff:1503389947:1503389893:=264,265d263%0a%3c %0a%3c TODO%0a
+host:1503389947=192.168.0.2
+author:1503389893=
+diff:1503389893:1503389837:=263c263%0a%3c Attach:mashviewonvs.png%0a---%0a> [[attach|mashviewonvs.png]]%0a
+host:1503389893=192.168.0.2
+author:1503389837=
+diff:1503389837:1503389556:=261,263c261%0a%3c devenvプロセスはdepot_toolsにパスが通っていないとならない。これでも５００近いプロジェクトを含んでいるので、VSの拡張機能filterを使って読み込むプロジェクトを絞れば速くなる。%0a%3c %0a%3c [[attach|mashviewonvs.png]]%0a---%0a> devenvプロセスはdepot_toolsにパスが通っていないとならない。%0a
+host:1503389837=192.168.0.2
+author:1503389556=
+diff:1503389556:1503389501:=251d250%0a%3c %0a256d254%0a%3c %0a
+host:1503389556=192.168.0.2
+author:1503389501=
+diff:1503389501:1503388803:=244d243%0a%3c ソリューションファイルを作成。%0a254,259c253%0a%3c =]%0a%3c 作成されたソリューションをVisual Studio 2015で開く。%0a%3c =winbatch [=%0a%3c src>devenv out\Default\mashviewsexample.sln%0a%3c =]%0a%3c devenvプロセスはdepot_toolsにパスが通っていないとならない。%0a---%0a> =]%0a\ No newline at end of file%0a
+host:1503389501=192.168.0.2
+author:1503388803=
+diff:1503388803:1503388767:=
+host:1503388803=192.168.0.2
+author:1503388767=
+diff:1503388767:1503387289:=240,252d239%0a%3c =]%0a%3c %0a%3c !!小さそうな実行形式ターゲットをVisual Studio 2015で開く%0a%3c ターゲット@@//mash/example/views_examples:views_examples@@で実験。%0a%3c =winbatch [=%0a%3c src>gn gen --ide=vs --sln=mashviewsexample --filters=//mash/example/* out\Default%0a%3c Generating Visual Studio projects took 17298ms%0a%3c Done. Made 6202 targets from 1344 files in 26003ms%0a%3c src>%0a%3c =]%0a%3c ビルド%0a%3c =winbatch [=%0a%3c src>ninja -C out\Default mash/example/views_examples:views_examples%0a
+host:1503388767=192.168.0.2
+author:1503387289=
+diff:1503387289:1503387159:=221,240d220%0a%3c !!実行ファイルを生成するターゲットを探す%0a%3c =winbatch [=%0a%3c src>gn ls out\Default --type=executable%0a%3c //base:base_i18n_perftests%0a%3c //base:base_perftests%0a%3c //base:base_unittests%0a%3c //base:build_utf8_validator_tables%0a%3c //base:check_example%0a%3c //breakpad:dump_syms%0a%3c //cc:cc_perftests%0a%3c //cc:cc_unittests%0a%3c //cc/blink:cc_blink_unittests%0a%3c //chrome:chrome_initial%0a%3c //chrome/chrome_watcher:system_load_estimator_unittests%0a%3c //chrome/install_static:install_static_unittests%0a%3c //chrome/installer/gcapi:gcapi_test%0a%3c //chrome/installer/mini_installer:mini_installer%0a%3c ...%0a%3c src>%0a%3c =]%0a\ No newline at end of file%0a
+host:1503387289=192.168.0.2
+author:1503387159=
+diff:1503387159:1503386796:=
+host:1503387159=192.168.0.2
+author:1503386796=
+diff:1503386796:1503380006:=213,219d212%0a%3c !実用コマンド%0a%3c !!あるソースファイルがどのターゲットに含まれているかを探す%0a%3c =winbatch [=%0a%3c src>gn refs out\Default //base/task_scheduler/scheduler_worker_pool_impl.cc%0a%3c //base:base%0a%3c src>%0a%3c =]%0a
+host:1503386796=192.168.0.2
+author:1503380006=
+diff:1503380006:1503377458:=
+host:1503380006=192.168.0.2
+author:1503377458=
+diff:1503377458:1503301912:=124,125c124%0a%3c !!helloライブラリに機能を追加%0a%3c 同時に二人に挨拶できる機能を追加する。''TWO_PEOPLE''フラグでこの機能をコントロールする。BUILD.gnのhelloを以下のように修正。%0a---%0a> !!helloライブラリに機能を追加、同時に二人に挨拶できる機能を追加する。''TWO_PEOPLE''フラグでこの機能をコントロールする。BUILD.gnのhelloを以下のように修正。%0a
+host:1503377458=192.168.0.2
+author:1503301912=
+diff:1503301912:1503300627:=206,209c206%0a%3c  [=%0a%3c src>ninja -C out\hello gn_unittests%0a%3c src>out\hello\gn_unittests.exe%0a%3c =]%0a---%0a> %0a
+host:1503301912=192.168.0.2
+author:1503300627=
+diff:1503300627:1503300108:=198,205c198,203%0a%3c !Hack%0a%3c !!GN自体をビルド%0a%3c gn自体がchromiumツリーの一部。ビルドできる。%0a%3c  [=%0a%3c src>ninja -C out\hello gn%0a%3c =]%0a%3c %0a%3c !!GNのユニットテストを実行%0a---%0a> %0a> %0a> %0a> %0a> %0a> %0a
+host:1503300627=192.168.0.2
+author:1503300108=
+diff:1503300108:1503298710:=166,207c166%0a%3c これでninjaすると、hello_world.ninjaにも-DTWO_PEOPLEが追加される。%0a%3c %0a%3c !!print()とdesc%0a%3c print()をBUILD.gnに書ける。%0a%3c  [=%0a%3c static_library("hello") {%0a%3c   ...%0a%3c   print(configs)%0a%3c }%0a%3c =]%0a%3c gn descで出力できる。%0a%3c  [=%0a%3c gn desc out\hello hello_world%0a%3c =]%0a%3c 面白いこともできる。誰がTWO_HELLOを設定したのかを知りたければ以下のようにする。%0a%3c  [=%0a%3c src>gn desc out\hello //tools/gn/tutorial:hello_world defines --blame%0a%3c =]%0a%3c これはターゲットのフルパスを指定する必要があるようだ。hello_worldのdefineが誰によって指定されたのかを見ることができる。%0a%3c 以下も面白い。%0a%3c  [=%0a%3c src>gn desc out\hello //tools/gn/tutorial:hello_world deps%0a%3c =]%0a%3c hello_worldが依存しているターゲットを表示。%0a%3c %0a%3c %0a%3c %0a%3c !!ターゲットの一覧%0a%3c  [=%0a%3c src>gn ls out\hello%0a%3c =]%0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a---%0a> これでninjaすると、hello_world.ninjaにも-DTWO_PEOPLEが追加される。%0a\ No newline at end of file%0a
+host:1503300108=192.168.0.2
+author:1503298710=
+diff:1503298710:1503298400:=166c166%0a%3c これでninjaすると、hello_world.ninjaにも-DTWO_PEOPLEが追加される。%0a\ No newline at end of file%0a---%0a> %0a
+host:1503298710=192.168.0.2
+author:1503298400=
+diff:1503298400:1503294706:=116c116%0a%3c hello_worldはhelloに依存するようになった。ここでは実際には依存していないがスルー。%0a---%0a> hello_worldはhelloに依存するようになった。%0a124c124%0a%3c !!helloライブラリに機能を追加、同時に二人に挨拶できる機能を追加する。''TWO_PEOPLE''フラグでこの機能をコントロールする。BUILD.gnのhelloを以下のように修正。%0a---%0a> !!helloライブラリに機能を追加、同時に二人に挨拶できる機能を追加する。''TWO_PEOPLE’’フラグでこの機能をコントロールする。BUILD.gnのhelloを以下のように修正。%0a132,162d131%0a%3c   ]%0a%3c }%0a%3c =]%0a%3c これでgnしてみると、hello.ninjaに''defines = -DTWO_PEOPLE''が追加される。しかしhello.hをインクルードしてる他のユーザはこのことを知らないので教える必要がある。その仕組みがconfigと呼ばれる。configはconfigとして独立していて、どこかに依存しているわけではない。hello_configという名前のconfigを作成するには以下のように記述する。%0a%3c  [=%0a%3c config("hello_config") {%0a%3c   defines = [%0a%3c     "TWO_PEOPLE",%0a%3c   ]%0a%3c }%0a%3c =]%0a%3c これをターゲットに含めるには以下のように記述する。%0a%3c  [=%0a%3c config("hello_config") {%0a%3c   ...%0a%3c   configs += [%0a%3c     ":hello_config",%0a%3c   ]%0a%3c }%0a%3c =]%0a%3c これをやるとdefinesの時と同様に-DTWO_PEOPLEが追加される。%0a%3c %0a%3c !!Dependant configs%0a%3c これで設定をカプセル化したが、使う側はこのコンフィグを設定しないとならない。自動でこのコンフィグを使うには以下のように記述する。%0a%3c  [=%0a%3c static_library("hello") {%0a%3c   sources = [%0a%3c     "hello.cc",%0a%3c   ]%0a%3c   all_dependent_configs = [%0a%3c     ":hello_config"%0a
+host:1503298400=192.168.0.2
+author:1503294706=
+diff:1503294706:1503294495:=122,134c122%0a%3c 必要ならninjaは自動でgnを実行してくれる。%0a%3c %0a%3c !!helloライブラリに機能を追加、同時に二人に挨拶できる機能を追加する。''TWO_PEOPLE’’フラグでこの機能をコントロールする。BUILD.gnのhelloを以下のように修正。%0a%3c  [=%0a%3c static_library("hello") {%0a%3c   sources = [%0a%3c     "hello.cc",%0a%3c   ]%0a%3c   defines = [%0a%3c     "TWO_PEOPLE",%0a%3c   ]%0a%3c }%0a%3c =]%0a---%0a> %0a
+host:1503294706=192.168.0.2
+author:1503294495=
+diff:1503294495:1503293955:=94,123c94%0a%3c ''src\out\hello\obj\tools\gn\tutorial''に.ninjaファイルが作成され、''src\out\hello\hello_world.exe''も作成された。%0a%3c %0a%3c !!依存性を宣言する%0a%3c 練習の続き。静的ライブラリhelloを作成する。''tools/gn/tutorial/BUILD.gn''に以下を追加。%0a%3c  [=%0a%3c static_library("hello") {%0a%3c   sources = [%0a%3c     "hello.cc",%0a%3c   ]%0a%3c }%0a%3c =]%0a%3c executableの方を以下のように修正。%0a%3c  [=%0a%3c executable("hello_world") {%0a%3c   sources = [%0a%3c     "hello_world.cc",%0a%3c   ]%0a%3c    deps = [%0a%3c     ":hello",%0a%3c   ]%0a%3c }%0a%3c =]%0a%3c hello_worldはhelloに依存するようになった。%0a%3c ビルド%0a%3c  [=%0a%3c ninja -C out\hello hello_world%0a%3c =]%0a%3c %0a%3c %0a%3c %0a---%0a> ''src\out\hello\obj\tools\gn\tutorial''に.ninjaファイルが作成され、''src\out\hello\hello_world.exe''も作成された。%0a\ No newline at end of file%0a
+host:1503294495=192.168.0.2
+author:1503293955=
+diff:1503293955:1503293395:=79c79%0a%3c ''hello_world.cc''も作成しなきゃならないが、すでにあるはずなので省略。このBUILD.gnは実行ファイルのターゲット''hello_world''を定義している。これをchromiumのプロジェクトに含めるためにルート（toolsの一つ上のsrcディレクトリ）の''BUILD.gn''に以下を追加。%0a---%0a> ''hello_world.cc''も作成しなきゃならないが、すでにある。これは実行ファイルのターゲット''hello_world''を定義している。これをchromiumのプロジェクトに含めるためにルートの''BUILD.gn''に以下を追加。%0a88,94c88%0a%3c ''root''グループに属しているターゲットは//urlプロジェクトとhello_worldターゲットに依存する。//はソースのルートを表す。これでビルドしてみる。%0a%3c %0a%3c  [=%0a%3c src>gn gen out\hello%0a%3c src>ninja -C out\hello hello_world%0a%3c =]%0a%3c ''src\out\hello\obj\tools\gn\tutorial''に.ninjaファイルが作成され、''src\out\hello\hello_world.exe''も作成された。%0a\ No newline at end of file%0a---%0a> ''root''グループに属しているターゲットは//urlプロジェクトとhello_worldターゲットに依存する。%0a
+host:1503293955=192.168.0.2
+author:1503293395=
+diff:1503293395:1503293193:=79,88c79,80%0a%3c ''hello_world.cc''も作成しなきゃならないが、すでにある。これは実行ファイルのターゲット''hello_world''を定義している。これをchromiumのプロジェクトに含めるためにルートの''BUILD.gn''に以下を追加。%0a%3c  [=%0a%3c group("root") {%0a%3c   deps = [%0a%3c     "//url",%0a%3c     "//tools/gn/tutorial:hello_world",%0a%3c   ]%0a%3c }%0a%3c =]%0a%3c ''root''グループに属しているターゲットは//urlプロジェクトとhello_worldターゲットに依存する。%0a---%0a> ''hello_world.cc''も作成しなきゃならないが、すでにある。これは実行ファイルのターゲット''hello_world''を定義している。%0a> %0a
+host:1503293395=192.168.0.2
+author:1503293193=
+diff:1503293193:1503293082:=79,80d78%0a%3c ''hello_world.cc''も作成しなきゃならないが、すでにある。これは実行ファイルのターゲット''hello_world''を定義している。%0a%3c %0a
+host:1503293193=192.168.0.2
+author:1503293082=
+diff:1503293082:1503293056:=59,62c59,60%0a%3c  [=%0a%3c gn desc out/my_build%0a%3c =]%0a%3c %0a---%0a>  [= gn desc out/my_build =]%0a> %0a65,67c63%0a%3c  [=%0a%3c gn --tracelog=mylog.trace%0a%3c =]%0a---%0a>  [= gn --tracelog=mylog.trace =]%0a
+host:1503293082=192.168.0.2
+author:1503293056=
+diff:1503293056:1503293016:=31,33c31%0a%3c  [=%0a%3c gn args out/by_build%0a%3c =]%0a---%0a>  [=gn args out/by_build =]%0a34a33,36%0a>  [=is_component_build = true%0a>  is_debug = false=] %0a> %0a> 利用可能な引数と、デフォルト値を見るには以下%0a36,37c38%0a%3c is_component_build = true%0a%3c is_debug = false%0a---%0a> gn args --list out/my_build%0a40,44d40%0a%3c 利用可能な引数と、デフォルト値を見るには以下%0a%3c  [=%0a%3c gn args --list out/my_build%0a%3c =]%0a%3c %0a46,53c42,47%0a%3c  [=%0a%3c target_os = "chromeos"%0a%3c target_os = "android"%0a%3c %0a%3c target_cpu = "arm"%0a%3c target_cpu = "x86"%0a%3c target_cpu = "x64"%0a%3c =]%0a---%0a>  [=target_os = "chromeos"%0a>  target_os = "android"%0a>  %0a>  target_cpu = "arm"%0a>  target_cpu = "x86"%0a>  target_cpu = "x64"=]%0a
+host:1503293056=192.168.0.2
+author:1503293016=
+diff:1503293016:1503292989:=26,29c26,27%0a%3c  [=%0a%3c gn gen out/my_build%0a%3c =]%0a%3c %0a---%0a>  [=gn gen out/my_build =]%0a> %0a37,39c35%0a%3c  [=%0a%3c gn args --list out/my_build%0a%3c =]%0a---%0a>  [=gn args --list out/my_build =]%0a
+host:1503293016=192.168.0.2
+author:1503292989=
+diff:1503292989:1503292968:=58c58%0a%3c  [=%0a---%0a> [= %0a63,64c63%0a%3c }%0a%3c =]%0a---%0a> }=]%0a
+host:1503292989=192.168.0.2
+author:1503292968=
+diff:1503292968:1503292958:=58c58%0a%3c [= %0a---%0a> [=%0a
+host:1503292968=192.168.0.2
+author:1503292958=
+diff:1503292958:1503292931:=58,59c58%0a%3c [=%0a%3c executable("hello_world") {%0a---%0a>  [=executable("hello_world") {%0a
+host:1503292958=192.168.0.2
+author:1503292931=
+diff:1503292931:1503292920:=58c58%0a%3c  [=executable("hello_world") {%0a---%0a> [=executable("hello_world") {%0a
+host:1503292931=192.168.0.2
+author:1503292920=
+diff:1503292920:1503292907:=58c58%0a%3c [=executable("hello_world") {%0a---%0a>  [=executable("hello_world") {%0a
+host:1503292920=192.168.0.2
+author:1503292907=
+diff:1503292907:1503292892:=58c58,59%0a%3c  [=executable("hello_world") {%0a---%0a>  [=%0a> executable("hello_world") {%0a62c63,64%0a%3c }=]%0a---%0a> }%0a> =]%0a
+host:1503292907=192.168.0.2
+author:1503292892=
+diff:1503292892:1503292874:=58,59c58%0a%3c  [=%0a%3c executable("hello_world") {%0a---%0a>  =[executable("hello_world") {%0a
+host:1503292892=192.168.0.2
+author:1503292874=
+diff:1503292874:1503292845:=58c58,59%0a%3c  =[executable("hello_world") {%0a---%0a>  =[%0a> executable("hello_world") {%0a
+host:1503292874=192.168.0.2
+author:1503292845=
+diff:1503292845:1502853325:=54,64d53%0a%3c %0a%3c !練習%0a%3c 実際にターゲットを追加して、Chromiumのソースに変更を加えてみる。%0a%3c ''tools/gn/tutorial/BUILD.gn''を作成して以下を入力。%0a%3c  =[%0a%3c executable("hello_world") {%0a%3c   sources = [%0a%3c     "hello_world.cc",%0a%3c   ]%0a%3c }%0a%3c =]%0a
+host:1503292845=192.168.0.2
+author:1502853325=
+diff:1502853325:1502853299:=49,50c49,50%0a%3c  [= gn desc out/my_build =]%0a%3c %0a---%0a> [= gn desc out/my_build =]%0a> %0a53c53%0a%3c  [= gn --tracelog=mylog.trace =]%0a---%0a> [= gn --tracelog=mylog.trace =]%0a
+host:1502853325=192.168.0.2
+author:1502853299=
+diff:1502853299:1502852458:=5,8c5,6%0a%3c [[GYP]]と同水準にあるメタビルドツール、GYPよりもシンプル。今ではGYPに代わりGNを使いつつあるようだ。%0a%3c %0a%3c BUILD.gnを読み込んでビルドする。%0a%3c %0a---%0a> [[GYP]]と同水準にあるメタビルドツール、GYPよりもシンプル。今ではGYPに代わりGNを使うようだ。%0a> %0a45,53d42%0a%3c （途中）%0a%3c %0a%3c !descコマンド%0a%3c 状態の表示%0a%3c [= gn desc out/my_build =]%0a%3c %0a%3c !パフォーマンス%0a%3c 以下のコマンドでトレースログを作成。これはChromiumのabout:tracingで読み込める。%0a%3c [= gn --tracelog=mylog.trace =]%0a
+host:1502853299=192.168.0.2
+author:1502852458=
+diff:1502852458:1502852444:=36c36%0a%3c  [=target_os = "chromeos"%0a---%0a>  [= target_os = "chromeos"%0a
+host:1502852458=192.168.0.2
+author:1502852444=
+diff:1502852444:1502852425:=36c36,37%0a%3c  [= target_os = "chromeos"%0a---%0a>  [= %0a>  target_os = "chromeos"%0a
+host:1502852444=192.168.0.2
+author:1502852425=
+diff:1502852425:1502852399:=36,42c36,42%0a%3c  [= %0a%3c  target_os = "chromeos"%0a%3c  target_os = "android"%0a%3c  %0a%3c  target_cpu = "arm"%0a%3c  target_cpu = "x86"%0a%3c  target_cpu = "x64"=]%0a---%0a> [= %0a> target_os = "chromeos"%0a> target_os = "android"%0a> %0a> target_cpu = "arm"%0a> target_cpu = "x86"%0a> target_cpu = "x64"=]%0a
+host:1502852425=192.168.0.2
+author:1502852399=
+diff:1502852399:1502852390:=36c36%0a%3c [= %0a---%0a> [=%0a
+host:1502852399=192.168.0.2
+author:1502852390=
+diff:1502852390:1502852378:=36,37c36%0a%3c [=%0a%3c target_os = "chromeos"%0a---%0a> [=target_os = "chromeos"%0a
+host:1502852390=192.168.0.2
+author:1502852378=
+diff:1502852378:1502852365:=36c36%0a%3c [=target_os = "chromeos"%0a---%0a>  [=target_os = "chromeos"%0a
+host:1502852378=192.168.0.2
+author:1502852365=
+diff:1502852365:1502852257:=31,42d30%0a%3c %0a%3c 利用可能な引数と、デフォルト値を見るには以下%0a%3c  [=gn args --list out/my_build =]%0a%3c %0a%3c クロスコンパイルの引数は例は以下%0a%3c  [=target_os = "chromeos"%0a%3c target_os = "android"%0a%3c %0a%3c target_cpu = "arm"%0a%3c target_cpu = "x86"%0a%3c target_cpu = "x64"=]%0a%3c %0a
+host:1502852365=192.168.0.2
+author:1502852257=
+diff:1502852257:1502852234:=30c30%0a%3c  is_debug = false=] %0a---%0a> is_debug = false=] %0a
+host:1502852257=192.168.0.2
+author:1502852234=
+diff:1502852234:1502852133:=24,30c24%0a%3c  [=gn gen out/my_build =]%0a%3c %0a%3c ビルド引数の設定%0a%3c  [=gn args out/by_build =]%0a%3c これはエディタを起動する。以下のように記述する%0a%3c  [=is_component_build = true%0a%3c is_debug = false=] %0a---%0a>  [= gn gen out/my_build =]%0a
+host:1502852234=192.168.0.2
+author:1502852133=
+diff:1502852133:1502852121:=24c24,25%0a%3c  [= gn gen out/my_build =]%0a---%0a> %0a> [= gn gen out/my_build =]%0a
+host:1502852133=192.168.0.2
+author:1502852121=
+diff:1502852121:1502852110:=24d23%0a%3c %0a
+host:1502852121=192.168.0.2
+author:1502852110=
+diff:1502852110:1502852092:=24c24%0a%3c [= gn gen out/my_build =]%0a---%0a>  [= gn gen out/my_build =]%0a
+host:1502852110=192.168.0.2
+author:1502852092=
+diff:1502852092:1502852092:=1,24d0%0a%3c https://chromium.googlesource.com/chromium/src/tools/gn/+/48062805e19b4697c5fbd926dc649c78b6aaa138/README.md%0a%3c %0a%3c https://chromium.googlesource.com/chromium/src/+/lkgr/tools/gn/docs/quick_start.md#Dont-know-whats-going-on%0a%3c %0a%3c [[GYP]]と同水準にあるメタビルドツール、GYPよりもシンプル。今ではGYPに代わりGNを使うようだ。%0a%3c %0a%3c !なんでGNを使うか%0a%3c #GYPよりも読みやすい%0a%3c #早い%0a%3c *GYPより20倍速い。%0a%3c *Ninjaからの要求により起動できる。GNを起動しなければなならない状態であったことを覚えておく必要がない。%0a%3c #依存性の強制ができる。%0a%3c #ビルドグラフ（依存関係の図）を検索できる。%0a%3c %0a%3c !現状は？%0a%3c 2015/8現在%0a%3c （途中）%0a%3c %0a%3c !ビルドの実行%0a%3c GYPではDebugとReleaseの両方がつくられるが、GNはしない。自分で設定する、ビルドディレクトリも設定する。%0a%3c %0a%3c !ビルドのセットアップ%0a%3c ビルドディレクトリの設定%0a%3c  [= gn gen out/my_build =]%0a
+host:1502852092=192.168.0.2

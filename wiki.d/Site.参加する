@@ -1,0 +1,75 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1530972315
+host=192.168.3.2
+name=Site.参加する
+rev=21
+targets=開発者向け.議論グループ,Site.テスター情報,参加する.Chromeリリースチャネル,参加する.Chromiumダウンロード,参加する.バグのトリアージ,Site.開発者向け,Site.コードに貢献
+text=http://dev.chromium.org/getting-involved%0a%0a*開発者の[[開発者向け/議論グループ]]参加する%0a*[[https://productforums.google.com/forum/#!forum/chrome|ヘルプセンター]]を訪問し、ユーザの質問に答える。%0a*[[テスター情報|テスト]]を援助する%0a**圧縮されたテストケースを提供し、WEBの互換性を促進する%0a**[[参加する/Chromeリリースチャネル|ベータチャネルまたは開発チャネル]]、またはChromiumの[[参加する/Chromiumダウンロード|最新トランクビルド]]に接続する%0a**[[http://code.google.com/p/chromium/issues/entry|バグを報告する]]%0a**[[参加する/バグのトリアージ|バグをトリアージ]]し、既存のバグ報告を有効活用する%0a**[[http://code.google.com/p/chromium/issues/entry?template=Translation%2520Issue|翻訳の問題]]を報告する%0a*Chromiumを開発する%0a**[[開発者向け|開発者のためのページ]]を見る%0a**[[https://docs.google.com/presentation/d/1abnqM9j6zFodPHA38JG1061rG2iGj_GABxEDgZsdbJg/present?slide=id.i5|Chromium開発者の生活]]を読み、ページに[[コードに貢献|貢献する]]%0a**[[http://code.google.com/p/chromium/issues/list?q=Hotlist:GoodFirstBug&can=2|GoodFirstBug]]としてマークされたバグに取り組む%0a**[[コードに貢献|パッチ]]を提出する（十分に提出すればコミッタになれる！）%0a**任意の選択としてChromiumアカウントを申し込む。accounts@chromium.orgへメール。（注意：すでにコミッタとして承認されていなければならない）（Googlerなら[[https://docs.google.com/forms/d/e/1FAIpQLScqkE_NzwurO23lywySqd9rZxBft9nrjgv19n4kHfo9cyyLMg/formrestricted|ここ]]をクリック）%0a
+time=1560335270
+author:1560335270=
+diff:1560335270:1560335249:=16c16%0a%3c **任意の選択としてChromiumアカウントを申し込む。accounts@chromium.orgへメール。（注意：すでにコミッタとして承認されていなければならない）（Googlerなら[[https://docs.google.com/forms/d/e/1FAIpQLScqkE_NzwurO23lywySqd9rZxBft9nrjgv19n4kHfo9cyyLMg/formrestricted|ここ]]をクリック）%0a---%0a> **任意の選択としてChromiumアカウントを申し込む。accounts@chromium.orgへメール。（注意：すでにコミッタとして承認されていなければならない）（Googlerならここをクリック）%0a
+host:1560335270=192.168.3.2
+author:1560335249=
+diff:1560335249:1560335105:=16c16%0a%3c **任意の選択としてChromiumアカウントを申し込む。accounts@chromium.orgへメール。（注意：すでにコミッタとして承認されていなければならない）（Googlerならここをクリック）%0a---%0a> Optionally%0a\ No newline at end of file%0a
+host:1560335249=192.168.3.2
+author:1560335105=
+diff:1560335105:1560335022:=15c15%0a%3c **[[コードに貢献|パッチ]]を提出する（十分に提出すればコミッタになれる！）%0a---%0a> Submit patches (submit enough and you can become a committer!)%0a
+host:1560335105=192.168.3.2
+author:1560335022=
+diff:1560335022:1560334788:=14c14%0a%3c **[[http://code.google.com/p/chromium/issues/list?q=Hotlist:GoodFirstBug&can=2|GoodFirstBug]]としてマークされたバグに取り組む%0a---%0a> Adopt a bug that's marked GoodFirstBug%0a
+host:1560335022=192.168.3.2
+author:1560334788=
+diff:1560334788:1560334593:=13c13%0a%3c **[[https://docs.google.com/presentation/d/1abnqM9j6zFodPHA38JG1061rG2iGj_GABxEDgZsdbJg/present?slide=id.i5|Chromium開発者の生活]]を読み、ページに[[コードに貢献|貢献する]]%0a---%0a> Read the Life of a Chromium Developer introduction and the Contributing page%0a
+host:1560334788=192.168.3.2
+author:1560334593=
+diff:1560334593:1560334567:=12c12%0a%3c **[[開発者向け|開発者のためのページ]]を見る%0a---%0a> **[[開発者のためのページ|開発者向け]]を見る%0a
+host:1560334593=192.168.3.2
+author:1560334567=
+diff:1560334567:1560334537:=12c12%0a%3c **[[開発者のためのページ|開発者向け]]を見る%0a---%0a> **開発者のためのページを見る%0a
+host:1560334567=192.168.3.2
+author:1560334537=
+diff:1560334537:1560334437:=11,12c11,12%0a%3c *Chromiumを開発する%0a%3c **開発者のためのページを見る%0a---%0a> Develop Chromium%0a> See the pages for Developers%0a
+host:1560334537=192.168.3.2
+author:1560334437=
+diff:1560334437:1560334414:=10c10%0a%3c **[[http://code.google.com/p/chromium/issues/entry?template=Translation%2520Issue|翻訳の問題]]を報告する%0a---%0a> **[[翻訳の問題|http://code.google.com/p/chromium/issues/entry?template=Translation%2520Issue]]を報告する%0a
+host:1560334437=192.168.3.2
+author:1560334414=
+diff:1560334414:1560334252:=10c10%0a%3c **[[翻訳の問題|http://code.google.com/p/chromium/issues/entry?template=Translation%2520Issue]]を報告する%0a---%0a> Report translation issues%0a
+host:1560334414=192.168.3.2
+author:1560334252=
+diff:1560334252:1560334112:=9c9%0a%3c **[[参加する/バグのトリアージ|バグをトリアージ]]し、既存のバグ報告を有効活用する%0a---%0a> Triage bugs to make existing bug reports more useful%0a
+host:1560334252=192.168.3.2
+author:1560334112=
+diff:1560334112:1560334088:=8c8%0a%3c **[[http://code.google.com/p/chromium/issues/entry|バグを報告する]]%0a---%0a> **[[バグを報告する|http://code.google.com/p/chromium/issues/entry]]%0a
+host:1560334112=192.168.3.2
+author:1560334088=
+diff:1560334088:1560334034:=8c8%0a%3c **[[バグを報告する|http://code.google.com/p/chromium/issues/entry]]%0a---%0a> File bugs%0a
+host:1560334088=192.168.3.2
+author:1560334034=
+diff:1560334034:1560333755:=7c7%0a%3c **[[参加する/Chromeリリースチャネル|ベータチャネルまたは開発チャネル]]、またはChromiumの[[参加する/Chromiumダウンロード|最新トランクビルド]]に接続する%0a---%0a> Get on the Beta or Dev channel or grab the latest trunk build of Chromium%0a
+host:1560334034=192.168.3.2
+author:1560333755=
+diff:1560333755:1560333662:=6c6%0a%3c **圧縮されたテストケースを提供し、WEBの互換性を促進する%0a---%0a> Provide reduced test cases to help improve web compatibility%0a
+host:1560333755=192.168.3.2
+author:1560333662=
+diff:1560333662:1560333581:=5c5%0a%3c *[[テスター情報|テスト]]を援助する%0a---%0a> Help with Testing%0a
+host:1560333662=192.168.3.2
+author:1560333581=
+diff:1560333581:1560333493:=4c4%0a%3c *[[https://productforums.google.com/forum/#!forum/chrome|ヘルプセンター]]を訪問し、ユーザの質問に答える。%0a---%0a> *Visit the Help Center and answer users' questions%0a
+host:1560333581=192.168.3.2
+author:1560333493=
+diff:1560333493:1560333481:=3c3%0a%3c *開発者の[[開発者向け/議論グループ]]参加する%0a---%0a> *開発者の[[議論グループ]]参加する%0a
+host:1560333493=192.168.3.2
+author:1560333481=
+diff:1560333481:1560333470:=3c3%0a%3c *開発者の[[議論グループ]]参加する%0a---%0a> *開発者の[議論グループ]参加する%0a
+host:1560333481=192.168.3.2
+author:1560333470=
+diff:1560333470:1530972315:=1,16c1%0a%3c http://dev.chromium.org/getting-involved%0a%3c %0a%3c *開発者の[議論グループ]参加する%0a%3c *Visit the Help Center and answer users' questions%0a%3c Help with Testing%0a%3c Provide reduced test cases to help improve web compatibility%0a%3c Get on the Beta or Dev channel or grab the latest trunk build of Chromium%0a%3c File bugs%0a%3c Triage bugs to make existing bug reports more useful%0a%3c Report translation issues%0a%3c Develop Chromium%0a%3c See the pages for Developers%0a%3c Read the Life of a Chromium Developer introduction and the Contributing page%0a%3c Adopt a bug that's marked GoodFirstBug%0a%3c Submit patches (submit enough and you can become a committer!)%0a%3c Optionally%0a\ No newline at end of file%0a---%0a> http://dev.chromium.org/getting-involved%0a\ No newline at end of file%0a
+host:1560333470=192.168.3.2
+author:1530972315=
+diff:1530972315:1530972315:=1d0%0a%3c http://dev.chromium.org/getting-involved%0a\ No newline at end of file%0a
+host:1530972315=192.168.3.2

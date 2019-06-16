@@ -1,0 +1,21 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530609804
+host=192.168.3.2
+name=デザイン.AuraとShellの依存関係
+rev=3
+targets=
+text=https://www.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies%0a%0a下の図はChromeとAsh(Aura shell)ビューベースのwidgetとAuraウインドウシステムの依存関係である。殆どの場合は上のモジュールを使うためのdelegateインタフェースが存在することに注意。%0a%0ahttps://www.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies/ChromeAshViewsAuradependencies.png
+time=1530610071
+author:1530610071=
+diff:1530610071:1530609853:=1,3c1%0a%3c https://www.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies%0a%3c %0a%3c 下の図はChromeとAsh(Aura shell)ビューベースのwidgetとAuraウインドウシステムの依存関係である。殆どの場合は上のモジュールを使うためのdelegateインタフェースが存在することに注意。%0a---%0a> https://www.chromium.org/developers/design-documents/aura%0a
+host:1530610071=192.168.3.2
+author:1530609853=
+diff:1530609853:1530609804:=1,3c1%0a%3c https://www.chromium.org/developers/design-documents/aura%0a%3c %0a%3c https://www.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies/ChromeAshViewsAuradependencies.png%0a\ No newline at end of file%0a---%0a> https://www.chromium.org/developers/design-documents/aura%0a\ No newline at end of file%0a
+host:1530609853=192.168.3.2
+author:1530609804=
+diff:1530609804:1530609804:=1d0%0a%3c https://www.chromium.org/developers/design-documents/aura%0a\ No newline at end of file%0a
+host:1530609804=192.168.3.2

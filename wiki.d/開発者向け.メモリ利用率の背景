@@ -1,0 +1,36 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1512248191
+host=192.168.3.2
+name=開発者向け.メモリ利用率の背景
+rev=8
+targets=
+text=https://www.chromium.org/developers/memory-usage-backgrounder%0a%0a!!Chromiumのメノリ使用率%0aChromiumのメモリ使用量を計測するための背景情報。%0a%0a!!!マルチプロセスモデルの背景%0aChromiumのメノリ使用率を理解するために、マルチプロセスモデルを理解しよう。他のブラウザ同様、Chromiumは多数のプロセスに分割される。立ち上がったときには２つのプロセスがある。１つは'''ブラウザプロセス'''と呼ばれ、ブラウザの主要な機能を管理する。もう１つは最初の'''レンダープロセス'''と呼ばれ、BlinkレンダリングエンジンとJavascript(V8)を実行する。新しいタブを開くと、新しいレンダープロセスが作成される。典型的には、５～７のchrome.exeが動いている。更に、プラグインやアプリや拡張を利用すると、それらは別のプロセスで実行される。どのプロセスであろうともタスクマネージャには"chrome.exe"と表示される。%0a%0a以下はWindows 8 でChromiumを動かしたときのスクリーンショット。%0a%0ahttps://www.chromium.org/developers/memory-usage-backgrounder/taskmanager.jpg?attredirects=0%0a%0a＜途中＞
+time=1512249126
+author:1512249126=
+diff:1512249126:1512249073:=11,13c11%0a%3c https://www.chromium.org/developers/memory-usage-backgrounder/taskmanager.jpg?attredirects=0%0a%3c %0a%3c ＜途中＞%0a\ No newline at end of file%0a---%0a> https://www.chromium.org/developers/memory-usage-backgrounder/taskmanager.jpg?attredirects=0%0a\ No newline at end of file%0a
+host:1512249126=192.168.3.2
+author:1512249073=
+diff:1512249073:1512249053:=11c11%0a%3c https://www.chromium.org/developers/memory-usage-backgrounder/taskmanager.jpg?attredirects=0%0a\ No newline at end of file%0a---%0a> [[https://www.chromium.org/developers/memory-usage-backgrounder/taskmanager.jpg?attredirects=0]]%0a\ No newline at end of file%0a
+host:1512249073=192.168.3.2
+author:1512249053=
+diff:1512249053:1512248750:=7,11c7%0a%3c Chromiumのメノリ使用率を理解するために、マルチプロセスモデルを理解しよう。他のブラウザ同様、Chromiumは多数のプロセスに分割される。立ち上がったときには２つのプロセスがある。１つは'''ブラウザプロセス'''と呼ばれ、ブラウザの主要な機能を管理する。もう１つは最初の'''レンダープロセス'''と呼ばれ、BlinkレンダリングエンジンとJavascript(V8)を実行する。新しいタブを開くと、新しいレンダープロセスが作成される。典型的には、５～７のchrome.exeが動いている。更に、プラグインやアプリや拡張を利用すると、それらは別のプロセスで実行される。どのプロセスであろうともタスクマネージャには"chrome.exe"と表示される。%0a%3c %0a%3c 以下はWindows 8 でChromiumを動かしたときのスクリーンショット。%0a%3c %0a%3c [[https://www.chromium.org/developers/memory-usage-backgrounder/taskmanager.jpg?attredirects=0]]%0a\ No newline at end of file%0a---%0a> Chromiumのメノリ使用率を理解するために、マルチプロセスモデルを理解しよう。他のブラウザ同様、Chromiumは多数のプロセスに分割される。立ち上がったときには２つのプロセスがある。１つは'''ブラウザプロセス'''と呼ばれ、ブラウザの主要な機能を管理する。%0a\ No newline at end of file%0a
+host:1512249053=192.168.3.2
+author:1512248750=
+diff:1512248750:1512248583:=7d6%0a%3c Chromiumのメノリ使用率を理解するために、マルチプロセスモデルを理解しよう。他のブラウザ同様、Chromiumは多数のプロセスに分割される。立ち上がったときには２つのプロセスがある。１つは'''ブラウザプロセス'''と呼ばれ、ブラウザの主要な機能を管理する。%0a\ No newline at end of file%0a
+host:1512248750=192.168.3.2
+author:1512248583=
+diff:1512248583:1512248498:=3,6c3%0a%3c !!Chromiumのメノリ使用率%0a%3c Chromiumのメモリ使用量を計測するための背景情報。%0a%3c %0a%3c !!!マルチプロセスモデルの背景%0a---%0a> !!FDS%0a\ No newline at end of file%0a
+host:1512248583=192.168.3.2
+author:1512248498=
+diff:1512248498:1512248478:=3c3%0a%3c !!FDS%0a\ No newline at end of file%0a---%0a> !FDS%0a\ No newline at end of file%0a
+host:1512248498=192.168.3.2
+author:1512248478=
+diff:1512248478:1512248191:=1,3c1%0a%3c https://www.chromium.org/developers/memory-usage-backgrounder%0a%3c %0a%3c !FDS%0a\ No newline at end of file%0a---%0a> https://www.chromium.org/developers/memory-usage-backgrounder%0a\ No newline at end of file%0a
+host:1512248478=192.168.3.2
+author:1512248191=
+diff:1512248191:1512248191:=1d0%0a%3c https://www.chromium.org/developers/memory-usage-backgrounder%0a\ No newline at end of file%0a
+host:1512248191=192.168.3.2

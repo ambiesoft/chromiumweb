@@ -1,0 +1,27 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1529962598
+host=192.168.3.2
+name=ビルドツール.GN-ターゲット
+rev=5
+targets=
+text=!gn help target%0a!!ターゲット%0aプログラムのタイプでターゲットを宣言する%0a%0a target(target_type_string, target_name_string) { ... }%0a%0atarget()関数はビルドインのターゲットまたはテンプレートを呼び出し、実行時にタイプが決定される。これは静的にタイプを指定できないときに使うことができる。%0a%0a''target_type_string''はテンプレートとビルドインtarget関数のみでサポートされる。任意の関数、設定、ツールチェインはサポートされない。%0a%0a以下の呼び出し：%0a target("source_set", "doom_melon") { %0aは以下と同じ%0a source_set("doom_melon") {%0a%0a!!例%0a [=%0aif (foo_build_as_shared) {%0a  my_type = "shared_library"%0a} else {%0a  my_type = "source_set"%0a}%0a%0atarget(my_type, "foo") {%0a  ...%0a}%0a=]%0a
+time=1529962719
+author:1529962719=
+diff:1529962719:1529962646:=18,26c18%0a%3c if (foo_build_as_shared) {%0a%3c   my_type = "shared_library"%0a%3c } else {%0a%3c   my_type = "source_set"%0a%3c }%0a%3c %0a%3c target(my_type, "foo") {%0a%3c   ...%0a%3c }%0a---%0a> if (foo_build_as_shared)%0a
+host:1529962719=192.168.3.2
+author:1529962646=
+diff:1529962646:1529962631:=17c17%0a%3c  [=%0a---%0a> [= %0a
+host:1529962646=192.168.3.2
+author:1529962631=
+diff:1529962631:1529962617:=17c17%0a%3c [= %0a---%0a>  [= %0a
+host:1529962631=192.168.3.2
+author:1529962617=
+diff:1529962617:1529962598:=17c17%0a%3c  [= %0a---%0a> [=%0a
+host:1529962617=192.168.3.2
+author:1529962598=
+diff:1529962598:1529962598:=1,19d0%0a%3c !gn help target%0a%3c !!ターゲット%0a%3c プログラムのタイプでターゲットを宣言する%0a%3c %0a%3c  target(target_type_string, target_name_string) { ... }%0a%3c %0a%3c target()関数はビルドインのターゲットまたはテンプレートを呼び出し、実行時にタイプが決定される。これは静的にタイプを指定できないときに使うことができる。%0a%3c %0a%3c ''target_type_string''はテンプレートとビルドインtarget関数のみでサポートされる。任意の関数、設定、ツールチェインはサポートされない。%0a%3c %0a%3c 以下の呼び出し：%0a%3c  target("source_set", "doom_melon") { %0a%3c は以下と同じ%0a%3c  source_set("doom_melon") {%0a%3c %0a%3c !!例%0a%3c [=%0a%3c if (foo_build_as_shared)%0a%3c =]%0a
+host:1529962598=192.168.3.2

@@ -1,0 +1,15 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55.0
+author=
+charset=UTF-8
+csum=
+ctime=1502772314
+host=192.168.0.2
+name=Chromium.機能分類
+rev=1
+targets=
+text=ｓ
+time=1502772314
+author:1502772314=
+diff:1502772314:1502772314:=1d0%0a%3c ｓ%0a\ No newline at end of file%0a
+host:1502772314=192.168.0.2

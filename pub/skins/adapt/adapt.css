@@ -4,6 +4,7 @@ body { color:#333; }
 
 /* Monospaced fonts */
 pre, code {
+  background: antiquewhite;
   font-family:'Lucida Console','Andale Mono','Courier New',Courier,monospace; }
 
 /* Links */
@@ -170,14 +171,14 @@ appears on the left side of the page.
   border-right:1px solid #333;
 }
 /* All anchors inside the menu should be styled like this. */
-#menu a { color:#e0e0e0; border:none; padding:0.4em 0 0.4em 0.6em;
+#menu a { color:#000; border:none; padding:0.4em 0 0.4em 0.6em;
  font-size:85%; }
 /* Remove all background/borders, since we are applying them to #menu.*/
 #menu .pure-menu, #menu .pure-menu ul { border:none; background:transparent; }
 /* Add that light border to separate items into groups. (was 0.5em */
 #menu .pure-menu ul, #menu .pure-menu .menu-item-divided { padding-top:0em; }
 #menu .pure-menu ul { padding:0 0 0.3em 0; }
-#menu .pure-menu li { background:#202020; border-bottom:1px dotted #666; }
+#menu .pure-menu li { background:antiquewhite; border-bottom:1px dotted #666; }
 /* Change color of the anchor links on hover/focus. */
 #menu .pure-menu li a:hover, #menu .pure-menu li a:focus { background:#202020; }
 /* This styles the selected menu item `<li>`. */

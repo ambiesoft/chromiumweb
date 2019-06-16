@@ -1,0 +1,24 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1502771793
+host=192.168.3.2
+name=Chromium.Chromiumとは何か
+rev=4
+targets=
+text=
+time=1560222953
+author:1560222953=
+diff:1560222953:1531050100:=0a1,2%0a> Chromiumはオープンソースのウェブブラウザです。%0a> %0a
+host:1560222953=192.168.3.2
+author:1531050100=
+diff:1531050100:1502780027:=2a3%0a> aaa%0a\ No newline at end of file%0a
+host:1531050100=192.168.3.2
+author:1502780027=
+diff:1502780027:1502771793:=1,3c1%0a%3c Chromiumはオープンソースのウェブブラウザです。%0a%3c %0a%3c aaa%0a\ No newline at end of file%0a---%0a> Chromiumはオープンソースのウェブブラウザです。%0a\ No newline at end of file%0a
+host:1502780027=192.168.0.2
+author:1502771793=
+diff:1502771793:1502771793:=1d0%0a%3c Chromiumはオープンソースのウェブブラウザです。%0a\ No newline at end of file%0a
+host:1502771793=192.168.0.2

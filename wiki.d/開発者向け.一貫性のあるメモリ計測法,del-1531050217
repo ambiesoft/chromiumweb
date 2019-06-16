@@ -1,0 +1,36 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+author=
+charset=UTF-8
+csum=
+ctime=1505213052
+host=192.168.0.151
+name=開発者向け.一貫性のあるメモリ計測法
+rev=8
+targets=
+text=https://docs.google.com/document/d/1_WmgE1F5WUrhwkPqJis3dWyOiUmQKvpXp5cd4w86TvA/edit#%0a%0a!目的%0a目標：%0a*Chromeのメモリ使用に関して、改善や改悪が識別できるような一貫したメモリ計測法をつくる。%0a目的じゃない：%0a*Chromeメモリ使用のユーザー経験への影響%0a%0a!背景%0a以前の計測法ではメモリ使用の改悪を発見できなかった。たとえば[[https://bugs.chromium.org/p/chromium/issues/detail?id=713854|問題713854]]、ChromeのGPUプロセスは６４GBリークしてたかもしれない、そんなんになったらシステムは使用不能になる。Chromeのメモリ計測法では把握できなかった。%0a%0aChromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA|２倍]]の使用量を報告していた。これによりChromeOS開発者はこれらを機能的な違いと誤認していた。%0a%0a!デザイン%0a!!定義%0aプロセスごとの'''プライベートメモリ足跡（footpring）'''を以下のように定義する：%0a*プライベート%0a*破棄不可能%0a**破棄可能はメモリは（OSから見れば）開放されたメモリと同じ。いつでも再利用できる。%0a*匿名（ファイルにより提供されない）%0a*常駐、圧縮、スワップ%0a%0a%0a%0a%0a
+time=1505217708
+author:1505217708=
+diff:1505217708:1505214035:=
+host:1505217708=192.168.0.151
+author:1505214035=
+diff:1505214035:1505213654:=12,23c12%0a%3c Chromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA|２倍]]の使用量を報告していた。これによりChromeOS開発者はこれらを機能的な違いと誤認していた。%0a%3c %0a%3c !デザイン%0a%3c !!定義%0a%3c プロセスごとの'''プライベートメモリ足跡（footpring）'''を以下のように定義する：%0a%3c *プライベート%0a%3c *破棄不可能%0a%3c **破棄可能はメモリは（OSから見れば）開放されたメモリと同じ。いつでも再利用できる。%0a%3c *匿名（ファイルにより提供されない）%0a%3c *常駐、圧縮、スワップ%0a%3c %0a%3c %0a---%0a> Chromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA|２倍]]の使用量を報告していた。%0a
+host:1505214035=192.168.0.151
+author:1505213654=
+diff:1505213654:1505213626:=12c12,13%0a%3c Chromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA|２倍]]の使用量を報告していた。%0a---%0a> Chromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA%0a> |２倍]]の使用量を報告していた。%0a
+host:1505213654=192.168.0.151
+author:1505213626=
+diff:1505213626:1505213467:=12,13d11%0a%3c Chromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA%0a%3c |２倍]]の使用量を報告していた。%0a
+host:1505213626=192.168.0.151
+author:1505213467=
+diff:1505213467:1505213434:=10c10%0a%3c 以前の計測法ではメモリ使用の改悪を発見できなかった。たとえば[[https://bugs.chromium.org/p/chromium/issues/detail?id=713854|問題713854]]、ChromeのGPUプロセスは６４GBリークしてたかもしれない、そんなんになったらシステムは使用不能になる。Chromeのメモリ計測法では把握できなかった。%0a---%0a> 以前の計測法ではメモリ使用の改悪を発見できなかった。たとえば[[問題713854|https://bugs.chromium.org/p/chromium/issues/detail?id=713854]]、ChromeのGPUプロセスは６４GBリークしてたかもしれない、そんなんになったらシステムは使用不能になる。Chromeのメモリ計測法では把握できなかった。%0a
+host:1505213467=192.168.0.151
+author:1505213434=
+diff:1505213434:1505213259:=10d9%0a%3c 以前の計測法ではメモリ使用の改悪を発見できなかった。たとえば[[問題713854|https://bugs.chromium.org/p/chromium/issues/detail?id=713854]]、ChromeのGPUプロセスは６４GBリークしてたかもしれない、そんなんになったらシステムは使用不能になる。Chromeのメモリ計測法では把握できなかった。%0a
+host:1505213434=192.168.0.151
+author:1505213259=
+diff:1505213259:1505213052:=4,10c4,5%0a%3c 目標：%0a%3c *Chromeのメモリ使用に関して、改善や改悪が識別できるような一貫したメモリ計測法をつくる。%0a%3c 目的じゃない：%0a%3c *Chromeメモリ使用のユーザー経験への影響%0a%3c %0a%3c !背景%0a%3c %0a---%0a> 目標%0a> *aaa%0a
+host:1505213259=192.168.0.151
+author:1505213052=
+diff:1505213052:1505213052:=1,7d0%0a%3c https://docs.google.com/document/d/1_WmgE1F5WUrhwkPqJis3dWyOiUmQKvpXp5cd4w86TvA/edit#%0a%3c %0a%3c !目的%0a%3c 目標%0a%3c *aaa%0a%3c %0a%3c %0a
+host:1505213052=192.168.0.151

@@ -1,0 +1,21 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1539656752
+host=192.168.3.2
+name=HowTo.カクつくのを箇所を見つけるフレームビューアの使い方
+rev=3
+targets=HowTo.トレース実行の記録,HowTo.FrameViewer外観
+text=https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/using-frameviewer%0a%0a''wiltzius@''%0a%0aウェブアプリがスムーズに動くためにはユーザの入力からJavaScriptのイベント処理が終わるまで、１６ｍｓ以内に収める必要がある。%0a%0a実現には難しい場合があり、そのときにフレームごとに裏側で何が起こっているかを知る必要がある。FrameViewerでこれができるが、これはChromeのデバッグのためにつくられたもので、ウェブアプリのためのものではない。それでも開発者にとってはブラウザのフレームごとの処理を知るのは興味があることだろう。%0a%0a前提条件：%0a* [[HowTo/トレース実行の記録]]の準備をする。[[https://github.com/johnmccutchan/adb_trace]]から（またはにChromeのソースツリーのsrc/tools/perf/配下）のadb_profile_chrome.pyを使うのを推奨%0a* [[HowTo/FrameViewer外観]]を読んで他のトレースとは違うフレームビューアトレースのレコードの仕方を知ること。＜途中＞%0aThe short version is you need a number of non-default tracing categories enabled; the easiest way to do this is to use the adb_prorfile_chrome script (see above) and pass --trace-frame-viewer to it.%0a%0a
+time=1539656989
+author:1539656989=
+diff:1539656989:1539656770:=11,13d10%0a%3c * [[HowTo/FrameViewer外観]]を読んで他のトレースとは違うフレームビューアトレースのレコードの仕方を知ること。＜途中＞%0a%3c The short version is you need a number of non-default tracing categories enabled; the easiest way to do this is to use the adb_prorfile_chrome script (see above) and pass --trace-frame-viewer to it.%0a%3c %0a
+host:1539656989=192.168.3.2
+author:1539656770=
+diff:1539656770:1539656752:=10c10%0a%3c * [[HowTo/トレース実行の記録]]の準備をする。[[https://github.com/johnmccutchan/adb_trace]]から（またはにChromeのソースツリーのsrc/tools/perf/配下）のadb_profile_chrome.pyを使うのを推奨%0a---%0a> * [[HowTo/トレース実行の記録]]の準備をする。https://github.com/johnmccutchan/adb_traceから（またはにChromeのソースツリーのsrc/tools/perf/配下）のadb_profile_chrome.pyを使うのを推奨%0a
+host:1539656770=192.168.3.2
+author:1539656752=
+diff:1539656752:1539656752:=1,10d0%0a%3c https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/using-frameviewer%0a%3c %0a%3c ''wiltzius@''%0a%3c %0a%3c ウェブアプリがスムーズに動くためにはユーザの入力からJavaScriptのイベント処理が終わるまで、１６ｍｓ以内に収める必要がある。%0a%3c %0a%3c 実現には難しい場合があり、そのときにフレームごとに裏側で何が起こっているかを知る必要がある。FrameViewerでこれができるが、これはChromeのデバッグのためにつくられたもので、ウェブアプリのためのものではない。それでも開発者にとってはブラウザのフレームごとの処理を知るのは興味があることだろう。%0a%3c %0a%3c 前提条件：%0a%3c * [[HowTo/トレース実行の記録]]の準備をする。https://github.com/johnmccutchan/adb_traceから（またはにChromeのソースツリーのsrc/tools/perf/配下）のadb_profile_chrome.pyを使うのを推奨%0a
+host:1539656752=192.168.3.2

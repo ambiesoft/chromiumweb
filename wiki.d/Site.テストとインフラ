@@ -1,0 +1,27 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530717449
+host=192.168.3.2
+name=Site.テストとインフラ
+rev=5
+targets=テストとインフラ.ローカルでテストを実行
+text=https://www.chromium.org/developers/testing%0a%0a!重要な下位ページ%0a* [[テストとインフラ/ローカルでテストを実行]]%0a%0a!概観%0aChromium開発はテスト重視で動いています。マルチプラットフォームで多くの機能を維持しながら高速な開発を実現するために、テストスイートが更新され、維持され、実行され、進化されることは重要です。新しい機能は新しいテストを持つべきだし、コードの追加はその部分のテストを持つべきである。Chromeへの貢献者として、あなたは十分なテストを書くことが期待されています。レビューアとしてはあなたはテストを求めることが期待されています。'''Chromium継続統合システムが導入され２４時間動いています。'''%0a%0a!期待%0aコード貢献者はすべてのテストを実行することが期待されています。１つのワークステーションだと難しいので、[[https://www.chromium.org/developers/testing/try-server-usage|トライサーバ]]を用意しています。%0a%0a!テスト開発のインフラ%0aテスト構築のため、いくつかのインフラが存在します。%0a* chrome/test/automation - Chromiumはブラウザを自動で動かすための仕組みを提要しています。UIテストで使えます。%0a* [[http://code.google.com/p/googletest/|gtest]] - Google TestはChromiumのC++テストハーネスです。%0a* '''image_diff''' - ビットマップを比較する仕組みです。%0a%0a!クラッシュを起こす%0abreakpadのテストに役に立ちます。%0a* about:crash - レンダラをクラッシュします。%0a* about:inducebrowsercrashforrealz - ブラウザをクラッシュします。%0a
+time=1530718359
+author:1530718359=
+diff:1530718359:1530718286:=4c4%0a%3c * [[テストとインフラ/ローカルでテストを実行]]%0a---%0a> * [[ローカルでテストを実行]]%0a
+host:1530718359=192.168.3.2
+author:1530718286=
+diff:1530718286:1530718228:=4c4%0a%3c * [[ローカルでテストを実行]]%0a---%0a> * [[家でテストを実行]]%0a
+host:1530718286=192.168.3.2
+author:1530718228=
+diff:1530718228:1530717843:=9,21d8%0a%3c !期待%0a%3c コード貢献者はすべてのテストを実行することが期待されています。１つのワークステーションだと難しいので、[[https://www.chromium.org/developers/testing/try-server-usage|トライサーバ]]を用意しています。%0a%3c %0a%3c !テスト開発のインフラ%0a%3c テスト構築のため、いくつかのインフラが存在します。%0a%3c * chrome/test/automation - Chromiumはブラウザを自動で動かすための仕組みを提要しています。UIテストで使えます。%0a%3c * [[http://code.google.com/p/googletest/|gtest]] - Google TestはChromiumのC++テストハーネスです。%0a%3c * '''image_diff''' - ビットマップを比較する仕組みです。%0a%3c %0a%3c !クラッシュを起こす%0a%3c breakpadのテストに役に立ちます。%0a%3c * about:crash - レンダラをクラッシュします。%0a%3c * about:inducebrowsercrashforrealz - ブラウザをクラッシュします。%0a
+host:1530718228=192.168.3.2
+author:1530717843=
+diff:1530717843:1530717449:=3,8c3%0a%3c !重要な下位ページ%0a%3c * [[家でテストを実行]]%0a%3c %0a%3c !概観%0a%3c Chromium開発はテスト重視で動いています。マルチプラットフォームで多くの機能を維持しながら高速な開発を実現するために、テストスイートが更新され、維持され、実行され、進化されることは重要です。新しい機能は新しいテストを持つべきだし、コードの追加はその部分のテストを持つべきである。Chromeへの貢献者として、あなたは十分なテストを書くことが期待されています。レビューアとしてはあなたはテストを求めることが期待されています。'''Chromium継続統合システムが導入され２４時間動いています。'''%0a%3c %0a---%0a> * [[家でテストを実行]]%0a\ No newline at end of file%0a
+host:1530717843=192.168.3.2
+author:1530717449=
+diff:1530717449:1530717449:=1,3d0%0a%3c https://www.chromium.org/developers/testing%0a%3c %0a%3c * [[家でテストを実行]]%0a\ No newline at end of file%0a
+host:1530717449=192.168.3.2

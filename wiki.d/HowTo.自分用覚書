@@ -1,0 +1,24 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1532524875
+host=192.168.3.2
+name=HowTo.自分用覚書
+rev=4
+targets=
+text=# Windowsでppapiプロセスをデバッグ%0a%0appapiは--single-processをつけても新規プロセス内で動く。以下のコマンドで起動してからデバッガでアタッチする。%0a%0a=cpp [=%0a> chrome.exe --ppapi-startup-dialog --no-sandbox --remote-debugging-port=9222%0a=]%0aこれで起動するとppapiプロセスが起動したときに、メッセージボックスが表示されプロセスIDが表示される。%0a%0aAttach:ppapi.png%0a%0aこの状態で（OKをクリックせず）Visual Studioでアタッチする。アタッチする際、"Attach to"を"Native code"にする。%0a%0aAttach:vsattach.png%0a%0a
+time=1532525513
+author:1532525513=
+diff:1532525513:1532525485:=12,15c12%0a%3c この状態で（OKをクリックせず）Visual Studioでアタッチする。アタッチする際、"Attach to"を"Native code"にする。%0a%3c %0a%3c Attach:vsattach.png%0a%3c %0a---%0a> この状態で（OKをクリックせず）Visual Studioでアタッチする。アタッチする際、"Attach to"を"Native code"にする。%0a\ No newline at end of file%0a
+host:1532525513=192.168.3.2
+author:1532525485=
+diff:1532525485:1532524958:=8,12c8,11%0a%3c これで起動するとppapiプロセスが起動したときに、メッセージボックスが表示されプロセスIDが表示される。%0a%3c %0a%3c Attach:ppapi.png%0a%3c %0a%3c この状態で（OKをクリックせず）Visual Studioでアタッチする。アタッチする際、"Attach to"を"Native code"にする。%0a\ No newline at end of file%0a---%0a> %0a> ppapi.png%0a> %0a> これで起動するとppapiプロセスが起動したときに、メッセージボックスが表示されプロセスIDが表示されるのでVisual Studioでアタッチする。アタッチする際、%0a\ No newline at end of file%0a
+host:1532525485=192.168.3.2
+author:1532524958=
+diff:1532524958:1532524875:=8,9d7%0a%3c %0a%3c ppapi.png%0a
+host:1532524958=192.168.3.2
+author:1532524875=
+diff:1532524875:1532524875:=1,9d0%0a%3c # Windowsでppapiプロセスをデバッグ%0a%3c %0a%3c ppapiは--single-processをつけても新規プロセス内で動く。以下のコマンドで起動してからデバッガでアタッチする。%0a%3c %0a%3c =cpp [=%0a%3c > chrome.exe --ppapi-startup-dialog --no-sandbox --remote-debugging-port=9222%0a%3c =]%0a%3c %0a%3c これで起動するとppapiプロセスが起動したときに、メッセージボックスが表示されプロセスIDが表示されるのでVisual Studioでアタッチする。アタッチする際、%0a\ No newline at end of file%0a
+host:1532524875=192.168.3.2

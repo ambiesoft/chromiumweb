@@ -1,0 +1,24 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530144765
+host=192.168.3.2
+name=開発者向け.CInChromium101-Codelab
+rev=4
+targets=開発者向け.コーディングスタイル,コーディングスタイル.抽象化とデータ構造
+text=https://www.chromium.org/developers/cpp-in-chromium-101-codelab%0a%0aこのチュートリアルではChromiumのC++コンセプトをいろいろな実例で紹介する。C++の知識やchromiumレポジドリのチェックアウトは前提である。%0a%0a以下の重要な概念を考慮しておくこと%0a*[[コーディングスタイル]]%0a*[[コーディングスタイル/抽象化とデータ構造]]%0a%0aこのチュートリアルでは上記の概念を知っていることを前提にしていないが調べておいたほうがいい。%0a%0a!練習０：Hello World!%0aビルドツール''ninja''を使って単純なC++バイナリを作る方法%0a'''base/BUILD.gn'''に新規ターゲット''hello_world''を作る。
+time=1530790804
+author:1530790804=
+diff:1530790804:1530790737:=6,7c6,7%0a%3c *[[コーディングスタイル]]%0a%3c *[[コーディングスタイル/抽象化とデータ構造]]%0a---%0a> *[[開発者向け/コーディングスタイル]]%0a> *[[開発者向け/抽象化とデータ構造]]%0a
+host:1530790804=192.168.3.2
+author:1530790737=
+diff:1530790737:1530191424:=6c6%0a%3c *[[開発者向け/コーディングスタイル]]%0a---%0a> * [[開発者向け/コーディングスタイル]]%0a
+host:1530790737=192.168.3.2
+author:1530191424=
+diff:1530191424:1530144765:=8,13d7%0a%3c %0a%3c このチュートリアルでは上記の概念を知っていることを前提にしていないが調べておいたほうがいい。%0a%3c %0a%3c !練習０：Hello World!%0a%3c ビルドツール''ninja''を使って単純なC++バイナリを作る方法%0a%3c '''base/BUILD.gn'''に新規ターゲット''hello_world''を作る。%0a\ No newline at end of file%0a
+host:1530191424=192.168.3.2
+author:1530144765=
+diff:1530144765:1530144765:=1,7d0%0a%3c https://www.chromium.org/developers/cpp-in-chromium-101-codelab%0a%3c %0a%3c このチュートリアルではChromiumのC++コンセプトをいろいろな実例で紹介する。C++の知識やchromiumレポジドリのチェックアウトは前提である。%0a%3c %0a%3c 以下の重要な概念を考慮しておくこと%0a%3c * [[開発者向け/コーディングスタイル]]%0a%3c *[[開発者向け/抽象化とデータ構造]]%0a
+host:1530144765=192.168.3.2

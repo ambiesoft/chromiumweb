@@ -1,0 +1,63 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1502848075
+host=192.168.3.2
+name=ビルドツール.Ninja
+rev=17
+targets=ビルドツール.GYP
+text=https://ninja-build.org/%0a%0amakeのようなmakeよりも軽いビルド支援ツール。高速で動き、他のビルドツールと連携を前提としたツール。Chromiumプロジェクトから生まれた。１つのファイルに変更を加えたときのビルドが遅すぎるので速くするしたかった。%0a%0aディレクトリのbuild.ninjaファイルを読み込みビルドする。%0a%0a!help%0a[@%0ausage: ninja [options] [targets...]%0a%0aif targets are unspecified, builds the 'default' target (see manual).%0a%0aoptions:%0a  --version  print ninja version ("1.7.2")%0a%0a  -C DIR   change to DIR before doing anything else%0a  -f FILE  specify input build file [default=build.ninja]%0a%0a  -j N     run N jobs in parallel [default=6, derived from CPUs available]%0a  -k N     keep going until N jobs fail [default=1]%0a  -l N     do not start new jobs if the load average is greater than N%0a  -n       dry run (don't run commands but act like they succeeded)%0a  -v       show all command lines while building%0a%0a  -d MODE  enable debugging (use -d list to list modes)%0a  -t TOOL  run a subtool (use -t list to list subtools)%0a    terminates toplevel options; further flags are passed to the tool%0a  -w FLAG  adjust warnings (use -w list to list warnings)%0a@]%0a%0a!Makeとの比較%0aどちらもタイムスタンプをみてビルドを決めが、makeにはもっといろいろな機能があり、メイクファイルは人間が書くことを想定している。ninjaは上位ツール（Chromiumでは[[GYP]]）が複雑なbuild.ninjaファイルを書き、それを単純に実行する。%0a%0a!ninja実行時の挙動%0a# カレントディレクトリからbuild.ninjaを読み込む。build.ninjaはルールのリストを提供する。ルールは長いコマンドを短くした名前のこと。長いコマンドとはコンパイルコマンドのようなもの。%0a%0abuildステートメントはプロジェクトの依存グラフを記述している。一方ruleステートメントは与えられたグラフのエッジのファイルを生成する方法を記述している。%0a%0a!サンプル.ninjaファイル%0a[@%0acflags = -Wall%0a%0arule cc%0a  command = gcc $cflags -c $in -o $out%0a%0abuild foo.o: cc foo.c%0a@]%0acflagsはグローバルの変数、$で参照する。変更は不可。%0accというルールを定義している。commandに値を設定して実行すべきコマンドを指定する。$inは入力ファイルに変換される(foo.c)。$outは出力ファイルに変換される(foo.o)。%0abuildステートメントは入力と出力の関係を記述している。%0a%0a!!phonyルール%0a特別なルールであるphonyは他のターゲットのエイリアスとして使われる。%0a%0a[@%0abuild foo: phony some/file/in/a/faraway/subdir/foo%0a@]%0a%0a長いパスがfooで表せる。%0a%0a%0a
+time=1560605093
+author:1560605093=
+diff:1560605093:1560604168:=54d53%0a%3c %0a59d57%0a%3c 長いパスがfooで表せる。%0a
+host:1560605093=192.168.3.2
+author:1560604168=
+diff:1560604168:1560603538:=48,56c48%0a%3c cflagsはグローバルの変数、$で参照する。変更は不可。%0a%3c ccというルールを定義している。commandに値を設定して実行すべきコマンドを指定する。$inは入力ファイルに変換される(foo.c)。$outは出力ファイルに変換される(foo.o)。%0a%3c buildステートメントは入力と出力の関係を記述している。%0a%3c %0a%3c !!phonyルール%0a%3c 特別なルールであるphonyは他のターゲットのエイリアスとして使われる。%0a%3c [@%0a%3c build foo: phony some/file/in/a/faraway/subdir/foo%0a%3c @]%0a---%0a> %0a
+host:1560604168=192.168.3.2
+author:1560603538=
+diff:1560603538:1560603517:=44c44%0a%3c   command = gcc $cflags -c $in -o $out%0a---%0a> command = gcc $cflags -c $in -o $out%0a
+host:1560603538=192.168.3.2
+author:1560603517=
+diff:1560603517:1560603489:=40c40%0a%3c [@%0a---%0a> [=%0a47c47%0a%3c @]%0a---%0a> =]%0a
+host:1560603517=192.168.3.2
+author:1560603489=
+diff:1560603489:1560603377:=40,47d39%0a%3c [=%0a%3c cflags = -Wall%0a%3c %0a%3c rule cc%0a%3c command = gcc $cflags -c $in -o $out%0a%3c %0a%3c build foo.o: cc foo.c%0a%3c =]%0a
+host:1560603489=192.168.3.2
+author:1560603377=
+diff:1560603377:1560603101:=37,41c37%0a%3c buildステートメントはプロジェクトの依存グラフを記述している。一方ruleステートメントは与えられたグラフのエッジのファイルを生成する方法を記述している。%0a%3c %0a%3c !サンプル.ninjaファイル%0a%3c %0a%3c %0a---%0a> （途中）%0a
+host:1560603377=192.168.3.2
+author:1560603101=
+diff:1560603101:1531036293:=34,36c34%0a%3c !ninja実行時の挙動%0a%3c # カレントディレクトリからbuild.ninjaを読み込む。build.ninjaはルールのリストを提供する。ルールは長いコマンドを短くした名前のこと。長いコマンドとはコンパイルコマンドのようなもの。%0a%3c %0a---%0a> !Ninjaをあなたのプロジェクトで使う%0a
+host:1560603101=192.168.3.2
+author:1531036293=
+diff:1531036293:1502850730:=8c8%0a%3c [@%0a---%0a>  [= %0a28,29c28%0a%3c   -w FLAG  adjust warnings (use -w list to list warnings)%0a%3c @]%0a---%0a>   -w FLAG  adjust warnings (use -w list to list warnings) =]%0a
+host:1531036293=192.168.3.2
+author:1502850730=
+diff:1502850730:1502849995:=31c31%0a%3c どちらもタイムスタンプをみてビルドを決めが、makeにはもっといろいろな機能があり、メイクファイルは人間が書くことを想定している。ninjaは上位ツール（Chromiumでは[[GYP]]）が複雑なbuild.ninjaファイルを書き、それを単純に実行する。%0a---%0a> どちらもタイムスタンプをみてビルドを決めが、makeにはもっといろいろな機能があり、メイクファイルは人間が書くことを想定している。ninjaは上位ツール（Chromiumでは[[gyp]]）が複雑なbuild.ninjaファイルを書き、それを単純に実行する。%0a
+host:1502850730=192.168.0.2
+author:1502849995=
+diff:1502849995:1502849824:=5,6c5,6%0a%3c ディレクトリのbuild.ninjaファイルを読み込みビルドする。%0a%3c %0a---%0a> ディレクトリの.ninjaファイルを読み込みビルドする。%0a> %0a31,32c31,32%0a%3c どちらもタイムスタンプをみてビルドを決めが、makeにはもっといろいろな機能があり、メイクファイルは人間が書くことを想定している。ninjaは上位ツール（Chromiumでは[[gyp]]）が複雑なbuild.ninjaファイルを書き、それを単純に実行する。%0a%3c %0a---%0a> どちらもタイムスタンプをみてビルドを決めが、makeにはもっといろいろな機能があり、メイクファイルは人間が書くことを想定している。ninjaは上位ツール（Chromiumでは[[gyp]]）が複雑な.ninjaファイルを書き、それを単純に実行する。%0a> %0a34,36d33%0a%3c （途中）%0a%3c %0a%3c %0a
+host:1502849995=192.168.0.2
+author:1502849824=
+diff:1502849824:1502849805:=30c30%0a%3c !Makeとの比較%0a---%0a> *Makeとの比較%0a33c33%0a%3c !Ninjaをあなたのプロジェクトで使う%0a---%0a> *Ninjaをあなたのプロジェクトで使う%0a
+host:1502849824=192.168.0.2
+author:1502849805=
+diff:1502849805:1502849774:=3c3%0a%3c makeのようなmakeよりも軽いビルド支援ツール。高速で動き、他のビルドツールと連携を前提としたツール。Chromiumプロジェクトから生まれた。１つのファイルに変更を加えたときのビルドが遅すぎるので速くするしたかった。%0a---%0a> makeのようなmakeよりも軽いビルド支援ツール。高速で動き、他のビルドツールと連携を前提としたツール。Chromiumプロジェクトから生まれた。１つのファイルに変更を加えたときのビルドが遅すぎるので速くするしたかった。上位の依存関係は上位にまかせその場の依存関係だけを見てビルドを早くする。%0a
+host:1502849805=192.168.0.2
+author:1502849774=
+diff:1502849774:1502848390:=3,6c3,4%0a%3c makeのようなmakeよりも軽いビルド支援ツール。高速で動き、他のビルドツールと連携を前提としたツール。Chromiumプロジェクトから生まれた。１つのファイルに変更を加えたときのビルドが遅すぎるので速くするしたかった。上位の依存関係は上位にまかせその場の依存関係だけを見てビルドを早くする。%0a%3c %0a%3c ディレクトリの.ninjaファイルを読み込みビルドする。%0a%3c %0a---%0a> makeのようなmakeよりも軽いビルド支援ツール%0a> %0a29,33d26%0a%3c %0a%3c *Makeとの比較%0a%3c どちらもタイムスタンプをみてビルドを決めが、makeにはもっといろいろな機能があり、メイクファイルは人間が書くことを想定している。ninjaは上位ツール（Chromiumでは[[gyp]]）が複雑な.ninjaファイルを書き、それを単純に実行する。%0a%3c %0a%3c *Ninjaをあなたのプロジェクトで使う%0a
+host:1502849774=192.168.0.2
+author:1502848390=
+diff:1502848390:1502848370:=2d1%0a%3c %0a
+host:1502848390=192.168.0.2
+author:1502848370=
+diff:1502848370:1502848102:=1d0%0a%3c https://ninja-build.org/%0a
+host:1502848370=192.168.0.2
+author:1502848102=
+diff:1502848102:1502848075:=2,3d1%0a%3c %0a%3c !help%0a
+host:1502848102=192.168.0.2
+author:1502848075=
+diff:1502848075:1502848075:=1,22d0%0a%3c makeのようなmakeよりも軽いビルド支援ツール%0a%3c  [= %0a%3c usage: ninja [options] [targets...]%0a%3c %0a%3c if targets are unspecified, builds the 'default' target (see manual).%0a%3c %0a%3c options:%0a%3c   --version  print ninja version ("1.7.2")%0a%3c %0a%3c   -C DIR   change to DIR before doing anything else%0a%3c   -f FILE  specify input build file [default=build.ninja]%0a%3c %0a%3c   -j N     run N jobs in parallel [default=6, derived from CPUs available]%0a%3c   -k N     keep going until N jobs fail [default=1]%0a%3c   -l N     do not start new jobs if the load average is greater than N%0a%3c   -n       dry run (don't run commands but act like they succeeded)%0a%3c   -v       show all command lines while building%0a%3c %0a%3c   -d MODE  enable debugging (use -d list to list modes)%0a%3c   -t TOOL  run a subtool (use -t list to list subtools)%0a%3c     terminates toplevel options; further flags are passed to the tool%0a%3c   -w FLAG  adjust warnings (use -w list to list warnings) =]%0a
+host:1502848075=192.168.0.2

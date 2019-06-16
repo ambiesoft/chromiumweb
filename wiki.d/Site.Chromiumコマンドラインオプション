@@ -1,0 +1,15 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1538119345
+host=192.168.3.2
+name=Site.Chromiumコマンドラインオプション
+rev=1
+targets=
+text='''--site-per-process''': iframeの試験的なセキュリティモード。すべてのレンダプロセスを１つのサイトに特化させる。すべてのウェブサイトで強力なプロセス孤立化を実現する。しかしより多くのレンダプロセスを作成することになる。about:flagsの"Out of process iframes"で設定可能%0a%0a'''--top-document-isolation''': クロスサイトiframeを１つのサブフレームプロセスで実行する。about:flagsの"Top document isolation"で設定できる。%0a%0a%0a%0a
+time=1538119345
+author:1538119345=
+diff:1538119345:1538119345:=1,6d0%0a%3c '''--site-per-process''': iframeの試験的なセキュリティモード。すべてのレンダプロセスを１つのサイトに特化させる。すべてのウェブサイトで強力なプロセス孤立化を実現する。しかしより多くのレンダプロセスを作成することになる。about:flagsの"Out of process iframes"で設定可能%0a%3c %0a%3c '''--top-document-isolation''': クロスサイトiframeを１つのサブフレームプロセスで実行する。about:flagsの"Top document isolation"で設定できる。%0a%3c %0a%3c %0a%3c %0a
+host:1538119345=192.168.3.2

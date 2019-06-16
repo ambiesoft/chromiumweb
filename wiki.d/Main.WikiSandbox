@@ -1,0 +1,17 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+host=192.168.3.2
+name=Main.WikiSandbox
+rev=5
+targets=PmWiki.TextFormattingRules
+text=Feel free to use this page to experiment with the [[PmWiki/Text Formatting Rules]].  Just click the "Edit Page" link at the bottom of the page.%0a----%0a%0aAttach:ppapi.png%0a
+time=1532525153
+author:1532525153=
+diff:1532525153:1532525118:=4c4%0a%3c Attach:ppapi.png%0a---%0a> attach:ppapi.png%0a
+host:1532525153=192.168.3.2
+author:1532525118=
+diff:1532525118:1093548433:=3,4d2%0a%3c %0a%3c attach:ppapi.png%0a
+host:1532525118=192.168.3.2

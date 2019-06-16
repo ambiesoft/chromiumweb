@@ -1,0 +1,36 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1531050209
+host=192.168.3.2
+name=GoogleDocuments.一貫性のあるメモリ計測法
+rev=8
+targets=GoogleDocuments.Memory-infraダンプを追跡してbaseSharedMemoryの利用を明らかにする
+text=%25target=_blank%25https://docs.google.com/document/d/1_WmgE1F5WUrhwkPqJis3dWyOiUmQKvpXp5cd4w86TvA/edit#%0a%0a!目的%0a目標：%0a*Chromeのメモリ使用に関して、改善や改悪が識別できるような一貫したメモリ計測法をつくる。%0a目的じゃない：%0a*Chromeメモリ使用のユーザー経験への影響%0a%0a!背景%0a以前の計測法ではメモリ使用の改悪を発見できなかった。たとえば[[https://bugs.chromium.org/p/chromium/issues/detail?id=713854|問題713854]]、ChromeのGPUプロセスは６４GBリークしてたかもしれない、そんなんになったらシステムは使用不能になる。Chromeのメモリ計測法では把握できなかった。%0a%0aChromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA|２倍]]の使用量を報告していた。これによりChromeOS開発者はこれらを機能的な違いと誤認していた。%0a%0a!デザイン%0a!!定義%0aプロセスごとの'''プライベートメモリ足跡（footpring）'''を以下のように定義する：%0a*プライベート%0a*破棄不可能%0a**破棄可能はメモリは（OSから見れば）開放されたメモリと同じ。いつでも再利用できる。%0a*匿名（ファイルにより提供されない）%0a*常駐、圧縮、スワップ%0a**圧縮メモリについては、圧縮前のサイズを計測。計算と圧縮効率とは独立。%0a%0aプロセスグループについては、供給メモリフットプリントを非プライベート、非ディスカーダブル、現存する匿名メモリと定義する。圧縮されててもスワップされてても同様に扱う。さらに、共有メモリの各ピースのインスタンスのみのカウントする。共有メモリのマルチマッチングは無視する。%0a%0aこれらの定義の詳細は付属Bを参照。%0a%0a!実装%0a'''共有メモリフットプリント'''はChromeによって確保されたすべての共有メモリを追跡することで計算する。プロセス間で２重に計算されているものは除外する。実装の詳細は、[[GoogleDocuments/Memory-infraダンプを追跡してbaseSharedMemoryの利用を明らかにする|デザインドキュメント]]を参照。これはライブラリによって確保された共有メモリは追跡しない（欠陥の１つ）。%0a%0a'''プライベートメモリフットプリント'''は同様に計算される場合もあるがオーバーヘッドが大きくなる。なので適切なOSのsyscallを読んでそれを見積もる。%0a%0a=cpp [=%0aGetPrivateMemoryFootprint():%0a  if OS == macOS || iOS:%0a    return task_info(TASK_VM_INFO).phys_footprint %0a  if OS == Windows:%0a    return PROCESS_MEMORY_COUNTERS_EX::PrivateUsage%0a  if OS == Linux || OS == ChromeOS || OS == Android:%0a    return (RssAnon + VmSwap) from /proc/pid/status%0a=]%0a%0aSee Appendix C for alternatives considered. For a full analysis for each of these calculations, see this doc for macOS and iOS, this doc for Windows, and this doc for Linux/ChromeOS/Android. For an extended discussion on noise in these estimates, see Appendix E.%0a%0a%0a
+time=1531051499
+author:1531051499=
+diff:1531051499:1531051410:=43d42%0a%3c See Appendix C for alternatives considered. For a full analysis for each of these calculations, see this doc for macOS and iOS, this doc for Windows, and this doc for Linux/ChromeOS/Android. For an extended discussion on noise in these estimates, see Appendix E.%0a
+host:1531051499=192.168.3.2
+author:1531051410=
+diff:1531051410:1531051383:=31,41c31%0a%3c '''プライベートメモリフットプリント'''は同様に計算される場合もあるがオーバーヘッドが大きくなる。なので適切なOSのsyscallを読んでそれを見積もる。%0a%3c %0a%3c =cpp [=%0a%3c GetPrivateMemoryFootprint():%0a%3c   if OS == macOS || iOS:%0a%3c     return task_info(TASK_VM_INFO).phys_footprint %0a%3c   if OS == Windows:%0a%3c     return PROCESS_MEMORY_COUNTERS_EX::PrivateUsage%0a%3c   if OS == Linux || OS == ChromeOS || OS == Android:%0a%3c     return (RssAnon + VmSwap) from /proc/pid/status%0a%3c =]%0a---%0a> プライベートメモリフットプリントは同様に計算される場合もあるがオーバーヘッドが大きくなる。なので適切なOSのsyscallを読んでそれを見積もる。%0a
+host:1531051410=192.168.3.2
+author:1531051383=
+diff:1531051383:1531051269:=31d30%0a%3c プライベートメモリフットプリントは同様に計算される場合もあるがオーバーヘッドが大きくなる。なので適切なOSのsyscallを読んでそれを見積もる。%0a
+host:1531051383=192.168.3.2
+author:1531051269=
+diff:1531051269:1531051076:=29c29%0a%3c '''共有メモリフットプリント'''はChromeによって確保されたすべての共有メモリを追跡することで計算する。プロセス間で２重に計算されているものは除外する。実装の詳細は、[[GoogleDocuments/Memory-infraダンプを追跡してbaseSharedMemoryの利用を明らかにする|デザインドキュメント]]を参照。これはライブラリによって確保された共有メモリは追跡しない（欠陥の１つ）。%0a---%0a> 共有メモリフットプリントはChromeによって確保されたすべての共有メモリを追跡することで計算する。プロセス間で２重に計算されているものは除外する。実装の詳細は、デザインドキュメントを参照。これはライブラリによって確保された共有メモリは追跡しない（欠陥の１つ）。%0a
+host:1531051269=192.168.3.2
+author:1531051076=
+diff:1531051076:1531050442:=23,29d22%0a%3c %0a%3c プロセスグループについては、供給メモリフットプリントを非プライベート、非ディスカーダブル、現存する匿名メモリと定義する。圧縮されててもスワップされてても同様に扱う。さらに、共有メモリの各ピースのインスタンスのみのカウントする。共有メモリのマルチマッチングは無視する。%0a%3c %0a%3c これらの定義の詳細は付属Bを参照。%0a%3c %0a%3c !実装%0a%3c 共有メモリフットプリントはChromeによって確保されたすべての共有メモリを追跡することで計算する。プロセス間で２重に計算されているものは除外する。実装の詳細は、デザインドキュメントを参照。これはライブラリによって確保された共有メモリは追跡しない（欠陥の１つ）。%0a
+host:1531051076=192.168.3.2
+author:1531050442=
+diff:1531050442:1531050293:=22d21%0a%3c **圧縮メモリについては、圧縮前のサイズを計測。計算と圧縮効率とは独立。%0a
+host:1531050442=192.168.3.2
+author:1531050293=
+diff:1531050293:1531050209:=1c1%0a%3c %25target=_blank%25https://docs.google.com/document/d/1_WmgE1F5WUrhwkPqJis3dWyOiUmQKvpXp5cd4w86TvA/edit#%0a---%0a> https://docs.google.com/document/d/1_WmgE1F5WUrhwkPqJis3dWyOiUmQKvpXp5cd4w86TvA/edit#%0a
+host:1531050293=192.168.3.2
+author:1531050209=
+diff:1531050209:1531050209:=1,25d0%0a%3c https://docs.google.com/document/d/1_WmgE1F5WUrhwkPqJis3dWyOiUmQKvpXp5cd4w86TvA/edit#%0a%3c %0a%3c !目的%0a%3c 目標：%0a%3c *Chromeのメモリ使用に関して、改善や改悪が識別できるような一貫したメモリ計測法をつくる。%0a%3c 目的じゃない：%0a%3c *Chromeメモリ使用のユーザー経験への影響%0a%3c %0a%3c !背景%0a%3c 以前の計測法ではメモリ使用の改悪を発見できなかった。たとえば[[https://bugs.chromium.org/p/chromium/issues/detail?id=713854|問題713854]]、ChromeのGPUプロセスは６４GBリークしてたかもしれない、そんなんになったらシステムは使用不能になる。Chromeのメモリ計測法では把握できなかった。%0a%3c %0a%3c Chromeの以前の計測法はOSによってずいぶん違っていたのでそれが開発者を混乱させた。たとえばChromeはChromeOSのレンダープロセスがWindowsのそれに比べて[[https://groups.google.com/a/google.com/forum/#!topic/chrome-memory/4Ps9jvwJPYA|２倍]]の使用量を報告していた。これによりChromeOS開発者はこれらを機能的な違いと誤認していた。%0a%3c %0a%3c !デザイン%0a%3c !!定義%0a%3c プロセスごとの'''プライベートメモリ足跡（footpring）'''を以下のように定義する：%0a%3c *プライベート%0a%3c *破棄不可能%0a%3c **破棄可能はメモリは（OSから見れば）開放されたメモリと同じ。いつでも再利用できる。%0a%3c *匿名（ファイルにより提供されない）%0a%3c *常駐、圧縮、スワップ%0a%3c %0a%3c %0a%3c %0a%3c %0a
+host:1531050209=192.168.3.2

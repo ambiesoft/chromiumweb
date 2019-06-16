@@ -1,0 +1,15 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1531411956
+host=192.168.3.2
+name=セキュリティ.セキュリティ原則
+rev=1
+targets=
+text=https://www.chromium.org/Home/chromium-security/core-principles%0a%0a
+time=1531411956
+author:1531411956=
+diff:1531411956:1531411956:=1,2d0%0a%3c https://www.chromium.org/Home/chromium-security/core-principles%0a%3c %0a
+host:1531411956=192.168.3.2

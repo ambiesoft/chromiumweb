@@ -1,0 +1,15 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530609701
+host=192.168.3.2
+name=HowTo.HowTo
+rev=1
+targets=
+text=HowTo
+time=1530609701
+author:1530609701=
+diff:1530609701:1530609701:=1d0%0a%3c HowTo%0a\ No newline at end of file%0a
+host:1530609701=192.168.3.2

@@ -1,0 +1,15 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 6.3; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1560657274
+host=192.168.3.151
+name=テストとインフラ.テストとインフラ
+rev=1
+targets=
+text=https://www.chromium.org/developers/testing
+time=1560657274
+author:1560657274=
+diff:1560657274:1560657274:=1d0%0a%3c https://www.chromium.org/developers/testing%0a\ No newline at end of file%0a
+host:1560657274=192.168.3.151

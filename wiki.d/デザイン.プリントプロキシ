@@ -1,0 +1,27 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1531771094
+host=192.168.3.2
+name=デザイン.プリントプロキシ
+rev=5
+targets=
+text=https://www.chromium.org/developers/design-documents/google-cloud-print-proxy-design%0a%0a!概観%0aクラウドプリントプロキシによってレガシープリンタがクラウドプリントできるようにする。プロキシはGoogle Cloud Printとネイティブのプリントドライバ間のプロトコルブリッジとして動作する。Windows（XP SP2以上）、MAC OS X（10.5以上のインテル）、Linuxのデスクトップとラップトップで動作する。プロキシのコードはChromeの一部としてビルドされ、ユーザの選択によって利用できる。クラウドプリントプロキシの開発と並行して、Googleはサードパーティと一緒にプリンタが直接クラウドプリントに接続できるように協力している。%0a%0a!目的%0a* レガシープリンタにクラウドプリント機能を提供する。%0a* Google Cloud Printが提供する[[https://developers.google.com/cloud-print/docs/proxyinterfaces?csw=1|サービスインタフェース]]の参照実装を提供する。%0a%0a!聴衆%0aこの文書はChrome開発者のためのものであり、またプリンタベンダーがサービスインタフェースを実装するためのものでもある。%0a%0a!デザイン%0aChromeブラウザはオプションで、クラウドプリントプロキシ機能を公開している。ユーザがこの機能を有効にすると、プロキシコードはユーザのGoogleアカウントに信用情報を尋ねる（すでにクラウド関連の機能（ブックマークなど）が有効でない場合）。認証が完了すると、クライアントプロキシコードがバックグラウンドで実行され以下のステップを行う：%0a%0a* クライアントに接続されているすべてのローカルプリンタとネットワークプリンタを列挙し、Google Cloud Printにこれらがユーザ情報に基づいて登録されているかを尋ねる。%0a* %0aThe cloud print proxy then registers any local and network printers that have not already been registered with the user's Google account. Printer registration includes publishing the capabilities as well as printer default settings for each printer in an extensible format. Printer registration follows the steps outlined in the service interfaces document.%0a
+time=1531772253
+author:1531772253=
+diff:1531772253:1531772112:=16,18d15%0a%3c * クライアントに接続されているすべてのローカルプリンタとネットワークプリンタを列挙し、Google Cloud Printにこれらがユーザ情報に基づいて登録されているかを尋ねる。%0a%3c * %0a%3c The cloud print proxy then registers any local and network printers that have not already been registered with the user's Google account. Printer registration includes publishing the capabilities as well as printer default settings for each printer in an extensible format. Printer registration follows the steps outlined in the service interfaces document.%0a
+host:1531772253=192.168.3.2
+author:1531772112=
+diff:1531772112:1531771807:=11,15d10%0a%3c この文書はChrome開発者のためのものであり、またプリンタベンダーがサービスインタフェースを実装するためのものでもある。%0a%3c %0a%3c !デザイン%0a%3c Chromeブラウザはオプションで、クラウドプリントプロキシ機能を公開している。ユーザがこの機能を有効にすると、プロキシコードはユーザのGoogleアカウントに信用情報を尋ねる（すでにクラウド関連の機能（ブックマークなど）が有効でない場合）。認証が完了すると、クライアントプロキシコードがバックグラウンドで実行され以下のステップを行う：%0a%3c %0a
+host:1531772112=192.168.3.2
+author:1531771807=
+diff:1531771807:1531771674:=6,10d5%0a%3c !目的%0a%3c * レガシープリンタにクラウドプリント機能を提供する。%0a%3c * Google Cloud Printが提供する[[https://developers.google.com/cloud-print/docs/proxyinterfaces?csw=1|サービスインタフェース]]の参照実装を提供する。%0a%3c %0a%3c !聴衆%0a
+host:1531771807=192.168.3.2
+author:1531771674=
+diff:1531771674:1531771094:=1,5c1%0a%3c https://www.chromium.org/developers/design-documents/google-cloud-print-proxy-design%0a%3c %0a%3c !概観%0a%3c クラウドプリントプロキシによってレガシープリンタがクラウドプリントできるようにする。プロキシはGoogle Cloud Printとネイティブのプリントドライバ間のプロトコルブリッジとして動作する。Windows（XP SP2以上）、MAC OS X（10.5以上のインテル）、Linuxのデスクトップとラップトップで動作する。プロキシのコードはChromeの一部としてビルドされ、ユーザの選択によって利用できる。クラウドプリントプロキシの開発と並行して、Googleはサードパーティと一緒にプリンタが直接クラウドプリントに接続できるように協力している。%0a%3c %0a---%0a> https://www.chromium.org/developers/design-documents/google-cloud-print-proxy-design%0a\ No newline at end of file%0a
+host:1531771674=192.168.3.2
+author:1531771094=
+diff:1531771094:1531771094:=1d0%0a%3c https://www.chromium.org/developers/design-documents/google-cloud-print-proxy-design%0a\ No newline at end of file%0a
+host:1531771094=192.168.3.2

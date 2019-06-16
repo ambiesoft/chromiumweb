@@ -1,0 +1,15 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1532735198
+host=192.168.3.2
+name=GoogleDocuments.Windowsでのメモリ足跡の計測
+rev=1
+targets=
+text=https://docs.google.com/document/d/1q99AeDUL28o2e8BGr15K3lG2IvBrnEafUr71q0lqUvg/edit#heading=h.mvtn6ofr2pzz%0a%0a
+time=1532735198
+author:1532735198=
+diff:1532735198:1532735198:=1,2d0%0a%3c https://docs.google.com/document/d/1q99AeDUL28o2e8BGr15K3lG2IvBrnEafUr71q0lqUvg/edit#heading=h.mvtn6ofr2pzz%0a%3c %0a
+host:1532735198=192.168.3.2

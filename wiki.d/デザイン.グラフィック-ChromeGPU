@@ -1,0 +1,45 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1537250581
+host=192.168.3.2
+name=デザイン.グラフィック-ChromeGPU
+rev=11
+targets=デザイン.ChromeのGPU加速コンポジットの概要,デザイン.GPUアーキテクチャのロードマップ
+text=https://www.chromium.org/developers/design-documents/chromium-graphics%0a%0ahttps://www.chromium.org/_/rsrc/1375391806383/developers/design-documents/chromium-graphics/graphics.png%0a%0a!!コンタクト%0agraphics-dev@chromium.orgにChromiumのグラフィックに詳しい人がたくさんいます。%0a%0a!!スターターのタスク%0a[[https://bugs.chromium.org/p/chromium/issues/detail?id=822915|小規模クリーンアップタスクメダリスト]]。特定のバグについてガイドが必要なら聞いてください。%0a%0a!!技術情報%0a[[ChromeのGPU加速コンポジットの概要]]から始めてください。元のGPU加速を使わないパスについての概要もあります。%0a%0a現在の開発予定については[[GPUアーキテクチャのロードマップ]]を見てください。%0a%0a提案やプレゼンへの投票は[[https://docs.google.com/spreadsheets/d/1IUl8IumXjBvxZVcd-K84uEvMcE71hJSWkHhMn0Lshr4/edit#gid=0|Compositor/GPU/Graphicsの対話]]を見てください。%0a%0aプレゼン：%0a* [[http://bit.ly/chromium-loap|ピクセルの一生]]%0a* [[https://docs.google.com/presentation/d/14FlKgkh0-4VvM5vLeCV8OTA7YoBasWlwKIJyNnUJltM|サーフィス集約]]%0a* [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史 part1]]%0a* [[https://docs.google.com/presentation/d/1ak7YVrJITGXxqQ7tyRbwOuXB1dsLJlfpgC4wP7lykeo|Blinkプロパティツリー]]%0a%0a＜途中＞%0a
+time=1537265950
+author:1537265950=
+diff:1537265950:1537261559:=24c24%0a%3c ＜途中＞%0a---%0a> %0a
+host:1537265950=192.168.3.2
+author:1537261559=
+diff:1537261559:1537261547:=21c21%0a%3c * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史 part1]]%0a---%0a> * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史part1]]%0a
+host:1537261559=192.168.3.2
+author:1537261547=
+diff:1537261547:1537261519:=21c21,22%0a%3c * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史part1]]%0a---%0a> * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史 %0a> part1]]%0a
+host:1537261547=192.168.3.2
+author:1537261519=
+diff:1537261519:1537255688:=21,23c21%0a%3c * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史 %0a%3c part1]]%0a%3c * [[https://docs.google.com/presentation/d/1ak7YVrJITGXxqQ7tyRbwOuXB1dsLJlfpgC4wP7lykeo|Blinkプロパティツリー]]%0a---%0a> * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史 part1]]%0a
+host:1537261519=192.168.3.2
+author:1537255688=
+diff:1537255688:1537255668:=21c21%0a%3c * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit|Chromeグラフィック世界の歴史 part1]]%0a---%0a> * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit||Chromeグラフィック世界の歴史 part1]]%0a
+host:1537255688=192.168.3.2
+author:1537255668=
+diff:1537255668:1537255209:=21c21%0a%3c * [[https://docs.google.com/presentation/d/1dCfAxJYIgYlnC49SH3hIeyQVIlkbPPb9QRsKfp-6P0g/edit||Chromeグラフィック世界の歴史 part1]]%0a---%0a> %0a
+host:1537255668=192.168.3.2
+author:1537255209=
+diff:1537255209:1537254559:=17,20d16%0a%3c %0a%3c プレゼン：%0a%3c * [[http://bit.ly/chromium-loap|ピクセルの一生]]%0a%3c * [[https://docs.google.com/presentation/d/14FlKgkh0-4VvM5vLeCV8OTA7YoBasWlwKIJyNnUJltM|サーフィス集約]]%0a
+host:1537255209=192.168.3.2
+author:1537254559=
+diff:1537254559:1537251132:=15,19d14%0a%3c %0a%3c 提案やプレゼンへの投票は[[https://docs.google.com/spreadsheets/d/1IUl8IumXjBvxZVcd-K84uEvMcE71hJSWkHhMn0Lshr4/edit#gid=0|Compositor/GPU/Graphicsの対話]]を見てください。%0a%3c %0a%3c %0a%3c %0a
+host:1537254559=192.168.3.2
+author:1537251132=
+diff:1537251132:1537251016:=14d13%0a%3c 現在の開発予定については[[GPUアーキテクチャのロードマップ]]を見てください。%0a
+host:1537251132=192.168.3.2
+author:1537251016=
+diff:1537251016:1537250581:=3,13c3%0a%3c https://www.chromium.org/_/rsrc/1375391806383/developers/design-documents/chromium-graphics/graphics.png%0a%3c %0a%3c !!コンタクト%0a%3c graphics-dev@chromium.orgにChromiumのグラフィックに詳しい人がたくさんいます。%0a%3c %0a%3c !!スターターのタスク%0a%3c [[https://bugs.chromium.org/p/chromium/issues/detail?id=822915|小規模クリーンアップタスクメダリスト]]。特定のバグについてガイドが必要なら聞いてください。%0a%3c %0a%3c !!技術情報%0a%3c [[ChromeのGPU加速コンポジットの概要]]から始めてください。元のGPU加速を使わないパスについての概要もあります。%0a%3c %0a---%0a> https://www.chromium.org/_/rsrc/1375391806383/developers/design-documents/chromium-graphics/graphics.png%0a\ No newline at end of file%0a
+host:1537251016=192.168.3.2
+author:1537250581=
+diff:1537250581:1537250581:=1,3d0%0a%3c https://www.chromium.org/developers/design-documents/chromium-graphics%0a%3c %0a%3c https://www.chromium.org/_/rsrc/1375391806383/developers/design-documents/chromium-graphics/graphics.png%0a\ No newline at end of file%0a
+host:1537250581=192.168.3.2

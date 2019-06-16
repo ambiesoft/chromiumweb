@@ -1,0 +1,15 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1531415754
+host=192.168.3.2
+name=Masterdoc.セキュリティFAQ
+rev=1
+targets=
+text=https://chromium.googlesource.com/chromium/src/+/master/docs/security/faq.md
+time=1531415754
+author:1531415754=
+diff:1531415754:1531415754:=1d0%0a%3c https://chromium.googlesource.com/chromium/src/+/master/docs/security/faq.md%0a\ No newline at end of file%0a
+host:1531415754=192.168.3.2

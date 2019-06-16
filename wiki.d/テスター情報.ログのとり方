@@ -1,0 +1,78 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530137491
+host=192.168.3.2
+name=テスター情報.ログのとり方
+rev=22
+targets=テスター情報.コマンドラインフラグ
+text=http://www.chromium.org/for-testers/enable-logging%0a%0aChromeでログを取るには以下のコマンドラインを使う%0a%0a[=%0a--enable-logging --v=1%0a=]%0a%0a*このコマンドラインによりフルログサポート（INFO, WARNING, ERROR, VERBOSE0 for >=M9）が有効になる。%0a*Windowsでのレンダラスタートアップをデバッグしているなら、ヒストグラムログを取ることを薦める。[= --vmodule=metrics=2 =]%0a*冗長ログはVERBOSEnラベルとともに表示される。%0a** [= --vmodule =] はモジュールごとに冗長ログを有効にする。詳細は''base/loggin.h''%0a*すべてのページロード（新規タブページも）VERBOSE1としてプリントされる。以下例%0a [=%0a [28304:28320:265508881314:VERBOSE1:chrome/browser/renderer_host/resource_dispatcher_host.cc(1098)] OnResponseStarted: chrome://newtab/%0a=]%0a*出力は'''chrome_debug.log'''に保存される。これはchromeのユーザデータディレクトリにある。%0a**リリースビルドでは''Default/''の親ディレクトリ。%0a**デバッグビルドではバイナリが置かれているディレクトリ（e.g. ''out\Deubg''）。%0a*[= --enable-logging=stderr =]により出力は標準エラーに出力される（Windowsでは出来ない）。%0a*chromeを再起動するたびにログは上書きされる。%0a*Windowsでレンダプロセスのログを取るには[= --no-sandbox =]が必要。%0a*''WTF_LOG''を見るには、[= --blink-platform-log-channels =]を使う。%0a%0a!!注意点%0a*環境変数''CHROME_LOG_FILE''が設定されると、そのファイルにログファイルが作成される。相対パスの場合はカレントディレクトリからの相対パスになる。%0a*テストでchromeを実行するときには以下のパターンを使う。%0a=cpp [=%0a#include "chrome/common/env_vars.h"%0a...%0a// Set the log file path in the environment for the test browser.%0astd::wstring log_file_path = ...;%0aSetEnvironmentVariable(env_vars::kLogFileName, log_file_path.c_str());%0a=]%0a%0a!!コマンドラインフラグの指定の仕方%0a[[テスター情報/コマンドラインフラグ|コマンドラインフラグ]]を参照%0a%0a!!ログにどのような個人情報が含まれるか%0achrome_debug.logをバグレポートに添付する前に個人情報が含まれていないかをチェックすること、例えばオープンしたURLなど。%0a%0aデバッグログは人間が読めるテキストファイルなので、テキストエディタで開いて見ることができるし、不必要なものは消すこともできる。%0a%0a定形のログは以下のフォーマットで括弧で括られる。%0a%0a[=%0a[process_id:thread_id:ticks_in_microseconds:log_level:file_name(line_number)]%0a=]%0a%0a%0a!!Sawbuck%0a他の方法として、WindowsではSawbackユーティリティが使える。表示、フィルター、検索などが行える。%0a%0a[[https://github.com/google/sawbuck/releases/latest|Sawbuck]]をダウンロードし、''Log''メニューから''Configure Providers...''を選択する。以下のようなダイアログが表示される。%0a%0ahttp://www.chromium.org/for-testers/enable-logging/configure%2520providers.png%0a%0aChromeやChrome Frame、そしてセットアッププログラムなどのログレベルを指定して「OK」をクリックする。「Log」メニューから「Capture」を選択するとChromeのログメッセージを見ることができる。Sawbuckはログメッセージのコールトレースを見ることができる。これは特定の問題を見つけるのに役立つ。%0a%0a-----%0aDone:2018/07/20 (金) 23:55:05
+time=1532098369
+author:1532098369=
+diff:1532098369:1532098142:=58,61c58,59%0a%3c ChromeやChrome Frame、そしてセットアッププログラムなどのログレベルを指定して「OK」をクリックする。「Log」メニューから「Capture」を選択するとChromeのログメッセージを見ることができる。Sawbuckはログメッセージのコールトレースを見ることができる。これは特定の問題を見つけるのに役立つ。%0a%3c %0a%3c -----%0a%3c Done:2018/07/20 (金) 23:55:05%0a\ No newline at end of file%0a---%0a> ＜省略＞%0a> %0a
+host:1532098369=192.168.3.2
+author:1532098142=
+diff:1532098142:1532097764:=40,49c40%0a%3c chrome_debug.logをバグレポートに添付する前に個人情報が含まれていないかをチェックすること、例えばオープンしたURLなど。%0a%3c %0a%3c デバッグログは人間が読めるテキストファイルなので、テキストエディタで開いて見ることができるし、不必要なものは消すこともできる。%0a%3c %0a%3c 定形のログは以下のフォーマットで括弧で括られる。%0a%3c %0a%3c [=%0a%3c [process_id:thread_id:ticks_in_microseconds:log_level:file_name(line_number)]%0a%3c =]%0a%3c %0a---%0a> ＜省略＞%0a
+host:1532098142=192.168.3.2
+author:1532097764=
+diff:1532097764:1530139442:=1c1%0a%3c http://www.chromium.org/for-testers/enable-logging%0a---%0a> !http://www.chromium.org/for-testers/enable-logging%0a
+host:1532097764=192.168.3.2
+author:1530139442=
+diff:1530139442:1530139388:=46,49c46%0a%3c %0a%3c http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png%0a%3c %0a%3c ＜省略＞%0a---%0a> http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png | ''Sawbuck''%0a
+host:1530139442=192.168.3.2
+author:1530139388=
+diff:1530139388:1530139231:=46c46%0a%3c http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png | ''Sawbuck''%0a---%0a> http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png?attredirects=0%0a
+host:1530139388=192.168.3.2
+author:1530139231=
+diff:1530139231:1530139160:=45,46c45,46%0a%3c [[https://github.com/google/sawbuck/releases/latest|Sawbuck]]をダウンロードし、''Log''メニューから''Configure Providers...''を選択する。以下のようなダイアログが表示される。%0a%3c http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png?attredirects=0%0a---%0a> [[Sawbuck|https://github.com/google/sawbuck/releases/latest]]をダウンロードし、''Log''メニューから''Configure Providers...''を選択する。以下のようなダイアログが表示される。%0a> [[http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png?attredirects=0]]%0a
+host:1530139231=192.168.3.2
+author:1530139160=
+diff:1530139160:1530138895:=39,46d38%0a%3c !!ログにどのような個人情報が含まれるか%0a%3c ＜省略＞%0a%3c %0a%3c !!Sawbuck%0a%3c 他の方法として、WindowsではSawbackユーティリティが使える。表示、フィルター、検索などが行える。%0a%3c %0a%3c [[Sawbuck|https://github.com/google/sawbuck/releases/latest]]をダウンロードし、''Log''メニューから''Configure Providers...''を選択する。以下のようなダイアログが表示される。%0a%3c [[http://www.chromium.org/for-testers/enable-logging/configure%2520providers.png?attredirects=0]]%0a
+host:1530139160=192.168.3.2
+author:1530138895=
+diff:1530138895:1530138817:=37c37%0a%3c [[テスター情報/コマンドラインフラグ|コマンドラインフラグ]]を参照%0a---%0a> [[テスト情報/コマンドラインフラグ|コマンドラインフラグ]]を参照%0a
+host:1530138895=192.168.3.2
+author:1530138817=
+diff:1530138817:1530138801:=37c37%0a%3c [[テスト情報/コマンドラインフラグ|コマンドラインフラグ]]を参照%0a---%0a> [テスト情報/コマンドラインフラグ|コマンドラインフラグ]を参照%0a
+host:1530138817=192.168.3.2
+author:1530138801=
+diff:1530138801:1530138707:=27,28c27%0a%3c *テストでchromeを実行するときには以下のパターンを使う。%0a%3c =cpp [=%0a---%0a> *テストでchromeを実行するときには以下のパターンを使う。=cpp [=%0a35,39d33%0a%3c %0a%3c !!コマンドラインフラグの指定の仕方%0a%3c [テスト情報/コマンドラインフラグ|コマンドラインフラグ]を参照%0a%3c %0a%3c %0a
+host:1530138801=192.168.3.2
+author:1530138707=
+diff:1530138707:1530138690:=27c27,28%0a%3c *テストでchromeを実行するときには以下のパターンを使う。=cpp [=%0a---%0a> *テストでchromeを実行するときには以下のパターンを使う。%0a> =cpp [=%0a
+host:1530138707=192.168.3.2
+author:1530138690=
+diff:1530138690:1530138642:=28c28%0a%3c =cpp [=%0a---%0a>  =cpp =[%0a
+host:1530138690=192.168.3.2
+author:1530138642=
+diff:1530138642:1530138629:=28c28%0a%3c  =cpp =[%0a---%0a> =cpp =[%0a
+host:1530138642=192.168.3.2
+author:1530138629=
+diff:1530138629:1530138223:=20,34c20%0a%3c *[= --enable-logging=stderr =]により出力は標準エラーに出力される（Windowsでは出来ない）。%0a%3c *chromeを再起動するたびにログは上書きされる。%0a%3c *Windowsでレンダプロセスのログを取るには[= --no-sandbox =]が必要。%0a%3c *''WTF_LOG''を見るには、[= --blink-platform-log-channels =]を使う。%0a%3c %0a%3c !!注意点%0a%3c *環境変数''CHROME_LOG_FILE''が設定されると、そのファイルにログファイルが作成される。相対パスの場合はカレントディレクトリからの相対パスになる。%0a%3c *テストでchromeを実行するときには以下のパターンを使う。%0a%3c =cpp =[%0a%3c #include "chrome/common/env_vars.h"%0a%3c ...%0a%3c // Set the log file path in the environment for the test browser.%0a%3c std::wstring log_file_path = ...;%0a%3c SetEnvironmentVariable(env_vars::kLogFileName, log_file_path.c_str());%0a%3c =]%0a---%0a> *[= --enable-logging=stderr =]により%0a\ No newline at end of file%0a
+host:1530138629=192.168.3.2
+author:1530138223=
+diff:1530138223:1530138020:=17,20d16%0a%3c *出力は'''chrome_debug.log'''に保存される。これはchromeのユーザデータディレクトリにある。%0a%3c **リリースビルドでは''Default/''の親ディレクトリ。%0a%3c **デバッグビルドではバイナリが置かれているディレクトリ（e.g. ''out\Deubg''）。%0a%3c *[= --enable-logging=stderr =]により%0a\ No newline at end of file%0a
+host:1530138223=192.168.3.2
+author:1530138020=
+diff:1530138020:1530138006:=14c14%0a%3c  [=%0a---%0a> [=%0a
+host:1530138020=192.168.3.2
+author:1530138006=
+diff:1530138006:1530137808:=12,16c12%0a%3c ** [= --vmodule =] はモジュールごとに冗長ログを有効にする。詳細は''base/loggin.h''%0a%3c *すべてのページロード（新規タブページも）VERBOSE1としてプリントされる。以下例%0a%3c [=%0a%3c  [28304:28320:265508881314:VERBOSE1:chrome/browser/renderer_host/resource_dispatcher_host.cc(1098)] OnResponseStarted: chrome://newtab/%0a%3c =]%0a---%0a> ** [= --vmodule =] はモジュールごとに冗長ログを有効にする。詳細は''base/loggin.h''%0a\ No newline at end of file%0a
+host:1530138006=192.168.3.2
+author:1530137808=
+diff:1530137808:1530137681:=11,12c11%0a%3c *冗長ログはVERBOSEnラベルとともに表示される。%0a%3c ** [= --vmodule =] はモジュールごとに冗長ログを有効にする。詳細は''base/loggin.h''%0a\ No newline at end of file%0a---%0a> *aaa%0a\ No newline at end of file%0a
+host:1530137808=192.168.3.2
+author:1530137681=
+diff:1530137681:1530137525:=7,11c7%0a%3c =]%0a%3c %0a%3c *このコマンドラインによりフルログサポート（INFO, WARNING, ERROR, VERBOSE0 for >=M9）が有効になる。%0a%3c *Windowsでのレンダラスタートアップをデバッグしているなら、ヒストグラムログを取ることを薦める。[= --vmodule=metrics=2 =]%0a%3c *aaa%0a\ No newline at end of file%0a---%0a> =]%0a\ No newline at end of file%0a
+host:1530137681=192.168.3.2
+author:1530137525=
+diff:1530137525:1530137503:=5,7c5%0a%3c [=%0a%3c --enable-logging --v=1%0a%3c =]%0a\ No newline at end of file%0a---%0a>  [= --enable-logging --v=1 =]%0a\ No newline at end of file%0a
+host:1530137525=192.168.3.2
+author:1530137503=
+diff:1530137503:1530137491:=5c5%0a%3c  [= --enable-logging --v=1 =]%0a\ No newline at end of file%0a---%0a> [= --enable-logging --v=1 =]%0a\ No newline at end of file%0a
+host:1530137503=192.168.3.2
+author:1530137491=
+diff:1530137491:1530137491:=1,5d0%0a%3c !http://www.chromium.org/for-testers/enable-logging%0a%3c %0a%3c Chromeでログを取るには以下のコマンドラインを使う%0a%3c %0a%3c [= --enable-logging --v=1 =]%0a\ No newline at end of file%0a
+host:1530137491=192.168.3.2

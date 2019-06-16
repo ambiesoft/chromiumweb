@@ -1,0 +1,27 @@
+version=pmwiki-2.2.109 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1530972327
+host=192.168.3.2
+name=参加する.コミッタになる
+rev=5
+targets=
+text=https://www.chromium.org/getting-involved/become-a-committer%0a%0a!コミッタとは%0aコミッタとはChromiumのGitレポジトリの書き込みアクセスをもつものを言う。コミッタはパッチを適用することができる。%0a%0aこの特権には責任が伴う。%0a%0aコミッタはChromiumプロジェクト成功への貢献者である。%0a%0a!コミッタになる%0a１０～２０の些細でないパッチで貢献し、それらが３人以上のレビューからレビューされた後に誰かに推薦してもらうように頼む。基本的に以下のことを実践すること。%0a*１０個以上のコミットをする。%0a*チームと協力する%0a*チームがどう動いているかを知る（ポリシー、テストやレビューのプロセス、OWNERファイルなど）%0a*コードやスタイルを理解し、良いコードを書く%0a%0a＜省略＞%0a%0a
+time=1560391613
+author:1560391613=
+diff:1560391613:1538485568:=4c4%0a%3c コミッタとはChromiumのGitレポジトリの書き込みアクセスをもつものを言う。コミッタはパッチを適用することができる。%0a---%0a> コミッタとはChromiumのGitレポジトリの書き込みアクセスをもつものを言う。コミッタはハッチを適用することができる。%0a
+host:1560391613=192.168.3.2
+author:1538485568=
+diff:1538485568:1530972812:=1c1%0a%3c https://www.chromium.org/getting-involved/become-a-committer%0a---%0a> http://dev.chromium.org/getting-involved/become-a-committer%0a
+host:1538485568=192.168.3.2
+author:1530972812=
+diff:1530972812:1530972790:=17d16%0a%3c ＜省略＞%0a
+host:1530972812=192.168.3.2
+author:1530972790=
+diff:1530972790:1530972327:=1,17c1%0a%3c http://dev.chromium.org/getting-involved/become-a-committer%0a%3c %0a%3c !コミッタとは%0a%3c コミッタとはChromiumのGitレポジトリの書き込みアクセスをもつものを言う。コミッタはハッチを適用することができる。%0a%3c %0a%3c この特権には責任が伴う。%0a%3c %0a%3c コミッタはChromiumプロジェクト成功への貢献者である。%0a%3c %0a%3c !コミッタになる%0a%3c １０～２０の些細でないパッチで貢献し、それらが３人以上のレビューからレビューされた後に誰かに推薦してもらうように頼む。基本的に以下のことを実践すること。%0a%3c *１０個以上のコミットをする。%0a%3c *チームと協力する%0a%3c *チームがどう動いているかを知る（ポリシー、テストやレビューのプロセス、OWNERファイルなど）%0a%3c *コードやスタイルを理解し、良いコードを書く%0a%3c %0a%3c %0a---%0a> http://dev.chromium.org/getting-involved/become-a-committer%0a\ No newline at end of file%0a
+host:1530972790=192.168.3.2
+author:1530972327=
+diff:1530972327:1530972327:=1d0%0a%3c http://dev.chromium.org/getting-involved/become-a-committer%0a\ No newline at end of file%0a
+host:1530972327=192.168.3.2

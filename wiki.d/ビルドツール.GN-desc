@@ -1,0 +1,33 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1530561611
+host=192.168.3.2
+name=ビルドツール.GN-desc
+rev=7
+targets=
+text=gn help desc%0a%0a@@gn desc %3cout_dir> %3clabel or pattern> [%3cwhat to show>] [--blame]@@%0a%0aターゲットやコンフィグの情報を表示する。ビルドパラメータは@@out_dir@@から取得される。%0a%0a!%3cwhat to do>に使える値%0a（もし指定されなければ、概要が生じされる）%0a%0a  all_dependent_configs%0a  allow_circular_includes_from%0a  arflags [--blame]%0a  args%0a  cflags [--blame]%0a  cflags_cc [--blame]%0a  cflags_cxx [--blame]%0a  check_includes%0a  configs [--tree] (see below)%0a  defines [--blame]%0a  depfile%0a  deps [--all] [--tree] (see below)%0a  include_dirs [--blame]%0a  inputs%0a  ldflags [--blame]%0a  lib_dirs%0a  libs%0a  outputs%0a  public_configs%0a  public%0a  script%0a  sources%0a  testonly%0a  visibility%0a%0a  runtime_deps%0a実行時の依存を計算する。これは他の値と違い計算されたリストを表示する。GN変数と対応しているわけではない。%0a%0a出力はビルドディレクトリからの相対パスのファイル名のリスト。どのように計算されるかは@@gn help runtime_deps@@を参照。これは@@--blame@@とともに使うことが出来、依存のソースを見ることができる。%0a%0a!共有フラグ%0a  --all-toolchains%0a通常はデフォルトのツールチェインのみが含まれる。このスイッチはすべてのツールチェインを有効にする。%0a%0a例えば、ファイルは２回コンパイルされるかもしれない。１回目はデフォルトのツールチェインで、２回目は２つめのツールチェインで。このフラグを指定しないと、デフォルトのツールチェインのみがワイルドカードでマッチする。このフラグを使うとどちらもマッチする。%0a%0a  --format=json%0a出力をjson形式にする。%0a%0a!ターゲットフラグ%0a  --blame%0aコンフィグで指定されたどんな値でも指定できる。コンフィグに名前をつけそれによりターゲットがフラグを得る。現在の所、libsとlib_dirsに対しては動作しない、これらは継承されており、責任を知るのは困難だからである。%0a%0a＜省略＞%0a%0a!実例%0a gn desc out/Debug //base:base%0aターゲットの要約%0a%0a gn desc out/Foo :base_unittests deps --tree%0aカレントディレクトリの"base_unittests"プロジェクトの依存ツリーを表示する。%0a%0a gn desc out/Debug //base defines --blame%0a//base:baseのdefinesセットを表示する、どこでそれらがセットされたのかの脚注がつく。%0a
+time=1530854867
+author:1530854867=
+diff:1530854867:1530854864:=
+host:1530854867=192.168.3.2
+author:1530854864=
+diff:1530854864:1530562558:=56c56%0a%3c  gn desc out/Debug //base:base%0a---%0a>   gn desc out/Debug //base:base%0a59c59%0a%3c  gn desc out/Foo :base_unittests deps --tree%0a---%0a>   gn desc out/Foo :base_unittests deps --tree%0a62c62%0a%3c  gn desc out/Debug //base defines --blame%0a---%0a>   gn desc out/Debug //base defines --blame%0a
+host:1530854864=192.168.3.2
+author:1530562558=
+diff:1530562558:1530562200:=48,63d47%0a%3c %0a%3c !ターゲットフラグ%0a%3c   --blame%0a%3c コンフィグで指定されたどんな値でも指定できる。コンフィグに名前をつけそれによりターゲットがフラグを得る。現在の所、libsとlib_dirsに対しては動作しない、これらは継承されており、責任を知るのは困難だからである。%0a%3c %0a%3c ＜省略＞%0a%3c %0a%3c !実例%0a%3c   gn desc out/Debug //base:base%0a%3c ターゲットの要約%0a%3c %0a%3c   gn desc out/Foo :base_unittests deps --tree%0a%3c カレントディレクトリの"base_unittests"プロジェクトの依存ツリーを表示する。%0a%3c %0a%3c   gn desc out/Debug //base defines --blame%0a%3c //base:baseのdefinesセットを表示する、どこでそれらがセットされたのかの脚注がつく。%0a
+host:1530562558=192.168.3.2
+author:1530562200=
+diff:1530562200:1530562002:=41,47d40%0a%3c   --all-toolchains%0a%3c 通常はデフォルトのツールチェインのみが含まれる。このスイッチはすべてのツールチェインを有効にする。%0a%3c %0a%3c 例えば、ファイルは２回コンパイルされるかもしれない。１回目はデフォルトのツールチェインで、２回目は２つめのツールチェインで。このフラグを指定しないと、デフォルトのツールチェインのみがワイルドカードでマッチする。このフラグを使うとどちらもマッチする。%0a%3c %0a%3c   --format=json%0a%3c 出力をjson形式にする。%0a
+host:1530562200=192.168.3.2
+author:1530562002=
+diff:1530562002:1530561765:=33,40c33%0a%3c   visibility%0a%3c %0a%3c   runtime_deps%0a%3c 実行時の依存を計算する。これは他の値と違い計算されたリストを表示する。GN変数と対応しているわけではない。%0a%3c %0a%3c 出力はビルドディレクトリからの相対パスのファイル名のリスト。どのように計算されるかは@@gn help runtime_deps@@を参照。これは@@--blame@@とともに使うことが出来、依存のソースを見ることができる。%0a%3c %0a%3c !共有フラグ%0a---%0a>   visibility%0a\ No newline at end of file%0a
+host:1530562002=192.168.3.2
+author:1530561765=
+diff:1530561765:1530561611:=3,33c3%0a%3c @@gn desc %3cout_dir> %3clabel or pattern> [%3cwhat to show>] [--blame]@@%0a%3c %0a%3c ターゲットやコンフィグの情報を表示する。ビルドパラメータは@@out_dir@@から取得される。%0a%3c %0a%3c !%3cwhat to do>に使える値%0a%3c （もし指定されなければ、概要が生じされる）%0a%3c %0a%3c   all_dependent_configs%0a%3c   allow_circular_includes_from%0a%3c   arflags [--blame]%0a%3c   args%0a%3c   cflags [--blame]%0a%3c   cflags_cc [--blame]%0a%3c   cflags_cxx [--blame]%0a%3c   check_includes%0a%3c   configs [--tree] (see below)%0a%3c   defines [--blame]%0a%3c   depfile%0a%3c   deps [--all] [--tree] (see below)%0a%3c   include_dirs [--blame]%0a%3c   inputs%0a%3c   ldflags [--blame]%0a%3c   lib_dirs%0a%3c   libs%0a%3c   outputs%0a%3c   public_configs%0a%3c   public%0a%3c   script%0a%3c   sources%0a%3c   testonly%0a%3c   visibility%0a\ No newline at end of file%0a---%0a> @@gn desc %3cout_dir> %3clabel or pattern> [%3cwhat to show>] [--blame]@@%0a\ No newline at end of file%0a
+host:1530561765=192.168.3.2
+author:1530561611=
+diff:1530561611:1530561611:=1,3d0%0a%3c gn help desc%0a%3c %0a%3c @@gn desc %3cout_dir> %3clabel or pattern> [%3cwhat to show>] [--blame]@@%0a\ No newline at end of file%0a
+host:1530561611=192.168.3.2

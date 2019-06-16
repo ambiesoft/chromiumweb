@@ -1,0 +1,78 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1503380365
+host=192.168.3.2
+name=開発者向け.スレッドとタスク
+rev=22
+targets=
+text=https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md%0a!全体像%0a!!スレッド%0aすべてのプロセスは以下のスレッドを持つ。%0a*メインスレッド%0a**ブラウザプロセス：UIの更新%0a**レンダープロセス：Blinkの大体の仕事%0a%0a*IOスレッド%0a**ブラウザプロセス：IPCのハンドルやネットワークリクエスト%0a**レンダープロセス：IPCのハンドル%0a%0a*いくつかの特別なスレッド%0a*一般用のプール%0a%0aほとんどのスレッドはタスクを取得するためのループとキューを持っている。（キューは共有されていることもある）%0a%0a!!タスク%0aタスクは@@base::OnceClosure@@であって、非同期の実行のためキューに追加される。%0a@@base::OnceClosureは関数ポインタと引数を保持している。@@Run()@@メソッドを持っていて、それが関数ポインタを実行する。これは@@base::BindOnce@@で作られる（参照：[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/callback.md|コールバックとBind()]]）%0a%0a=cpp [=%0avoid TaskA() {}%0avoid TaskB(int v) {}%0a%0aauto task_a = base::BindOnce(&TaskA);%0aauto task_b = base::BindOnce(&TaskB, 42);%0a=]%0a%0aタスクのグループは以下の方法で実行される。%0a*パラレル：タスクの順番を考慮しない。別々のスレッドで一気に実行される場合もある。%0a*シーケンス：ポストされた順番通りに実行される。一度に一つずつ実行される。どのスレッドでも実行されえる。%0a*シングルスレッド：ポストされた通りの順番で１つのスレッドで実行される。%0a->*COMシングルスレッド：シングルスレッドのCOM版、COMの初期化を伴う。%0a%0a!!シーケンスのほうがシングルスレッドより好ましい%0aスレッドセーフだけが要求される場合、'''シーケンス実行モードはシングルスレッドよりも遥かに好ましい。'''（シングルスレッドの場合、スレッドの最後に仕事を追加するがシーケンスの場合スレッドをHOPできる。）スレッドがホップできるとスレッドカウントが動的にマシンのリソース利用状況に適用される（大きいマシンでは早くなり、遅いマシンではゴミを減らす）。%0a%0a多くのコアAPIは最近シーケンスフレンドリになった。（クラスはほとんどthread-affine（スレッドローカルストレッジを使う）ではない）。コードベースはシングルスレッドコンテキストを前提として進化している。もしクラスがシーケンスで実行可能で、リーフ依存のなかでThreadChcker/ThreadTaskRunnerHandle/SingleThreadTaskrunnerを多用しブロックされているなら、他の人のためにコードを見直すべき（最低でもブロッキングバグをhttps://crbug.com/675631 に提出すべきで、base::CreateSingleThreadTaskRunnerWithTraits()にはTODOのフラグを付けるべき）。%0a%0aシングルスレッドからシーケンスへの詳細な文書は[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/task_scheduler_migration.md|ここ]]にある。%0a%0a以下の議論はタスクを実行するこれらの詳細を述べる。%0a%0a!パラレスタスクをポスト%0a!!タスクスケジューラへ直接ポスト%0aどのスレッドでも実行できて、排他制御を持たないタスクは@@base::PostTask*()@@を使うべき。[[https://cs.chromium.org/chromium/src/base/task_scheduler/post_task.h|base/task_scheduler/post_task.h]]で定義される。%0a%0a=cpp [=%0abase::PostTask(FROM_HERE, base::BindOnce(&Task));%0a=]%0a%0aこれはデフォルトのトレイトでタスクをポストする。%0a%0a@@base::PostTask*WithTraits()@@は、TaskTraitsを使って追加情報を提供できる。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Annotating-Tasks-with-TaskTraits|TaskTraits付きタスクへの注釈]]）%0a%0a=cpp [=%0abase::PostTaskWithTraits(%0a    FROM_HERE, {base::TaskPriority::BACKGROUND, MayBlock()},%0a    base::BindOnce(&Task));%0a=]%0a%0a!!TaskRunner経由でポストする%0aパラレルの[[https://cs.chromium.org/chromium/src/base/task_runner.h|TaskRunner]]は直接@@base::PostTask*()@@コールの代替品である。前もってタスクがパラレルなのかシーケンスなのかシングルスレッドなのかわからないときに有用である。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Posting-a-Sequenced-Task|シーケンスタスクのポスト]][[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Posting-Multiple-Tasks-to-the-Same-Thread|同じスレッドへの多数のタスクのポスト]]）。@@TaskRunnder@@は@@SequencedTaskRunner@@や@@SingleThreadTaskRunner@@のベースクラスなので、@@scoped_refptr%3cTaskRunnder>@@メンバは@@TaskRunnder@@や@@SequencedTaskRunner、または@@SingleThreadTaskRunner@@を保持できる。%0a%0a=cpp [=%0aclass A {%0a public:%0a  A() = default;%0a%0a  void set_task_runner_for_testing(%0a      scoped_refptr%3cbase::TaskRunner> task_runner) {%0a    task_runner_ = std::move(task_runner);%0a  }%0a%0a  void DoSomething() {%0a    // In production, A is always posted in parallel. In test, it is posted to%0a    // the TaskRunner provided via set_task_runner_for_testing().%0a    task_runner_->PostTask(FROM_HERE, base::BindOnce(&A));%0a  }%0a%0a private:%0a  scoped_refptr%3cbase::TaskRunner> task_runner_ =%0a      base::CreateTaskRunnerWithTraits({base::TaskPriority::USER_VISIBLE});%0a};%0a=]%0a%0aテストがタスク実行の正確なコントロールを必要としないときは、@@base::PostTask*()@@を直接コールするのが好ましい。（参照。テストにおいてより侵入的でない方法でタスクをコントロールする[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Testing|テスティング]]）。%0a%0a!シーケンスタスクのポスト%0a（TODO：途中）%0a
+time=1530427463
+author:1530427463=
+diff:1530427463:1503385362:=1c1,2%0a%3c https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md%0a---%0a> https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Using-TaskScheduler-in-a-New-Process%0a> %0a
+host:1530427463=192.168.3.2
+author:1503385362=
+diff:1503385362:1503384402:=
+host:1503385362=192.168.0.2
+author:1503384402=
+diff:1503384402:1503383951:=88,92d87%0a%3c %0a%3c テストがタスク実行の正確なコントロールを必要としないときは、@@base::PostTask*()@@を直接コールするのが好ましい。（参照。テストにおいてより侵入的でない方法でタスクをコントロールする[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Testing|テスティング]]）。%0a%3c %0a%3c !シーケンスタスクのポスト%0a%3c （TODO：途中）%0a
+host:1503384402=192.168.0.2
+author:1503383951=
+diff:1503383951:1503383111:=62,86d61%0a%3c =]%0a%3c %0a%3c !!TaskRunner経由でポストする%0a%3c パラレルの[[https://cs.chromium.org/chromium/src/base/task_runner.h|TaskRunner]]は直接@@base::PostTask*()@@コールの代替品である。前もってタスクがパラレルなのかシーケンスなのかシングルスレッドなのかわからないときに有用である。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Posting-a-Sequenced-Task|シーケンスタスクのポスト]][[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Posting-Multiple-Tasks-to-the-Same-Thread|同じスレッドへの多数のタスクのポスト]]）。@@TaskRunnder@@は@@SequencedTaskRunner@@や@@SingleThreadTaskRunner@@のベースクラスなので、@@scoped_refptr%3cTaskRunnder>@@メンバは@@TaskRunnder@@や@@SequencedTaskRunner、または@@SingleThreadTaskRunner@@を保持できる。%0a%3c %0a%3c =cpp [=%0a%3c class A {%0a%3c  public:%0a%3c   A() = default;%0a%3c %0a%3c   void set_task_runner_for_testing(%0a%3c       scoped_refptr%3cbase::TaskRunner> task_runner) {%0a%3c     task_runner_ = std::move(task_runner);%0a%3c   }%0a%3c %0a%3c   void DoSomething() {%0a%3c     // In production, A is always posted in parallel. In test, it is posted to%0a%3c     // the TaskRunner provided via set_task_runner_for_testing().%0a%3c     task_runner_->PostTask(FROM_HERE, base::BindOnce(&A));%0a%3c   }%0a%3c %0a%3c  private:%0a%3c   scoped_refptr%3cbase::TaskRunner> task_runner_ =%0a%3c       base::CreateTaskRunnerWithTraits({base::TaskPriority::USER_VISIBLE});%0a%3c };%0a
+host:1503383951=192.168.0.2
+author:1503383111=
+diff:1503383111:1503383076:=55,56c55%0a%3c %0a%3c @@base::PostTask*WithTraits()@@は、TaskTraitsを使って追加情報を提供できる。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Annotating-Tasks-with-TaskTraits|TaskTraits付きタスクへの注釈]]）%0a---%0a> @@base::PostTask*WithTraits()は、TaskTraitsを使って追加情報を提供できる。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Annotating-Tasks-with-TaskTraits|TaskTraits付きタスクへの注釈]]）%0a
+host:1503383111=192.168.0.2
+author:1503383076=
+diff:1503383076:1503382776:=55,61c55%0a%3c @@base::PostTask*WithTraits()は、TaskTraitsを使って追加情報を提供できる。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Annotating-Tasks-with-TaskTraits|TaskTraits付きタスクへの注釈]]）%0a%3c %0a%3c =cpp [=%0a%3c base::PostTaskWithTraits(%0a%3c     FROM_HERE, {base::TaskPriority::BACKGROUND, MayBlock()},%0a%3c     base::BindOnce(&Task));%0a%3c =]%0a---%0a> @@base::PostTask*WithTraits()は、TaskTraitsを使って追加情報を提供できる。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Annotating-Tasks-with-TaskTraits|TaskTraits付きタスクへの注釈]]）%0a\ No newline at end of file%0a
+host:1503383076=192.168.0.2
+author:1503382776=
+diff:1503382776:1503382666:=53,55d52%0a%3c %0a%3c これはデフォルトのトレイトでタスクをポストする。%0a%3c @@base::PostTask*WithTraits()は、TaskTraitsを使って追加情報を提供できる。（参照[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Annotating-Tasks-with-TaskTraits|TaskTraits付きタスクへの注釈]]）%0a\ No newline at end of file%0a
+host:1503382776=192.168.0.2
+author:1503382666=
+diff:1503382666:1503382648:=50c50%0a%3c =cpp [=%0a---%0a> =cpp [%0a
+host:1503382666=192.168.0.2
+author:1503382648=
+diff:1503382648:1503382632:=50c50%0a%3c =cpp [%0a---%0a> [=cpp [%0a
+host:1503382648=192.168.0.2
+author:1503382632=
+diff:1503382632:1503382585:=49,52d48%0a%3c %0a%3c [=cpp [%0a%3c base::PostTask(FROM_HERE, base::BindOnce(&Task));%0a%3c =]%0a
+host:1503382632=192.168.0.2
+author:1503382585=
+diff:1503382585:1503382424:=44,48d43%0a%3c 以下の議論はタスクを実行するこれらの詳細を述べる。%0a%3c %0a%3c !パラレスタスクをポスト%0a%3c !!タスクスケジューラへ直接ポスト%0a%3c どのスレッドでも実行できて、排他制御を持たないタスクは@@base::PostTask*()@@を使うべき。[[https://cs.chromium.org/chromium/src/base/task_scheduler/post_task.h|base/task_scheduler/post_task.h]]で定義される。%0a
+host:1503382585=192.168.0.2
+author:1503382424=
+diff:1503382424:1503382405:=40c40%0a%3c 多くのコアAPIは最近シーケンスフレンドリになった。（クラスはほとんどthread-affine（スレッドローカルストレッジを使う）ではない）。コードベースはシングルスレッドコンテキストを前提として進化している。もしクラスがシーケンスで実行可能で、リーフ依存のなかでThreadChcker/ThreadTaskRunnerHandle/SingleThreadTaskrunnerを多用しブロックされているなら、他の人のためにコードを見直すべき（最低でもブロッキングバグをhttps://crbug.com/675631 に提出すべきで、base::CreateSingleThreadTaskRunnerWithTraits()にはTODOのフラグを付けるべき）。%0a---%0a> 多くのコアAPIは最近シーケンスフレンドリになった。（クラスはほとんどthread-affine（スレッドローカルストレッジを使う）ではない）。コードベースはシングルスレッドコンテキストを前提として進化している。もしクラスがシーケンスで実行可能で、リーフ依存のなかでThreadChcker/ThreadTaskRunnerHandle/SingleThreadTaskrunnerを多用しブロックされているなら、他の人のためにコードを見直すべき（最低でもブロッキングバグをhttps://crbug.com/675631に提出すべきで、base::CreateSingleThreadTaskRunnerWithTraits()にはTODOのフラグを付けるべき）。%0a
+host:1503382424=192.168.0.2
+author:1503382405=
+diff:1503382405:1503381619:=39,42d38%0a%3c %0a%3c 多くのコアAPIは最近シーケンスフレンドリになった。（クラスはほとんどthread-affine（スレッドローカルストレッジを使う）ではない）。コードベースはシングルスレッドコンテキストを前提として進化している。もしクラスがシーケンスで実行可能で、リーフ依存のなかでThreadChcker/ThreadTaskRunnerHandle/SingleThreadTaskrunnerを多用しブロックされているなら、他の人のためにコードを見直すべき（最低でもブロッキングバグをhttps://crbug.com/675631に提出すべきで、base::CreateSingleThreadTaskRunnerWithTraits()にはTODOのフラグを付けるべき）。%0a%3c %0a%3c シングルスレッドからシーケンスへの詳細な文書は[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/task_scheduler_migration.md|ここ]]にある。%0a
+host:1503382405=192.168.0.2
+author:1503381619=
+diff:1503381619:1503380902:=30d29%0a%3c %0a36,38d34%0a%3c %0a%3c !!シーケンスのほうがシングルスレッドより好ましい%0a%3c スレッドセーフだけが要求される場合、'''シーケンス実行モードはシングルスレッドよりも遥かに好ましい。'''（シングルスレッドの場合、スレッドの最後に仕事を追加するがシーケンスの場合スレッドをHOPできる。）スレッドがホップできるとスレッドカウントが動的にマシンのリソース利用状況に適用される（大きいマシンでは早くなり、遅いマシンではゴミを減らす）。%0a
+host:1503381619=192.168.0.2
+author:1503380902=
+diff:1503380902:1503380897:=
+host:1503380902=192.168.0.2
+author:1503380897=
+diff:1503380897:1503380657:=29,35c29%0a%3c =]%0a%3c タスクのグループは以下の方法で実行される。%0a%3c *パラレル：タスクの順番を考慮しない。別々のスレッドで一気に実行される場合もある。%0a%3c *シーケンス：ポストされた順番通りに実行される。一度に一つずつ実行される。どのスレッドでも実行されえる。%0a%3c *シングルスレッド：ポストされた通りの順番で１つのスレッドで実行される。%0a%3c ->*COMシングルスレッド：シングルスレッドのCOM版、COMの初期化を伴う。%0a%3c %0a---%0a> =]%0a\ No newline at end of file%0a
+host:1503380897=192.168.0.2
+author:1503380657=
+diff:1503380657:1503380642:=22d21%0a%3c %0a
+host:1503380657=192.168.0.2
+author:1503380642=
+diff:1503380642:1503380620:=21c21%0a%3c @@base::OnceClosureは関数ポインタと引数を保持している。@@Run()@@メソッドを持っていて、それが関数ポインタを実行する。これは@@base::BindOnce@@で作られる（参照：[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/callback.md|コールバックとBind()]]）%0a---%0a> @@base::OnceClosureは関数ポインタと引数を保持している。@@Run()@@メソッドを持っていて、それが関数ポインタを実行する。これは@@base::BindOnceで作られる（参照：[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/callback.md|コールバックとBind()]]）%0a
+host:1503380642=192.168.0.2
+author:1503380620=
+diff:1503380620:1503380508:=21,28c21%0a%3c @@base::OnceClosureは関数ポインタと引数を保持している。@@Run()@@メソッドを持っていて、それが関数ポインタを実行する。これは@@base::BindOnceで作られる（参照：[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/callback.md|コールバックとBind()]]）%0a%3c =cpp [=%0a%3c void TaskA() {}%0a%3c void TaskB(int v) {}%0a%3c %0a%3c auto task_a = base::BindOnce(&TaskA);%0a%3c auto task_b = base::BindOnce(&TaskB, 42);%0a%3c =]%0a\ No newline at end of file%0a---%0a> @@base::OnceClosureは関数ポインタと引数を保持している。@@Run()@@メソッドを持っていて、それが関数ポインタを実行する。これは@@base::BindOnceで作られる（参照：[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/callback.md|コールバックとBind()]]）%0a\ No newline at end of file%0a
+host:1503380620=192.168.0.2
+author:1503380508=
+diff:1503380508:1503380501:=
+host:1503380508=192.168.0.2
+author:1503380501=
+diff:1503380501:1503380365:=21c21%0a%3c @@base::OnceClosureは関数ポインタと引数を保持している。@@Run()@@メソッドを持っていて、それが関数ポインタを実行する。これは@@base::BindOnceで作られる（参照：[[https://chromium.googlesource.com/chromium/src/+/lkcr/docs/callback.md|コールバックとBind()]]）%0a\ No newline at end of file%0a---%0a> @@%0a\ No newline at end of file%0a
+host:1503380501=192.168.0.2
+author:1503380365=
+diff:1503380365:1503380365:=1,21d0%0a%3c https://chromium.googlesource.com/chromium/src/+/lkcr/docs/threading_and_tasks.md#Using-TaskScheduler-in-a-New-Process%0a%3c %0a%3c !全体像%0a%3c !!スレッド%0a%3c すべてのプロセスは以下のスレッドを持つ。%0a%3c *メインスレッド%0a%3c **ブラウザプロセス：UIの更新%0a%3c **レンダープロセス：Blinkの大体の仕事%0a%3c %0a%3c *IOスレッド%0a%3c **ブラウザプロセス：IPCのハンドルやネットワークリクエスト%0a%3c **レンダープロセス：IPCのハンドル%0a%3c %0a%3c *いくつかの特別なスレッド%0a%3c *一般用のプール%0a%3c %0a%3c ほとんどのスレッドはタスクを取得するためのループとキューを持っている。（キューは共有されていることもある）%0a%3c %0a%3c !!タスク%0a%3c タスクは@@base::OnceClosure@@であって、非同期の実行のためキューに追加される。%0a%3c @@%0a\ No newline at end of file%0a
+host:1503380365=192.168.0.2

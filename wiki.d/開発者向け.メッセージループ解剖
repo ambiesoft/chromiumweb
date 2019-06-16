@@ -1,0 +1,33 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1502926198
+host=192.168.3.2
+name=開発者向け.メッセージループ解剖
+rev=7
+targets=
+text=https://docs.google.com/document/d/1_pJUHO3f3VyRSQjEhKVvUU7NzCyuTCQshZvbWeQiCXU/view#heading=h.mf0ccgw3ul6k%0a%0a!外観%0a''MessageLoop''はChromiumの根本部品の１つです。その役割はイベントやタスクを処理することです。２つの重要なメソッドが''PostTask''と''Run''で、これによってポストされたタスクを関連付けられたスレッドで実行します。通常（テストでない場合）、staticメソッドの''MessageLoop::current()''によりカレントスレッドの''MessageLoop''が取得できます。しかし多くのプロダクションコードは直接''MessageLoop''を扱ったりしません。%0a%0a!!PostTaskメソッドの種類%0a''PostTask''は''MessageLoop''に関連付けられたスレッドでタスクを実行するようスケジュールします。''MessageLoop''のメソッドを使って直接タスクをポストすることは推奨されていませしそのインタフェースは廃止されつつあります。そのかわりにより一般的な''TaskRunner''を使うべきです。カレントスレッドの''TaskRunner''は''ThreadTaskRunnerHandle::Get()''により取得できます。%0a%0a!!Runメソッド%0a''Run''メソッドは、''MessageLoop''の内部メッセージポンプのイベント処理を開始し、ポストされたタスクを実行します。Chromiumのスレッドクラス（''base::Thread''）はこのメソッドを呼び出すので、プロダクションコードは明示的に呼ぶ必要はありません。テストコードでは、''RunLoop''インタフェース経由でメッセージループを実行することが推奨されます。%0a%0a!メッセージループとともに働くクラス%0a''MessageLoop''クラスはいくつかのクラスと綿密に連携して動作します。すなわち''MessagePump'', ''IncomingTaskQueue''そして''MessageLoopProxyImpl''です。これらのクラスのインスタンスは''MessageLoop''がインスタンス化されたときに作成され、''MessageLoop''により所有（または参照）されます。%0a%0aAttach:image2.png%0a%0a!!MessagePump%0a内部的には''MessageLoop''と''MessagePump''はペアになっています。''MessagePump''はプラットフォーム特有のメッセージポンプで、ネイティブイベント（Windowsのメッセージや　IOイベント）を処理します。''MessagePump''は''Delegate''インタフェースを提供し、''DoWork''メソッドのセットを持ち、これらはプラットフォームのネイティブメッセージループから呼び出されます。''MessageLoop''はこの''Delegate''インタフェースを実装し、''DoWork''メソッドでポストされたタスクを実行します。''MessagePump''の１つしかない最も重要なメソッドが''Run''です。ネイティブイベントを処理し、''MessageLoop::Delegate''の''DoWork''メソッドを呼び出します。メッセージポンプも複雑なので別のドキュメントが必要です。%0a%0a!!IncomingTaskQueue%0a''IncomingTaskQueue''はスレッドセーフなタスクキューで、''MessageLoop''のためのタスクを蓄積します。''IncomingTaskQueue''は２つの重要なメソッドを持っています。''AddToIncomingQueue''と''ReloadWorkQueue''です。''AddToIncomingQueue''はスレッドセーフなタスクキューにタスクを登録します。''ReloadWorkQueue''は内部のタスクキューと与えられたタスクキューをスワップします。普通は、''AddToIncomingQueue''により''MessageLoop''にポストされたタスクは''IncomingTaskQueue''に登録されます（''MessageLoopProxyImpl''経由で）。''IncomingTaskQueue''に登録されたタスクはその後''ReloadWorkQueue''により内部キューにロードされます。%0a%0a!!MessageLoopProxyImpl%0a''MessageLoopProxyImpl''は''MessageLoopProxy''（これは''SingleThreadTaskRunner''を拡張する）を拡張し、''IncomingTaskQueue''に対する''MessageLoopProxy''と''TaskRunner''インタフェースを提供します。''MessageLoopProxyImpl''は''PostTask''メソッドのセットを提供し、タスクを''IncomingTaskQueue''い転送します。%0a%0a''MessageLoop::message_loop_proxy()''と''MessageLoop::task_runner()''はこのクラスのインスタンを返します。言い換えるとこのクラスは対応する''MessageLoop''の''TaskRunner''を提供します。%0a%0a%0a
+time=1530431129
+author:1530431129=
+diff:1530431129:1530430892:=25,27d24%0a%3c %0a%3c ''MessageLoop::message_loop_proxy()''と''MessageLoop::task_runner()''はこのクラスのインスタンを返します。言い換えるとこのクラスは対応する''MessageLoop''の''TaskRunner''を提供します。%0a%3c %0a
+host:1530431129=192.168.3.2
+author:1530430892=
+diff:1530430892:1530430308:=19,24d18%0a%3c %0a%3c !!IncomingTaskQueue%0a%3c ''IncomingTaskQueue''はスレッドセーフなタスクキューで、''MessageLoop''のためのタスクを蓄積します。''IncomingTaskQueue''は２つの重要なメソッドを持っています。''AddToIncomingQueue''と''ReloadWorkQueue''です。''AddToIncomingQueue''はスレッドセーフなタスクキューにタスクを登録します。''ReloadWorkQueue''は内部のタスクキューと与えられたタスクキューをスワップします。普通は、''AddToIncomingQueue''により''MessageLoop''にポストされたタスクは''IncomingTaskQueue''に登録されます（''MessageLoopProxyImpl''経由で）。''IncomingTaskQueue''に登録されたタスクはその後''ReloadWorkQueue''により内部キューにロードされます。%0a%3c %0a%3c !!MessageLoopProxyImpl%0a%3c ''MessageLoopProxyImpl''は''MessageLoopProxy''（これは''SingleThreadTaskRunner''を拡張する）を拡張し、''IncomingTaskQueue''に対する''MessageLoopProxy''と''TaskRunner''インタフェースを提供します。''MessageLoopProxyImpl''は''PostTask''メソッドのセットを提供し、タスクを''IncomingTaskQueue''い転送します。%0a
+host:1530430892=192.168.3.2
+author:1530430308=
+diff:1530430308:1530429759:=15,19c15%0a%3c Attach:image2.png%0a%3c %0a%3c !!MessagePump%0a%3c 内部的には''MessageLoop''と''MessagePump''はペアになっています。''MessagePump''はプラットフォーム特有のメッセージポンプで、ネイティブイベント（Windowsのメッセージや　IOイベント）を処理します。''MessagePump''は''Delegate''インタフェースを提供し、''DoWork''メソッドのセットを持ち、これらはプラットフォームのネイティブメッセージループから呼び出されます。''MessageLoop''はこの''Delegate''インタフェースを実装し、''DoWork''メソッドでポストされたタスクを実行します。''MessagePump''の１つしかない最も重要なメソッドが''Run''です。ネイティブイベントを処理し、''MessageLoop::Delegate''の''DoWork''メソッドを呼び出します。メッセージポンプも複雑なので別のドキュメントが必要です。%0a%3c %0a---%0a> Attach:image2.png%0a\ No newline at end of file%0a
+host:1530430308=192.168.3.2
+author:1530429759=
+diff:1530429759:1530429524:=15d14%0a%3c Attach:image2.png%0a\ No newline at end of file%0a
+host:1530429759=192.168.3.2
+author:1530429524=
+diff:1530429524:1530428430:=8,14d7%0a%3c %0a%3c !!Runメソッド%0a%3c ''Run''メソッドは、''MessageLoop''の内部メッセージポンプのイベント処理を開始し、ポストされたタスクを実行します。Chromiumのスレッドクラス（''base::Thread''）はこのメソッドを呼び出すので、プロダクションコードは明示的に呼ぶ必要はありません。テストコードでは、''RunLoop''インタフェース経由でメッセージループを実行することが推奨されます。%0a%3c %0a%3c !メッセージループとともに働くクラス%0a%3c ''MessageLoop''クラスはいくつかのクラスと綿密に連携して動作します。すなわち''MessagePump'', ''IncomingTaskQueue''そして''MessageLoopProxyImpl''です。これらのクラスのインスタンスは''MessageLoop''がインスタンス化されたときに作成され、''MessageLoop''により所有（または参照）されます。%0a%3c %0a
+host:1530429524=192.168.3.2
+author:1530428430=
+diff:1530428430:1502926198:=1,7c1%0a%3c https://docs.google.com/document/d/1_pJUHO3f3VyRSQjEhKVvUU7NzCyuTCQshZvbWeQiCXU/view#heading=h.mf0ccgw3ul6k%0a%3c %0a%3c !外観%0a%3c ''MessageLoop''はChromiumの根本部品の１つです。その役割はイベントやタスクを処理することです。２つの重要なメソッドが''PostTask''と''Run''で、これによってポストされたタスクを関連付けられたスレッドで実行します。通常（テストでない場合）、staticメソッドの''MessageLoop::current()''によりカレントスレッドの''MessageLoop''が取得できます。しかし多くのプロダクションコードは直接''MessageLoop''を扱ったりしません。%0a%3c %0a%3c !!PostTaskメソッドの種類%0a%3c ''PostTask''は''MessageLoop''に関連付けられたスレッドでタスクを実行するようスケジュールします。''MessageLoop''のメソッドを使って直接タスクをポストすることは推奨されていませしそのインタフェースは廃止されつつあります。そのかわりにより一般的な''TaskRunner''を使うべきです。カレントスレッドの''TaskRunner''は''ThreadTaskRunnerHandle::Get()''により取得できます。%0a---%0a> https://docs.google.com/document/d/1_pJUHO3f3VyRSQjEhKVvUU7NzCyuTCQshZvbWeQiCXU/view#heading=h.mf0ccgw3ul6k%0a\ No newline at end of file%0a
+host:1530428430=192.168.3.2
+author:1502926198=
+diff:1502926198:1502926198:=1d0%0a%3c https://docs.google.com/document/d/1_pJUHO3f3VyRSQjEhKVvUU7NzCyuTCQshZvbWeQiCXU/view#heading=h.mf0ccgw3ul6k%0a\ No newline at end of file%0a
+host:1502926198=192.168.0.2

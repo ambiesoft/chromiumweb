@@ -1,0 +1,18 @@
+version=pmwiki-2.2.107 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+author=
+charset=UTF-8
+csum=
+ctime=1531996160
+host=192.168.3.2
+name=ビルドツール.GN-refs
+rev=2
+targets=
+text=!gn help refs%0a%0a依存関係を逆順に検索（どのターゲットにより参照されるか）。入力は以下のもの：%0a* ターゲットラベル：出力はこのターゲットに依存しているターゲット%0a* コンフィグラベル：出力はこのコンフィグを''configs''や''public_configs''リストに含んでいるターゲット%0a* ラベルパターン：%0a* ファイル名：このファイルを、"inputs", "sources", "public", "data", or "outputs"に含んでいるターゲット%0a* レスポンスファイル%0a%0a!オプション%0a%0a!!-all%0a関節依存になっているものも出力する。%0a%0a!!--type=(action|copy|executable|group|loadable_module|shared_library|source_set|static_library)%0a出力のタイプ%0a%0a
+time=1531996477
+author:1531996477=
+diff:1531996477:1531996160:=5,17c5%0a%3c * コンフィグラベル：出力はこのコンフィグを''configs''や''public_configs''リストに含んでいるターゲット%0a%3c * ラベルパターン：%0a%3c * ファイル名：このファイルを、"inputs", "sources", "public", "data", or "outputs"に含んでいるターゲット%0a%3c * レスポンスファイル%0a%3c %0a%3c !オプション%0a%3c %0a%3c !!-all%0a%3c 関節依存になっているものも出力する。%0a%3c %0a%3c !!--type=(action|copy|executable|group|loadable_module|shared_library|source_set|static_library)%0a%3c 出力のタイプ%0a%3c %0a---%0a> * コンフィグラベル：出力はこのコンフィグを''configs''や''public_configs''リストにふくんでいるターゲット%0a\ No newline at end of file%0a
+host:1531996477=192.168.3.2
+author:1531996160=
+diff:1531996160:1531996160:=1,5d0%0a%3c !gn help refs%0a%3c %0a%3c 依存関係を逆順に検索（どのターゲットにより参照されるか）。入力は以下のもの：%0a%3c * ターゲットラベル：出力はこのターゲットに依存しているターゲット%0a%3c * コンフィグラベル：出力はこのコンフィグを''configs''や''public_configs''リストにふくんでいるターゲット%0a\ No newline at end of file%0a
+host:1531996160=192.168.3.2

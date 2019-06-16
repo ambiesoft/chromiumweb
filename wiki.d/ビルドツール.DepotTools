@@ -1,0 +1,24 @@
+version=pmwiki-2.2.102 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+author=
+charset=UTF-8
+csum=
+ctime=1502939867
+host=192.168.0.2
+name=ビルドツール.DepotTools
+rev=4
+targets=ビルドツール.RepoTool,ビルドツール.Rietveld,ビルドツール.PresubmitScripts,ビルドツール.DepotToolsのインストール
+text=https://www.chromium.org/developers/how-tos/depottools%0a%0ahttp://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools.html%0a%0aChromiumのソースコード管理ツール、ビルドツール一式がまとまっているもの。以下のようなものが含まれる。%0a%0a*'''gclient''': subversionとgitnのメタチェックアウトツール。[[repo_tool]]に似ているがもっと汎用的。コードレビュー機能は持たない。%0a*'''gcl''': [[Rietveld]]コードレビューツール。subversion用。gclツールは[[presubmit scripts]]を実行する。%0a*'''git-cl''': [[Rietveld]]コードレビュールール。git用。同様に[[presubmit scripts]]を実行。%0a*'''svn''': Windowsのみ。%0a*'''drover''': svnのコミットを素早くrevert。%0a*'''cpplit.py''': C++のスタイルチェッカー。%0a*'''pylint''': pythonのスタイルチェッカー。%0a*'''presubmit_support.py''': PRESUBMIT.pyを実行。presubmitのチェック。%0a*'''repo''': repo%0a*'''wtf''': アクティブなgitブランチを表示。%0a*'''weekly''': 特定開発者の特定日付のチェックインログを表示。%0a*'''git-gs''': git grepのラッパー。%0a*'''zsh-goodies''': zshユーザのためのコンプリーション。%0a%0aここの情報は古くなるので実物を見るべき。%0a%0a!!インストール%0a[[depot_toolsのインストール]]を参照。%0a%0a!!Help!%0aこれらのツールはmanを持ってないがhelpオプションがある。全部のコマンドで試してみて。ドキュメントがおかしかったらパッチを送って。%0a%0a!!gclient%0apythonスクリプト。モジュール間の依存性管理し、別のリポジトリからソースを持ってくる。%0a*依存性はOSごとに設定可能。%0a*親依存性に関連して依存性設定可能。%0a*変数が使える。%0a*チェックアウト後にフックをかけられる。%0a*.gclientとDEPSはpythonスクリプト、簡単にハックできる。%0a%0a!!!.gclinetファイル%0aマスターファイル。実際はPythonスクリプト。以下のことを指定する。%0a*'''solutions''': 辞書の配列。フェッチするプロジェクトを指定。%0a*'''hooks''': チェックアウト同期後の追加フック。%0a*'''target_os''': ターゲットOSのオプションの配列、OS特定の依存性をフェッチ。%0a*'''cache_dir''': ボットのため、多数のワーキングセットは一つのgit cacheを使う。%0a%0asolutions配列のプロジェクトはDEPSを含めることができる。.gclientは[= gclient config %3curl> =]または手書きで作成。%0a%0a!!!DEPSファイル%0aプロジェクトの依存性を指定。実際はPythonスクリプト。以下の変数を指定する。%0a*'''deps''': フェッチする子依存性の辞書。%0a*'''deps_os''': OS特定の依存性を書いたOSの辞書。フェッチする子依存性を指定。%0a*'''vars''': 定義する変数の辞書。リビジョンの束をオーバーライドするのに役立つ。%0a*'''hooks''': 同期後実行するフック。%0a*'''use_relative_paths''': 相対パスはここのディレクトリからの相対パスが指定されるべきことを指定。gclientのルートではなく。%0a%0a%0a
+time=1502941444
+author:1502941444=
+diff:1502941444:1502940379:=45,54d44%0a%3c %0a%3c !!!DEPSファイル%0a%3c プロジェクトの依存性を指定。実際はPythonスクリプト。以下の変数を指定する。%0a%3c *'''deps''': フェッチする子依存性の辞書。%0a%3c *'''deps_os''': OS特定の依存性を書いたOSの辞書。フェッチする子依存性を指定。%0a%3c *'''vars''': 定義する変数の辞書。リビジョンの束をオーバーライドするのに役立つ。%0a%3c *'''hooks''': 同期後実行するフック。%0a%3c *'''use_relative_paths''': 相対パスはここのディレクトリからの相対パスが指定されるべきことを指定。gclientのルートではなく。%0a%3c %0a%3c %0a
+host:1502941444=192.168.0.2
+author:1502940379=
+diff:1502940379:1502940358:=23c23%0a%3c !!インストール%0a---%0a> *インストール%0a26c26%0a%3c !!Help!%0a---%0a> *Help!%0a
+host:1502940379=192.168.0.2
+author:1502940358=
+diff:1502940358:1502939867:=29,44c29,30%0a%3c !!gclient%0a%3c pythonスクリプト。モジュール間の依存性管理し、別のリポジトリからソースを持ってくる。%0a%3c *依存性はOSごとに設定可能。%0a%3c *親依存性に関連して依存性設定可能。%0a%3c *変数が使える。%0a%3c *チェックアウト後にフックをかけられる。%0a%3c *.gclientとDEPSはpythonスクリプト、簡単にハックできる。%0a%3c %0a%3c !!!.gclinetファイル%0a%3c マスターファイル。実際はPythonスクリプト。以下のことを指定する。%0a%3c *'''solutions''': 辞書の配列。フェッチするプロジェクトを指定。%0a%3c *'''hooks''': チェックアウト同期後の追加フック。%0a%3c *'''target_os''': ターゲットOSのオプションの配列、OS特定の依存性をフェッチ。%0a%3c *'''cache_dir''': ボットのため、多数のワーキングセットは一つのgit cacheを使う。%0a%3c %0a%3c solutions配列のプロジェクトはDEPSを含めることができる。.gclientは[= gclient config %3curl> =]または手書きで作成。%0a---%0a> *gclient%0a> %0a
+host:1502940358=192.168.0.2
+author:1502939867=
+diff:1502939867:1502939867:=1,30d0%0a%3c https://www.chromium.org/developers/how-tos/depottools%0a%3c %0a%3c http://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools.html%0a%3c %0a%3c Chromiumのソースコード管理ツール、ビルドツール一式がまとまっているもの。以下のようなものが含まれる。%0a%3c %0a%3c *'''gclient''': subversionとgitnのメタチェックアウトツール。[[repo_tool]]に似ているがもっと汎用的。コードレビュー機能は持たない。%0a%3c *'''gcl''': [[Rietveld]]コードレビューツール。subversion用。gclツールは[[presubmit scripts]]を実行する。%0a%3c *'''git-cl''': [[Rietveld]]コードレビュールール。git用。同様に[[presubmit scripts]]を実行。%0a%3c *'''svn''': Windowsのみ。%0a%3c *'''drover''': svnのコミットを素早くrevert。%0a%3c *'''cpplit.py''': C++のスタイルチェッカー。%0a%3c *'''pylint''': pythonのスタイルチェッカー。%0a%3c *'''presubmit_support.py''': PRESUBMIT.pyを実行。presubmitのチェック。%0a%3c *'''repo''': repo%0a%3c *'''wtf''': アクティブなgitブランチを表示。%0a%3c *'''weekly''': 特定開発者の特定日付のチェックインログを表示。%0a%3c *'''git-gs''': git grepのラッパー。%0a%3c *'''zsh-goodies''': zshユーザのためのコンプリーション。%0a%3c %0a%3c ここの情報は古くなるので実物を見るべき。%0a%3c %0a%3c *インストール%0a%3c [[depot_toolsのインストール]]を参照。%0a%3c %0a%3c *Help!%0a%3c これらのツールはmanを持ってないがhelpオプションがある。全部のコマンドで試してみて。ドキュメントがおかしかったらパッチを送って。%0a%3c %0a%3c *gclient%0a%3c %0a
+host:1502939867=192.168.0.2

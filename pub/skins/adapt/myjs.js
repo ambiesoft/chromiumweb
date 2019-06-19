@@ -7,6 +7,12 @@ function getRelPath(urlstring) {
     url = new this.URL(urlstring)
     return decodeURI(url.pathname).split('/').slice(-2).join('/')
 }
+function isEqualPathInWiki(a,b) {
+	var a = a.toLowerCase().replace('_','')
+	var b = b.toLowerCase().replace('_','')
+	
+	return a===b
+}
 function afterLoad() {
     debuglog('started')
     // expects like "デザイン/Pepperプラグイン実装"
@@ -23,8 +29,16 @@ function afterLoad() {
         if (currelpos === relpath) {
             debuglog(link)
             var relpathlast = relpath.split('/').slice(-1)[0]
-            if (relpathlast === link.innerText) {
-                link.scrollIntoView()
+            if (isEqualPathInWiki(relpathlast, link.innerText)) {
+            	// Find parent <ul> and scroll to it
+            	var ul = link.parentElement;
+            	while(ul && ul.nodeName != "UL") {
+            		ul = ul.parentElement
+            	}
+                
+            	if(ul)
+            		ul.previousSibling.scrollIntoView()
+                
                 return
             }
         }

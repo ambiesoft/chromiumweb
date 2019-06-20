@@ -1,0 +1,15 @@
+version=pmwiki-2.2.115 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1560700222
+host=192.168.3.2
+name=デザイン.プロセス外のiframes
+rev=1
+targets=
+text=https://www.chromium.org/developers/design-documents/oop-iframes%0a
+time=1560700222
+author:1560700222=
+diff:1560700222:1560700222:=1d0%0a%3c https://www.chromium.org/developers/design-documents/oop-iframes%0a
+host:1560700222=192.168.3.2

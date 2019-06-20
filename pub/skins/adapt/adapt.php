@@ -42,6 +42,23 @@ if (! $AdaptHomeTitleEna && $GLOBALS['pagename'] == $GLOBALS['DefaultPage'])
 else 
   SetTmplDisplay('PageAdaptTitleHomeFmt',0);
 
+  
+  
+if(SHOW_GOOGLE_AD) {  
+$GLOBALS['GoogleAdsenseScript']='
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-4755653727306095",
+          enable_page_level_ads: true
+     });
+</script> 		
+';
+} else {
+	$GLOBALS['GoogleAdsenseScript']='';
+}
+
+
 ## Text or graphic logo, with or without a tagline
 ## with $DefaultPage-only option
 $Tagline = (isset($AdaptWikiTagline) &&

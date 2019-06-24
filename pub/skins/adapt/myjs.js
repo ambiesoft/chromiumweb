@@ -30,7 +30,7 @@ function afterLoad() {
             debuglog(link)
             var relpathlast = relpath.split('/').slice(-1)[0]
             if (isEqualPathInWiki(relpathlast, link.innerText)) {
-                // make yellow
+                // make sidebar selflink yellow
                 link.style.backgroundColor = 'yellow';
 
             	// Find parent <ul> and scroll to it

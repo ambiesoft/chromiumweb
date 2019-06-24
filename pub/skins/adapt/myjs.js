@@ -30,19 +30,28 @@ function afterLoad() {
             debuglog(link)
             var relpathlast = relpath.split('/').slice(-1)[0]
             if (isEqualPathInWiki(relpathlast, link.innerText)) {
+<<<<<<< HEAD
                 // make sidebar selflink yellow
                 link.style.backgroundColor = 'yellow';
 
+=======
+>>>>>>> d4fd6a673d93f6f4e04a7bb0deda9a8499f50996
             	// Find parent <ul> and scroll to it
             	var ul = link.parentElement;
             	while(ul && ul.nodeName != "UL") {
             		ul = ul.parentElement
             	}
                 
+<<<<<<< HEAD
             	if(ul) {
             		ul.previousSibling.scrollIntoView()
                 }
 
+=======
+            	if(ul)
+            		ul.previousSibling.scrollIntoView()
+                
+>>>>>>> d4fd6a673d93f6f4e04a7bb0deda9a8499f50996
                 return
             }
         }

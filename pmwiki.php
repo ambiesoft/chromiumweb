@@ -30,6 +30,7 @@
 */
 error_reporting(E_ALL ^ E_NOTICE);
 StopWatch('PmWiki');
+require_once 'access.php';
 @ini_set('magic_quotes_runtime', 0);
 @ini_set('magic_quotes_sybase', 0);
 if (@ini_get('pcre.backtrack_limit') < 1000000) 

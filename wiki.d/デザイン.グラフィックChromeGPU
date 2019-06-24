@@ -1,0 +1,15 @@
+version=pmwiki-2.2.115 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1560700413
+host=192.168.3.2
+name=デザイン.グラフィックChromeGPU
+rev=1
+targets=
+text=s
+time=1560700413
+author:1560700413=
+diff:1560700413:1560700413:=1d0%0a%3c s%0a\ No newline at end of file%0a
+host:1560700413=192.168.3.2

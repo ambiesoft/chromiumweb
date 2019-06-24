@@ -1,5 +1,5 @@
 <?php if (!defined('PmWiki')) exit();
-define('PASSWORD','')
+define('PASSWORD','');
 
 include_once("$FarmD/scripts/authuser.php");
 ##  This is a sample config.php file.  To use this file, copy it to

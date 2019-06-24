@@ -1,15 +1,48 @@
-version=pmwiki-2.2.107 ordered=1 urlencoded=1
-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+version=pmwiki-2.2.115 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
 author=
 charset=UTF-8
 csum=
 ctime=1531995570
 host=192.168.3.2
 name=ビルドツール.GN-自分用覚書
-rev=5
+rev=16
 targets=
-text=!ソースファイルがどのターゲットに含まれているかを探す%0a%0a!!''print_preview_ui.cc''がどのターゲットに含まれるか調べる%0a%0a=cpp [=%0a>gn refs out\debug //chrome/browser/ui/webui/print_preview/print_preview_ui.cc%0a//chrome/browser/ui:ui_4%0a>%0a=]%0aターゲット'''//chrome/browser/ui:ui_4'''がどのターゲットに含まれるか調べる。%0a%0a=cpp [=%0a>gn refs out\debug //chrome/browser/ui:ui_4%0a//chrome/browser/ui:ui%0a>%0a>gn refs out\debug //chrome/browser/ui:ui%0a//chrome/browser:browser_0%0a//chrome/browser:browser_1%0a//chrome/browser:browser_2%0a//chrome/browser:browser_3%0a//chrome/browser:browser_4%0a//chrome/browser/devtools:test_support%0a//chrome/browser/ui:test_support%0a//chrome/test/data/webui:browser_tests_js_mojo_webui%0a//chrome/test/data/webui:browser_tests_js_mojo_webui_action%0a//chrome/test/data/webui:browser_tests_js_webui%0a//chrome/test/data/webui:browser_tests_js_webui_action%0a//chrome/test/data/webui:interactive_ui_tests_js_webui%0a//chrome/test/data/webui:interactive_ui_tests_js_webui_action%0a//chrome/test/media_router:browser_tests%0a>%0a=]%0aこの中で実行ファイルらしきものは'''//chrome/test/media_router:browser_tests'''なのでこれをビルドしてみればデバッグできる。browser_0などは//chrome/browser:browserに含まれており、これもいろいろなテストに含まれる。%0a%0a以下のコマンドで一発でできる。%0a=cpp [=%0a>gn refs out\debug //chrome/browser/ui/webui/print_preview/print_preview_ui.cc --all --type=executable%0a//chrome:chrome_initial%0a//chrome/installer/mini_installer:mini_installer%0a//chrome/installer/test:upgrade_test%0a//chrome/test:autofill_captured_sites_interactive_tests%0a//chrome/test:browser_tests%0a//chrome/test:chrome_app_unittests%0a//chrome/test:interactive_ui_tests%0a//chrome/test:ntp_render_browsertests%0a//chrome/test:performance_browser_tests%0a//chrome/test:sync_integration_tests%0a//chrome/test:sync_performance_tests%0a//chrome/test:unit_tests%0a//chrome_elf:chrome_elf_import_unittests%0a>%0a=]%0a
-time=1531996578
+text=>>tframe font-size:smaller%3c%3c%0a!! [[#contents]] Table of Contents%0a* [[#findsrc|ソースファイルがどのターゲットに含まれているかを探す]]%0a* [[#finddep|ターゲットが依存するターゲットがどこで定義されたか調べる]]%0a* [[#finddefine|ターゲットが定義したdefineを調べる]]%0a>>%3c%3c%0a%0a! [[#findsrc]] ソースファイルがどのターゲットに含まれているかを探す%0a%0a!!''print_preview_ui.cc''がどのターゲットに含まれるか調べる%0a%0a=cpp [=%0a>gn refs out\debug //chrome/browser/ui/webui/print_preview/print_preview_ui.cc%0a//chrome/browser/ui:ui_4%0a>%0a=]%0aprint_preview_ui.ccはターゲット'''//chrome/browser/ui:ui_4'''に含まれている。%0a%0aターゲット'''//chrome/browser/ui:ui_4'''がどのターゲットに含まれるか調べる。%0a%0a=cpp [=%0a>gn refs out\debug //chrome/browser/ui:ui_4%0a//chrome/browser/ui:ui%0a>%0a>gn refs out\debug //chrome/browser/ui:ui%0a//chrome/browser:browser_0%0a//chrome/browser:browser_1%0a//chrome/browser:browser_2%0a//chrome/browser:browser_3%0a//chrome/browser:browser_4%0a//chrome/browser/devtools:test_support%0a//chrome/browser/ui:test_support%0a//chrome/test/data/webui:browser_tests_js_mojo_webui%0a//chrome/test/data/webui:browser_tests_js_mojo_webui_action%0a//chrome/test/data/webui:browser_tests_js_webui%0a//chrome/test/data/webui:browser_tests_js_webui_action%0a//chrome/test/data/webui:interactive_ui_tests_js_webui%0a//chrome/test/data/webui:interactive_ui_tests_js_webui_action%0a//chrome/test/media_router:browser_tests%0a>%0a=]%0aこの中で実行ファイルらしきものは'''//chrome/test/media_router:browser_tests'''なのでこれをビルドしてみればデバッグできる。browser_0などは//chrome/browser:browserに含まれており、これもいろいろなテストに含まれる。%0a%0a以下のコマンドで一発でできる。%0a=cpp [=%0a>gn refs out\debug //chrome/browser/ui/webui/print_preview/print_preview_ui.cc --all --type=executable%0a//chrome:chrome_initial%0a//chrome/installer/mini_installer:mini_installer%0a//chrome/installer/test:upgrade_test%0a//chrome/test:autofill_captured_sites_interactive_tests%0a//chrome/test:browser_tests%0a//chrome/test:chrome_app_unittests%0a//chrome/test:interactive_ui_tests%0a//chrome/test:ntp_render_browsertests%0a//chrome/test:performance_browser_tests%0a//chrome/test:sync_integration_tests%0a//chrome/test:sync_performance_tests%0a//chrome/test:unit_tests%0a//chrome_elf:chrome_elf_import_unittests%0a>%0a=]%0a%0a! [[#finddep]] ターゲットが依存するターゲットがどこで定義されたか調べる%0a直接依存していない場合は、間接的に依存しているのでそれを調べる。%0a!!desc --treeを使う%0a%0a[@%0agn desc out\debug --tree //:HelloWorld%0a@]%0aこれはHelloWorldが依存しているものを調べる場合。--treeによりツリー上に一覧が表示されるのでここから検索する。%0a%0a!!pathを使う%0aこれは２つのターゲットがどのように依存しているかを表示する。%0a[@%0a>gn path out\debug //:HelloWorld //:sse2%0a//:HelloWorld --[private]-->%0a//:skia --[private]-->%0a//:sse2%0a%0aShowing one of 3 "interesting" non-data paths. 0 of them are public.%0aUse --all to print all paths.%0a>%0a@]%0aHelloWorldはskiaに依存しており、skiaがsse2に依存していることがわかる。%0a%0a! [[#finddefine]] ターゲットが定義したdefineを調べる%0a[@%0agn desc out\debug //:skia defines%0a@]%0a%0a--blameをつけるとツリー表示になり、誰が定義したかがわかる。%0a[@%0agn desc out\debug //:skia defines --blame%0a@]%0a%0a
+time=1561202986
+author:1561202986=
+diff:1561202986:1561202965:minor=90d89%0a%3c %0a
+host:1561202986=192.168.3.2
+author:1561202965=
+diff:1561202965:1561202613:=5d4%0a%3c * [[#finddefine|ターゲットが定義したdefineを調べる]]%0a85,94d83%0a%3c %0a%3c ! [[#finddefine]] ターゲットが定義したdefineを調べる%0a%3c [@%0a%3c gn desc out\debug //:skia defines%0a%3c @]%0a%3c --blameをつけるとツリー表示になり、誰が定義したかがわかる。%0a%3c [@%0a%3c gn desc out\debug //:skia defines --blame%0a%3c @]%0a%3c %0a
+host:1561202965=192.168.3.2
+author:1561202613=
+diff:1561202613:1561202278:=16,17d15%0a%3c print_preview_ui.ccはターゲット'''//chrome/browser/ui:ui_4'''に含まれている。%0a%3c %0a
+host:1561202613=192.168.3.2
+author:1561202278=
+diff:1561202278:1561202260:=1c1%0a%3c >>tframe font-size:smaller%3c%3c%0a---%0a> >>rframe font-size:smaller%3c%3c%0a
+host:1561202278=192.168.3.2
+author:1561202260=
+diff:1561202260:1561202218:=60c60%0a%3c ! [[#finddep]] ターゲットが依存するターゲットがどこで定義されたか調べる%0a---%0a> ! [#finddep] ターゲットが依存するターゲットがどこで定義されたか調べる%0a
+host:1561202260=192.168.3.2
+author:1561202218=
+diff:1561202218:1561202178:=3,4c3,4%0a%3c * [[#findsrc|ソースファイルがどのターゲットに含まれているかを探す]]%0a%3c * [[#finddep|ターゲットが依存するターゲットがどこで定義されたか調べる]]%0a---%0a> * [[#findsrc| ソースファイルがどのターゲットに含まれているかを探す]]%0a> * [[#finddep] ターゲットが依存するターゲットがどこで定義されたか調べる]]%0a6a7%0a> !! [[#using]] Beginner Topics for Creating and Editing Pages%0a
+host:1561202218=192.168.3.2
+author:1561202178=
+diff:1561202178:1561202120:=4c4,13%0a%3c * [[#finddep] ターゲットが依存するターゲットがどこで定義されたか調べる]]%0a---%0a> * [[#intermed |Intermediate Editing Topics]]%0a> * [[#struct | Wiki Structures: Organizing and Protecting Pages]]%0a> * [[#admin | PmWiki Site Administration]]%0a> ** [[#install|Install]]%0a> ** [[#customise|Customise]]%0a> ** [[#troubleshoot|Troubleshoot]]%0a> ** [[#security|Security]]%0a> * [[#development|Development]]%0a> * [[#misc |About PmWiki]]%0a> %0a6d14%0a%3c %0a61c69%0a%3c ! [#finddep] ターゲットが依存するターゲットがどこで定義されたか調べる%0a---%0a> !ターゲットが依存するターゲットがどこで定義されたか調べる%0a
+host:1561202178=192.168.3.2
+author:1561202120=
+diff:1561202120:1561202040:=3c3%0a%3c * [[#findsrc| ソースファイルがどのターゲットに含まれているかを探す]]%0a---%0a> * [[#using | Beginner Topics for Creating/Editing Pages]]%0a15,16c15%0a%3c !! [[#using]] Beginner Topics for Creating and Editing Pages%0a%3c ! [[#findsrc]] ソースファイルがどのターゲットに含まれているかを探す%0a---%0a> !ソースファイルがどのターゲットに含まれているかを探す%0a
+host:1561202120=192.168.3.2
+author:1561202040=
+diff:1561202040:1561201874:=1,14d0%0a%3c >>rframe font-size:smaller%3c%3c%0a%3c !! [[#contents]] Table of Contents%0a%3c * [[#using | Beginner Topics for Creating/Editing Pages]]%0a%3c * [[#intermed |Intermediate Editing Topics]]%0a%3c * [[#struct | Wiki Structures: Organizing and Protecting Pages]]%0a%3c * [[#admin | PmWiki Site Administration]]%0a%3c ** [[#install|Install]]%0a%3c ** [[#customise|Customise]]%0a%3c ** [[#troubleshoot|Troubleshoot]]%0a%3c ** [[#security|Security]]%0a%3c * [[#development|Development]]%0a%3c * [[#misc |About PmWiki]]%0a%3c %0a%3c >>%3c%3c%0a
+host:1561202040=192.168.3.2
+author:1561201874=
+diff:1561201874:1561201825:=75c75,76%0a%3c HelloWorldはskiaに依存しており、skiaがsse2に依存していることがわかる。%0a---%0a> %0a> %0a
+host:1561201874=192.168.3.2
+author:1561201825=
+diff:1561201825:1531996578:=53,76d52%0a%3c %0a%3c !ターゲットが依存するターゲットがどこで定義されたか調べる%0a%3c 直接依存していない場合は、間接的に依存しているのでそれを調べる。%0a%3c !!desc --treeを使う%0a%3c %0a%3c [@%0a%3c gn desc out\debug --tree //:HelloWorld%0a%3c @]%0a%3c これはHelloWorldが依存しているものを調べる場合。--treeによりツリー上に一覧が表示されるのでここから検索する。%0a%3c %0a%3c !!pathを使う%0a%3c これは２つのターゲットがどのように依存しているかを表示する。%0a%3c [@%0a%3c >gn path out\debug //:HelloWorld //:sse2%0a%3c //:HelloWorld --[private]-->%0a%3c //:skia --[private]-->%0a%3c //:sse2%0a%3c %0a%3c Showing one of 3 "interesting" non-data paths. 0 of them are public.%0a%3c Use --all to print all paths.%0a%3c >%0a%3c @]%0a%3c %0a%3c %0a
+host:1561201825=192.168.3.2
 author:1531996578=
 diff:1531996578:1531995749:=33,52c33,35%0a%3c この中で実行ファイルらしきものは'''//chrome/test/media_router:browser_tests'''なのでこれをビルドしてみればデバッグできる。browser_0などは//chrome/browser:browserに含まれており、これもいろいろなテストに含まれる。%0a%3c %0a%3c 以下のコマンドで一発でできる。%0a%3c =cpp [=%0a%3c >gn refs out\debug //chrome/browser/ui/webui/print_preview/print_preview_ui.cc --all --type=executable%0a%3c //chrome:chrome_initial%0a%3c //chrome/installer/mini_installer:mini_installer%0a%3c //chrome/installer/test:upgrade_test%0a%3c //chrome/test:autofill_captured_sites_interactive_tests%0a%3c //chrome/test:browser_tests%0a%3c //chrome/test:chrome_app_unittests%0a%3c //chrome/test:interactive_ui_tests%0a%3c //chrome/test:ntp_render_browsertests%0a%3c //chrome/test:performance_browser_tests%0a%3c //chrome/test:sync_integration_tests%0a%3c //chrome/test:sync_performance_tests%0a%3c //chrome/test:unit_tests%0a%3c //chrome_elf:chrome_elf_import_unittests%0a%3c >%0a%3c =]%0a---%0a> この中で実行ファイルらしきものは'''//chrome/test/media_router:browser_tests'''なのでこれをビルドしてみればデバッグできる。%0a> %0a> browser_0などは//chrome/browser:browserに含まれており、これもいろいろなテストに含まれる。%0a
 host:1531996578=192.168.3.2

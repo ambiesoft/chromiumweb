@@ -1,0 +1,45 @@
+version=pmwiki-2.2.115 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
+author=
+charset=UTF-8
+csum=
+ctime=1561027457
+host=192.168.3.2
+name=Site.Skiaをビルド
+rev=11
+targets=
+text=2019/06/20時点での記述%0adepot_toolsはすでにインストールされているものとする。%0a%0a!準備%0aメタビルドツールであるgnはすでにchromiumソースからは分離されているのでそれを取得する方法が[[https://skia.org/user/download|skiaのビルドページ]]に書かれている以下の内容だと思われる。%0a%0a[@%0agit clone https://skia.googlesource.com/skia.git%0a# or%0a# fetch skia%0acd skia%0apython2 tools/git-sync-deps%0a@]%0a%0aしかし最後のpythonコマンドでassert gitのエラーが出るので以下のように環境変数を設定する。このエラーはpythonのsubprocessでの起動でbatファイルを見つけられないことによる。%0a%0a[@%0aset GIT_EXECUTABLE=C:\gsrc\depot_tools\git.bat%0a@]%0a%0aaptなどで必要なライブラリをインストールする（Linuxの場合）%0a[@%0ash tools/install_dependencies.sh%0a@]%0a%0a%0a!gnの引数設定%0agnの引数argsはa=bなどの設定を記述しダブルクォートが必要な場合もあり、windowsのコマンドラインでは扱うのが難しいのでgn.argsというファイルに記述する。gnはこのファイルを自動で読み込む。このファイルを編集するコマンドも提供している。%0a%0a[@%0agn args out\debug%0a@]%0a%0aこのコマンドを起動するとメモ帳が起動されるのでここにgnのargs引数を記述する。%0a%0a%0aどのような引数を指定できるかは以下のコマンドで知ることができる。%0a[@%0agn args --list out\debug%0a@]%0a%0aこのコマンドはgn.argsで指定したものも読み込んで有効になっている値も表示する。%0a%0a!プロジェクトに含まれるターゲット一覧%0agnではプロジェクトツリーに含まれるビルド単位をターゲットとして管理している。ターゲットの一覧は以下のコマンドで出力できる%0a%0a[@%0agn ls out\debug%0a@]%0a%0a実行形式のターゲットは以下のコマンドで出力できる%0a[@%0agn ls out\debug --type=executable%0a@]%0a%0a%0a!HelloWorldのビルド%0a実行形式のターゲットの中にHelloWorldがあるのでビルドする。%0a[@%0aninja -C out\debug HelloWorld%0a@]%0a%0a!HelloWorldの実行%0a[@%0aout\debug\HelloWorld.exe%0a@]%0a%0a2010/6現在、AVXをサポートしないCPUだと実行時にエラーが出る。clangを利用すればエラーはでない。clang(LLVM)をインストールして以下の内容をargs.gnに追加（パスは自分の環境に合わせる）%0a[@%0aclang_win="C:\\local\\LLVM"%0a@]%0a
+time=1561314331
+author:1561314331=
+diff:1561314331:1561314259:=21c21,23%0a%3c aptなどで必要なライブラリをインストールする（Linuxの場合）%0a---%0a> !gnの引数設定%0a> gnの引数argsはa=bなどの設定を記述しダブルクォートが必要な場合もあり、windowsのコマンドラインでは扱うのが難しいのでgn.argsというファイルに記述する。gnはこのファイルを自動で読み込む。このファイルを編集するコマンドも提供している。%0a> %0a23c25%0a%3c sh tools/install_dependencies.sh%0a---%0a> gn args out\debug%0a26,29c28,31%0a%3c %0a%3c !gnの引数設定%0a%3c gnの引数argsはa=bなどの設定を記述しダブルクォートが必要な場合もあり、windowsのコマンドラインでは扱うのが難しいのでgn.argsというファイルに記述する。gnはこのファイルを自動で読み込む。このファイルを編集するコマンドも提供している。%0a%3c %0a---%0a> このコマンドを起動するとメモ帳が起動されるのでここにgnのargs引数を記述する。どのような引数を指定できるかは以下のコマンドで知ることができる。%0a> %0a> aptなどで必要なライブラリをインストールする%0a> %0a31c33%0a%3c gn args out\debug%0a---%0a> sh tools/install_dependencies.sh%0a34,37c36%0a%3c このコマンドを起動するとメモ帳が起動されるのでここにgnのargs引数を記述する。%0a%3c %0a%3c %0a%3c どのような引数を指定できるかは以下のコマンドで知ることができる。%0a---%0a> %0a
+host:1561314331=192.168.3.2
+author:1561314259=
+diff:1561314259:1561093777:=28,29d27%0a%3c このコマンドを起動するとメモ帳が起動されるのでここにgnのargs引数を記述する。どのような引数を指定できるかは以下のコマンドで知ることができる。%0a%3c %0a36c34,35%0a%3c %0a---%0a> このコマンドを起動するとメモ帳が起動されるのでここにgnのargs引数を記述する。どのような引数を指定できるかは以下のコマンドで知ることができる。%0a> %0a43,70d41%0a%3c !プロジェクトに含まれるターゲット一覧%0a%3c gnではプロジェクトツリーに含まれるビルド単位をターゲットとして管理している。ターゲットの一覧は以下のコマンドで出力できる%0a%3c %0a%3c [@%0a%3c gn ls out\debug%0a%3c @]%0a%3c %0a%3c 実行形式のターゲットは以下のコマンドで出力できる%0a%3c [@%0a%3c gn ls out\debug --type=executable%0a%3c @]%0a%3c %0a%3c %0a%3c !HelloWorldのビルド%0a%3c 実行形式のターゲットの中にHelloWorldがあるのでビルドする。%0a%3c [@%0a%3c ninja -C out\debug HelloWorld%0a%3c @]%0a%3c %0a%3c !HelloWorldの実行%0a%3c [@%0a%3c out\debug\HelloWorld.exe%0a%3c @]%0a%3c %0a%3c 2010/6現在、AVXをサポートしないCPUだと実行時にエラーが出る。clangを利用すればエラーはでない。clang(LLVM)をインストールして以下の内容をargs.gnに追加（パスは自分の環境に合わせる）%0a%3c [@%0a%3c clang_win="C:\\local\\LLVM"%0a%3c @]%0a
+host:1561314259=192.168.3.2
+author:1561093777=
+diff:1561093777:1561091734:=19a20,21%0a> %0a> %0a
+host:1561093777=192.168.3.151
+author:1561091734=
+diff:1561091734:1561091699:=29,30d28%0a%3c %0a%3c aptなどで必要なライブラリをインストールする%0a
+host:1561091734=192.168.3.151
+author:1561091699=
+diff:1561091699:1561091587:=28a29,34%0a> %0a> %0a> %0a> %0a> %0a> %0a
+host:1561091699=192.168.3.151
+author:1561091587=
+diff:1561091587:1561091553:=30,35d29%0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a%3c %0a37c31%0a%3c sh tools/install_dependencies.sh%0a---%0a> tools/install_dependencies.sh%0a
+host:1561091587=192.168.3.151
+author:1561091553=
+diff:1561091553:1561043443:=21,22d20%0a%3c %0a%3c %0a28,31d25%0a%3c @]%0a%3c %0a%3c [@%0a%3c tools/install_dependencies.sh%0a
+host:1561091553=192.168.3.151
+author:1561043443=
+diff:1561043443:1561027783:=4d3%0a%3c !準備%0a14,34d12%0a%3c %0a%3c しかし最後のpythonコマンドでassert gitのエラーが出るので以下のように環境変数を設定する。このエラーはpythonのsubprocessでの起動でbatファイルを見つけられないことによる。%0a%3c %0a%3c [@%0a%3c set GIT_EXECUTABLE=C:\gsrc\depot_tools\git.bat%0a%3c @]%0a%3c %0a%3c !gnの引数設定%0a%3c gnの引数argsはa=bなどの設定を記述しダブルクォートが必要な場合もあり、windowsのコマンドラインでは扱うのが難しいのでgn.argsというファイルに記述する。gnはこのファイルを自動で読み込む。このファイルを編集するコマンドも提供している。%0a%3c %0a%3c [@%0a%3c gn args out\debug%0a%3c @]%0a%3c %0a%3c このコマンドを起動するとメモ帳が起動されるのでここにgnのargs引数を記述する。どのような引数を指定できるかは以下のコマンドで知ることができる。%0a%3c %0a%3c [@%0a%3c gn args --list out\debug%0a%3c @]%0a%3c %0a%3c このコマンドはgn.argsで指定したものも読み込んで有効になっている値も表示する。%0a
+host:1561043443=192.168.3.151
+author:1561027783=
+diff:1561027783:1561027762:=0a1%0a> %0a4c5%0a%3c メタビルドツールであるgnはすでにchromiumソースからは分離されているのでそれを取得する方法が[[https://skia.org/user/download|skiaのビルドページ]]に書かれている以下の内容だと思われる。%0a---%0a> メタビルドツールであるgnはすでにchromiumソースからは分離されているのでそれを取得する方法が[https://skia.org/user/download|skiaのビルドページ]に書かれている以下の内容だと思われる。%0a
+host:1561027783=192.168.3.151
+author:1561027762=
+diff:1561027762:1561027457:=1,14c1%0a%3c %0a%3c 2019/06/20時点での記述%0a%3c depot_toolsはすでにインストールされているものとする。%0a%3c %0a%3c メタビルドツールであるgnはすでにchromiumソースからは分離されているのでそれを取得する方法が[https://skia.org/user/download|skiaのビルドページ]に書かれている以下の内容だと思われる。%0a%3c %0a%3c [@%0a%3c git clone https://skia.googlesource.com/skia.git%0a%3c # or%0a%3c # fetch skia%0a%3c cd skia%0a%3c python2 tools/git-sync-deps%0a%3c @]%0a%3c %0a---%0a> first%0a\ No newline at end of file%0a
+host:1561027762=192.168.3.151
+author:1561027457=
+diff:1561027457:1561027457:=1d0%0a%3c first%0a\ No newline at end of file%0a
+host:1561027457=192.168.3.151

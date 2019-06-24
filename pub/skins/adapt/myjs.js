@@ -30,15 +30,19 @@ function afterLoad() {
             debuglog(link)
             var relpathlast = relpath.split('/').slice(-1)[0]
             if (isEqualPathInWiki(relpathlast, link.innerText)) {
+                // make yellow
+                link.style.backgroundColor = 'yellow';
+
             	// Find parent <ul> and scroll to it
             	var ul = link.parentElement;
             	while(ul && ul.nodeName != "UL") {
             		ul = ul.parentElement
             	}
                 
-            	if(ul)
+            	if(ul) {
             		ul.previousSibling.scrollIntoView()
-                
+                }
+
                 return
             }
         }

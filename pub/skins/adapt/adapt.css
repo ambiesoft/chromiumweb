@@ -10,7 +10,7 @@ pre, code {
 /* Links */
 a:link { color:#336699; text-decoration:none;
   text-shadow:0.5px 0.5px 0.5px #99b2cc; }
-a:link.selflink { background: yellow; text-decoration:none; }
+a:link.selflink { text-decoration:none; }
 a:visited { color:#204060; text-decoration:none;
   text-shadow:0.5px 0.5px 0.5px #99b2cc; }
 a:hover, a:active { color:#2d5b89; text-shadow:1.5px 1.5px 2px #99b2cc; }

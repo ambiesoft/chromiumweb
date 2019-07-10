@@ -1,15 +1,21 @@
-version=pmwiki-2.2.109 ordered=1 urlencoded=1
-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+version=pmwiki-2.2.115 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:67.0) Gecko/20100101 Firefox/67.0
 author=
 charset=UTF-8
 csum=
 ctime=1540620654
 host=192.168.3.2
 name=Site.Skiaをデバッグ
-rev=4
+rev=6
 targets=
-text=!!以下のコマンドラインでchromeを起動%0a[=chrome --no-sandbox --enable-gpu-benchmarking=]%0a%0a!!適当なページをロードして、Ctrl+Shift+Jでdevtoolsのjavascriptプロンプトを開く%0a以下を実行して表示しているページのskiaオブジェクトをディレクトリに保存%0a%0a[=>chrome.gpuBenchmarking.printToSkPicture('c:/T/skia/')=]%0a
-time=1540620772
+text=!!以下のコマンドラインでchromeを起動%0a[@%0achrome --no-sandbox --enable-gpu-benchmarking%0a@]%0a%0a!!適当なページをロードして、Ctrl+Shift+Jでdevtoolsのjavascriptプロンプトを開く%0a以下を実行して表示しているページのskiaオブジェクトをディレクトリに保存%0a%0a[@%0achrome.gpuBenchmarking.printToSkPicture('c:/T/skia/')%0a@]%0a%0a!!Skia debuggerで開く%0a[[https://debugger.skia.org/|skia debugger]]で保存した.skpファイルを開く。%0a
+time=1561433849
+author:1561433849=
+diff:1561433849:1561433776:=12,14d11%0a%3c %0a%3c !!Skia debuggerで開く%0a%3c [[https://debugger.skia.org/|skia debugger]]で保存した.skpファイルを開く。%0a
+host:1561433849=192.168.3.2
+author:1561433776=
+diff:1561433776:1540620772:=2,5c2,3%0a%3c [@%0a%3c chrome --no-sandbox --enable-gpu-benchmarking%0a%3c @]%0a%3c %0a---%0a> [=chrome --no-sandbox --enable-gpu-benchmarking=]%0a> %0a9,11c7%0a%3c [@%0a%3c chrome.gpuBenchmarking.printToSkPicture('c:/T/skia/')%0a%3c @]%0a---%0a> [=>chrome.gpuBenchmarking.printToSkPicture('c:/T/skia/')=]%0a
+host:1561433776=192.168.3.2
 author:1540620772=
 diff:1540620772:1540620758:=6d5%0a%3c %0a
 host:1540620772=192.168.3.2
